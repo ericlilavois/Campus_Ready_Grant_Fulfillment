@@ -768,7 +768,7 @@
 
                 <div class="button-group">
                     <button type="button" class="btn btn-secondary" onclick="prevSection()">Back to Edit</button>
-                    <button type="submit" class="btn btn-primary">Submit Your Kit Preferences</button>
+                    <button type="button" class="btn btn-primary" onclick="submitForm()">Submit Your Kit Preferences</button>
                 </div>
             </div>
         </form>
@@ -1167,6 +1167,54 @@
         document.addEventListener('DOMContentLoaded', function() {
             goToSection(1);
         });
+        function submitForm() {
+  const formData = {
+    student_name: document.getElementById('student_name').value,
+    email: document.getElementById('email').value,
+    shipping_preference: document.querySelector('input[name="shipping_preference"]:checked')?.value,
+    street_address: document.getElementById('street_address').value,
+    street_address_2: document.getElementById('street_address_2').value,
+    city: document.getElementById('city').value,
+    state: document.getElementById('state').value,
+    zip: document.getElementById('zip').value,
+    gender_preference: document.querySelector('input[name="gender_preference"]:checked')?.value,
+    scent_preference: document.querySelector('input[name="scent_preference"]:checked')?.value,
+    deodorant_type: document.querySelector('input[name="deodorant_type"]:checked')?.value,
+    style_preference: document.querySelector('input[name="style_preference"]:checked')?.value,
+    bedding_color: document.querySelector('input[name="bedding_color"]:checked')?.value,
+    pillow_firmness: document.querySelector('input[name="pillow_firmness"]:checked')?.value,
+    towel_color: document.querySelector('input[name="towel_color"]:checked')?.value,
+    slides_size: document.querySelector('input[name="slides_size"]:checked')?.value,
+    timestamp: new Date().toISOString()
+  };
+
+  // Show loading overlay
+  document.getElementById('loadingOverlay').classList.add('show');
+
+  fetch('https://script.google.com/macros/s/AKfycbwicYwjOiDaTnUVX6UcjSwhH1Lm7a54JlBAfYu6sRCl91NYP7GLnfu8O8KjauxwOaak/exec', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData)
+  })
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById('loadingOverlay').classList.remove('show');
+    if (data.status === 'success') {
+      document.getElementById('kitForm').style.display = 'none';
+      document.getElementById('successScreen').classList.add('show');
+    } else {
+      console.error('Submission error:', data.message);
+      alert('There was an error submitting your form. Please try again.');
+    }
+  })
+  .catch(error => {
+    document.getElementById('loadingOverlay').classList.remove('show');
+    console.error('Network error:', error);
+    alert('Network error. Please check your connection and try again.');
+  });
+}
     </script>
 </body>
 </html>
