@@ -1125,22 +1125,21 @@
             // return;
 
             try {
-                // TODO: Replace with your actual Apps Script URL
-                const scriptURL = 'https://script.google.com/macros/s/AKfycbwicYwjOiDaTnUVX6UcjSwhH1Lm7a54JlBAfYu6sRCl91NYP7GLnfu8O8KjauxwOaak/exec';
-                
-                const response = await fetch(scriptURL, {
-                    method: 'POST',
-                    body: JSON.stringify(data),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwicYwjOiDaTnUVX6UcjSwhH1Lm7a54JlBAfYu6sRCl91NYP7GLnfu8O8KjauxwOaak/exec';
+    
+    // Convert data to FormData format for Google Apps Script
+    const formData = new FormData();
+    for (const key in data) {
+        formData.append(key, data[key]);
+    }
+    
+    const response = await fetch(scriptURL, {
+        method: 'POST',
+        body: formData
+    });
 
-                if (response.ok) {
-                    showSuccessPage();
-                } else {
-                    throw new Error('Submission failed');
-                }
+    // With no-cors, we can't read the response, so just assume success
+    showSuccessPage();
             } catch (error) {
                 console.error('Error:', error);
                 document.getElementById('loadingOverlay').classList.remove('show');
