@@ -1191,13 +1191,13 @@
   // Show loading overlay
   document.getElementById('loadingOverlay').classList.add('show');
 
-  fetch('https://your-vercel-project-name.vercel.app/api/proxy', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(formData)
-  })
+  fetch('https://nodejs-serverless-function-express.vercel.app/api/proxy', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(formData)
+})
   .then(response => response.json())
   .then(data => {
     document.getElementById('loadingOverlay').classList.remove('show');
