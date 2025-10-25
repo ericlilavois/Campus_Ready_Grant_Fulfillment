@@ -1072,7 +1072,7 @@
         // Email validation
         const emailInput = document.getElementById('email');
         const emailError = document.getElementById('email-error');
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
 
         function validateEmail() {
             if (emailInput.value.trim() === '') {
