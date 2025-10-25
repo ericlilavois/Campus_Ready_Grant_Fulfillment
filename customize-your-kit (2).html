@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customize Your Kit - Campus Ready Foundation</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --teal: #469E92;
+            --teal-dark: #3a8178;
+            --black: #231F20;
+            --grey-light: #F9FAFB;
+            --grey-border: #E5E7EB;
+            --grey-text: #6B7280;
+            --white: #FFFFFF;
+            --error: #DC2626;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--white);
+            color: var(--black);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 24px 16px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            margin: 0 auto 24px;
+            display: block;
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--black);
+            margin-bottom: 16px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--black);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-bottom: 40px;
+            background: var(--grey-light);
+            padding: 24px;
+            border-radius: 12px;
+        }
+
+        .progress-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .progress-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 2px solid var(--grey-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            font-weight: 600;
+            color: var(--grey-text);
+            transition: all 0.3s ease;
+        }
+
+        .progress-step.active .step-circle {
+            background: var(--teal);
+            border-color: var(--teal);
+            color: var(--white);
+        }
+
+        .progress-step.complete .step-circle {
+            background: var(--teal);
+            border-color: var(--teal);
+            color: var(--white);
+        }
+
+        .step-label {
+            font-size: 0.875rem;
+            color: var(--grey-text);
+            font-weight: 500;
+        }
+
+        .progress-step.active .step-label {
+            color: var(--teal);
+            font-weight: 600;
+        }
+
+        .step-arrow {
+            color: var(--grey-border);
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        /* Form Card */
+        .form-card {
+            background: var(--grey-light);
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Sections */
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 8px;
+        }
+
+        .section-description {
+            color: var(--black);
+            margin-bottom: 32px;
+            font-size: 1rem;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        @media (min-width: 640px) {
+            .form-row.cols-2 {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .form-row.cols-3 {
+                grid-template-columns: 2fr 1fr 1fr;
+            }
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            color: var(--black);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .required::after {
+            content: " *";
+            color: var(--teal);
+        }
+
+        .helper-text {
+            font-size: 0.875rem;
+            color: var(--black);
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+
+        /* Input Fields */
+        input[type="text"],
+        input[type="email"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--grey-border);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            background: var(--white);
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus {
+            outline: none;
+            border-color: var(--teal);
+            box-shadow: 0 0 0 3px rgba(70, 158, 146, 0.1);
+        }
+
+        input.invalid {
+            border-color: var(--error);
+        }
+
+        .error-message {
+            color: var(--error);
+            font-size: 0.875rem;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* Radio Buttons */
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 14px 16px;
+            border: 2px solid var(--grey-border);
+            border-radius: 8px;
+            background: var(--white);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .radio-option:hover {
+            border-color: var(--teal);
+            background: rgba(70, 158, 146, 0.03);
+        }
+
+        .radio-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: var(--teal);
+        }
+
+        .radio-option label {
+            margin: 0;
+            cursor: pointer;
+            flex: 1;
+            font-weight: 400;
+        }
+
+        .radio-option input[type="radio"]:checked + label {
+            font-weight: 500;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 32px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--teal);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--teal-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(70, 158, 146, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--teal);
+            border: 2px solid var(--teal);
+        }
+
+        .btn-secondary:hover {
+            background: var(--grey-light);
+        }
+
+        /* Review Section */
+        .review-block {
+            background: var(--white);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--grey-light);
+        }
+
+        .review-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--black);
+        }
+
+        .edit-link {
+            color: var(--teal);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .edit-link:hover {
+            text-decoration: underline;
+        }
+
+        .review-item {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .review-label {
+            font-weight: 500;
+            color: var(--grey-text);
+        }
+
+        .review-value {
+            color: var(--black);
+        }
+
+        /* Success Screen */
+        .success-screen {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .success-screen.show {
+            display: block;
+        }
+
+        .success-icon {
+            width: 200px;
+            max-width: 90%;
+            margin: 0 auto 32px;
+        }
+
+        .success-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--teal);
+            margin-bottom: 16px;
+        }
+
+        .success-message {
+            font-size: 1.1rem;
+            color: var(--grey-text);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Loading State */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loading-overlay.show {
+            display: flex;
+        }
+
+        .loading-content {
+            text-align: center;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--grey-light);
+            border-top-color: var(--teal);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 1.1rem;
+            color: var(--grey-text);
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .title {
+                font-size: 2rem;
+            }
+
+            .form-card {
+                padding: 24px 20px;
+            }
+
+            .progress-bar {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .step-arrow {
+                transform: rotate(90deg);
+            }
+
+            .review-item {
+                grid-template-columns: 1fr;
+                gap: 4px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <img src="logo-image-1200x630.png" alt="Campus Ready Foundation" class="logo">
+            <h1 class="title">Customize Your Kit</h1>
+            <p class="subtitle">Congratulations! You've earned your grant and now the fun starts. We just need a little information to get started.</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-step active" data-step="1">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Personal Info</div>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="progress-step" data-step="2">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Product Choices</div>
+                </div>
+                <div class="step-arrow">→</div>
+                <div class="progress-step" data-step="3">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Review</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <form id="kitForm" class="form-card">
+            <!-- Section 1: Personal Information -->
+            <div class="form-section active" data-section="1">
+                <h2 class="section-title">Personal Information</h2>
+                <p class="section-description">Please use your full legal name and the mailing address (home or college) where you want to receive your curated move-in essentials kit.</p>
+
+                <div class="form-group">
+                    <label for="student_name" class="required">Student Name</label>
+                    <input type="text" id="student_name" name="student_name" required placeholder="Enter your full name, as it appeared on your application">
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="required">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                    <div class="error-message" id="email-error">Please enter a valid email address.</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="required">Shipping Preference</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="ship_home" name="shipping_preference" value="Home" required>
+                            <label for="ship_home">Home</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="ship_college" name="shipping_preference" value="College" required>
+                            <label for="ship_college">College</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="street_address" class="required">Street Address</label>
+                    <input type="text" id="street_address" name="street_address" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="street_address_2">Street Address 2</label>
+                    <input type="text" id="street_address_2" name="street_address_2">
+                </div>
+
+                <div class="form-row cols-3">
+                    <div class="form-group">
+                        <label for="city" class="required">City</label>
+                        <input type="text" id="city" name="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="state" class="required">State</label>
+                        <input type="text" id="state" name="state" required maxlength="2" placeholder="CA" style="text-transform: uppercase;">
+                        <div class="error-message" id="state-error">Please enter a valid 2-letter state code.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="zip" class="required">Zip Code</label>
+                        <input type="text" id="zip" name="zip" required maxlength="5" placeholder="12345">
+                        <div class="error-message" id="zip-error">Please enter a valid 5-digit ZIP code.</div>
+                    </div>
+                </div>
+
+                <div class="helper-text" style="margin-top: -16px; margin-bottom: 24px;">Use your state's two-letter abbreviation, e.g., CA, NY</div>
+
+                <div class="button-group">
+                    <div></div>
+                    <button type="button" class="btn btn-primary" onclick="nextSection()">Continue to Product Choices</button>
+                </div>
+            </div>
+
+            <!-- Section 2: Product Choices -->
+            <div class="form-section" data-section="2">
+                <h2 class="section-title">Product Choices</h2>
+                <p class="section-description">This part is important. Your responses will guide us to select items that match your style, ensuring you get products you want for the start to your college journey.</p>
+
+                <div class="form-group">
+                    <label class="required">Gender Preference</label>
+                    <div class="helper-text">Your response helps us ensure you receive personal care products (e.g., razor systems, deodorant, hygiene) that best suit your needs. Please note, if you choose Prefer Not to Say (PNS) we will send Unisex/Unscented products when possible.</div>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="gender_female" name="gender_preference" value="Female" required>
+                            <label for="gender_female">Female</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="gender_male" name="gender_preference" value="Male" required>
+                            <label for="gender_male">Male</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="gender_pns" name="gender_preference" value="Prefer Not to Say (PNS)" required>
+                            <label for="gender_pns">Prefer Not to Say (PNS)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="required">Scent Preference</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="scent_fresh" name="scent_preference" value="Fresh & Clean" required>
+                            <label for="scent_fresh">Fresh & Clean</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="scent_vanilla" name="scent_preference" value="Vanilla & Botanicals" required>
+                            <label for="scent_vanilla">Vanilla & Botanicals</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="scent_unscented" name="scent_preference" value="Unscented" required>
+                            <label for="scent_unscented">Unscented</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="required">Deodorant Type</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="deodorant" name="deodorant_type" value="Deodorant" required>
+                            <label for="deodorant">Deodorant</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="antiperspirant" name="deodorant_type" value="Antiperspirant" required>
+                            <label for="antiperspirant">Antiperspirant</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="required">Style Preference</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="style_modern" name="style_preference" value="Modern & Minimalist" required>
+                            <label for="style_modern">Modern & Minimalist</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="style_cozy" name="style_preference" value="Cozy & Warm" required>
+                            <label for="style_cozy">Cozy & Warm</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="style_bold" name="style_preference" value="Bold & Colorful" required>
+                            <label for="style_bold">Bold & Colorful</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="required">Bedding Color</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="bedding_white" name="bedding_color" value="White" required>
+                            <label for="bedding_white">White</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="bedding_gray" name="bedding_color" value="Gray" required>
+                            <label for="bedding_gray">Gray</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="bedding_navy" name="bedding_color" value="Navy" required>
+                            <label for="bedding_navy">Navy</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="bedding_warm" name="bedding_color" value="Warm" required>
+                            <label for="bedding_warm">Warm</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="required">Pillow Firmness</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="pillow_soft" name="pillow_firmness" value="Soft" required>
+                            <label for="pillow_soft">Soft</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="pillow_medium" name="pillow_firmness" value="Medium" required>
+                            <label for="pillow_medium">Medium</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="pillow_firm" name="pillow_firmness" value="Firm" required>
+                            <label for="pillow_firm">Firm</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="required">Towel Color</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="towel_white" name="towel_color" value="White" required>
+                            <label for="towel_white">White</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="towel_gray" name="towel_color" value="Gray" required>
+                            <label for="towel_gray">Gray</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="towel_navy" name="towel_color" value="Navy" required>
+                            <label for="towel_navy">Navy</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="towel_warm" name="towel_color" value="Warm" required>
+                            <label for="towel_warm">Warm</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="required">Slides Size</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="slides_small" name="slides_size" value="Small" required>
+                            <label for="slides_small">Small</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="slides_medium" name="slides_size" value="Medium" required>
+                            <label for="slides_medium">Medium</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="slides_large" name="slides_size" value="Large" required>
+                            <label for="slides_large">Large</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="slides_xl" name="slides_size" value="Extra Large" required>
+                            <label for="slides_xl">Extra Large</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" onclick="prevSection()">Back</button>
+                    <button type="button" class="btn btn-primary" onclick="nextSection()">Review Your Choices</button>
+                </div>
+            </div>
+
+            <!-- Section 3: Review -->
+            <div class="form-section" data-section="3">
+                <h2 class="section-title">Review Your Information</h2>
+                <p class="section-description">Please review your information before submitting. You can edit any section by clicking the "Edit" link.</p>
+
+                <div class="review-block">
+                    <div class="review-header">
+                        <h3 class="review-title">Personal Information</h3>
+                        <a href="#" class="edit-link" onclick="goToSection(1); return false;">Edit</a>
+                    </div>
+                    <div id="review-personal"></div>
+                </div>
+
+                <div class="review-block">
+                    <div class="review-header">
+                        <h3 class="review-title">Product Choices</h3>
+                        <a href="#" class="edit-link" onclick="goToSection(2); return false;">Edit</a>
+                    </div>
+                    <div id="review-products"></div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" onclick="prevSection()">Back to Edit</button>
+                    <button type="submit" class="btn btn-primary">Submit Your Kit Preferences</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Success Screen -->
+        <div class="success-screen" id="successScreen">
+            <!-- Placeholder for "Prepare to Be Prepared" badge - user will add later -->
+            <div class="success-icon">
+                <svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="100" cy="100" r="80" fill="#469E92" opacity="0.1"/>
+                    <circle cx="100" cy="100" r="60" stroke="#469E92" stroke-width="4" fill="none"/>
+                    <path d="M75 100L90 115L125 80" stroke="#469E92" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <h2 class="success-title">You're Done!</h2>
+            <p class="success-message">
+                Now we'll get to work. Look for your packages in early August.<br><br>
+                <strong>Congratulations again. You've done something monumental by getting into school. We're proud of you!</strong>
+            </p>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <div class="loading-text">Submitting your preferences...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        let currentSection = 1;
+        const totalSections = 3;
+
+        // Navigation functions
+        function goToSection(sectionNum) {
+            // Hide all sections
+            document.querySelectorAll('.form-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show target section
+            document.querySelector(`[data-section="${sectionNum}"]`).classList.add('active');
+
+            // Update progress bar
+            document.querySelectorAll('.progress-step').forEach((step, index) => {
+                const stepNum = index + 1;
+                step.classList.remove('active', 'complete');
+                
+                if (stepNum < sectionNum) {
+                    step.classList.add('complete');
+                } else if (stepNum === sectionNum) {
+                    step.classList.add('active');
+                }
+            });
+
+            // Update current section
+            currentSection = sectionNum;
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // If going to review section, populate review
+            if (sectionNum === 3) {
+                populateReview();
+            }
+        }
+
+        function nextSection() {
+            // Validate current section
+            if (!validateSection(currentSection)) {
+                return;
+            }
+
+            if (currentSection < totalSections) {
+                goToSection(currentSection + 1);
+            }
+        }
+
+        function prevSection() {
+            if (currentSection > 1) {
+                goToSection(currentSection - 1);
+            }
+        }
+
+        // Validation functions
+        function validateSection(sectionNum) {
+            const section = document.querySelector(`[data-section="${sectionNum}"]`);
+            const inputs = section.querySelectorAll('input[required], select[required], textarea[required]');
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (input.type === 'radio') {
+                    const radioGroup = section.querySelectorAll(`input[name="${input.name}"]`);
+                    const anyChecked = Array.from(radioGroup).some(radio => radio.checked);
+                    if (!anyChecked) {
+                        isValid = false;
+                        // Scroll to first unchecked radio group
+                        if (isValid === false) {
+                            input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    }
+                } else if (!input.value.trim()) {
+                    isValid = false;
+                    input.focus();
+                    return;
+                }
+            });
+
+            // Additional validation for section 1
+            if (sectionNum === 1) {
+                // Email validation
+                if (!validateEmail()) {
+                    isValid = false;
+                    emailInput.focus();
+                }
+
+                // State validation
+                const state = document.getElementById('state');
+                const stateError = document.getElementById('state-error');
+                const stateRegex = /^[A-Z]{2}$/;
+                
+                if (!stateRegex.test(state.value.toUpperCase())) {
+                    state.classList.add('invalid');
+                    stateError.classList.add('show');
+                    isValid = false;
+                    if (!emailInput.classList.contains('invalid')) {
+                        state.focus();
+                    }
+                } else {
+                    state.classList.remove('invalid');
+                    stateError.classList.remove('show');
+                }
+
+                // ZIP validation
+                const zip = document.getElementById('zip');
+                const zipError = document.getElementById('zip-error');
+                const zipRegex = /^\d{5}$/;
+                
+                if (!zipRegex.test(zip.value)) {
+                    zip.classList.add('invalid');
+                    zipError.classList.add('show');
+                    isValid = false;
+                    if (!emailInput.classList.contains('invalid') && !state.classList.contains('invalid')) {
+                        zip.focus();
+                    }
+                } else {
+                    zip.classList.remove('invalid');
+                    zipError.classList.remove('show');
+                }
+            }
+
+            return isValid;
+        }
+
+        // Populate review section
+        function populateReview() {
+            const form = document.getElementById('kitForm');
+            const formData = new FormData(form);
+
+            // Personal Information
+            const personalHTML = `
+                <div class="review-item">
+                    <div class="review-label">Name:</div>
+                    <div class="review-value">${formData.get('student_name')}</div>
+                </div>
+                <div class="review-item">
+                    <div class="review-label">Email:</div>
+                    <div class="review-value">${formData.get('email')}</div>
+                </div>
+                <div class="review-item">
+                    <div class="review-label">Shipping:</div>
+                    <div class="review-value">${formData.get('shipping_preference')}</div>
+                </div>
+                <div class="review-item">
+                    <div class="review-label">Address:</div>
+                    <div class="review-value">
+                        ${formData.get('street_address')}<br>
+                        ${formData.get('street_address_2') ? formData.get('street_address_2') + '<br>' : ''}
+                        ${formData.get('city')}, ${formData.get('state')} ${formData.get('zip')}
+                    </div>
+                </div>
+            `;
+            document.getElementById('review-personal').innerHTML = personalHTML;
+
+            // Product Choices
+            const productsHTML = `
+                <div class="review-item">
+                    <div class="review-label">Gender Preference:</div>
+                    <div class="review-value">${formData.get('gender_preference')}</div>
+                </div>
+                <div class="review-item">
+                    <div class="review-label">Scent:</div>
+                    <div class="review-value">${formData.get('scent_preference')}</div>
+                </div>
+                <div class="review-item">
+                    <div class="review-label">Deodorant Type:</div>
+                    <div class="review-value">${formData.get('deodorant_type')}</div>
+                </div>
+                <div class="review-item">
+                    <div class="review-label">Style:</div>
+                    <div class="review-value">${formData.get('style_preference')}</div>
+                </div>
+                <div class="review-item">
+                    <div class="review-label">Bedding Color:</div>
+                    <div class="review-value">${formData.get('bedding_color')}</div>
+                </div>
+                <div class="review-item">
+                    <div class="review-label">Pillow Firmness:</div>
+                    <div class="review-value">${formData.get('pillow_firmness')}</div>
+                </div>
+                <div class="review-item">
+                    <div class="review-label">Towel Color:</div>
+                    <div class="review-value">${formData.get('towel_color')}</div>
+                </div>
+                <div class="review-item">
+                    <div class="review-label">Slides Size:</div>
+                    <div class="review-value">${formData.get('slides_size')}</div>
+                </div>
+            `;
+            document.getElementById('review-products').innerHTML = productsHTML;
+        }
+
+        // ZIP code lookup with confirmation
+        let zipLookupData = null;
+
+        async function lookupZip(zip) {
+            try {
+                const response = await fetch(`https://api.zippopotam.us/us/${zip}`);
+                if (!response.ok) throw new Error('ZIP not found');
+                const data = await response.json();
+                if (data.places && data.places[0]) {
+                    return {
+                        city: data.places[0]['place name'],
+                        state: data.places[0]['state abbreviation']
+                    };
+                }
+            } catch (error) {
+                console.log('ZIP lookup failed:', error);
+            }
+            return null;
+        }
+
+        function shouldPromptForZipUpdate() {
+            const city = document.getElementById('city');
+            const state = document.getElementById('state');
+            
+            // If both fields have values, we should prompt
+            return city.value.trim() !== '' && state.value.trim() !== '';
+        }
+
+        function applyZipLookup(data) {
+            if (data) {
+                document.getElementById('city').value = data.city;
+                document.getElementById('state').value = data.state;
+                zipLookupData = null;
+            }
+        }
+
+        document.getElementById('zip').addEventListener('blur', async function() {
+            const zip = this.value;
+            const zipRegex = /^\d{5}$/;
+            
+            if (!zipRegex.test(zip)) {
+                return;
+            }
+
+            const data = await lookupZip(zip);
+            
+            if (data) {
+                if (shouldPromptForZipUpdate()) {
+                    // Store data and show confirmation
+                    zipLookupData = data;
+                    const currentCity = document.getElementById('city').value;
+                    const currentState = document.getElementById('state').value;
+                    
+                    const shouldUpdate = confirm(
+                        `We found this location for ZIP code ${zip}:\n\n` +
+                        `${data.city}, ${data.state}\n\n` +
+                        `Your current address shows:\n` +
+                        `${currentCity}, ${currentState}\n\n` +
+                        `Would you like to update to the ZIP code's location?`
+                    );
+                    
+                    if (shouldUpdate) {
+                        applyZipLookup(data);
+                    }
+                } else {
+                    // Fields are empty, just fill them
+                    applyZipLookup(data);
+                }
+            }
+        });
+
+        // State auto-uppercase
+        document.getElementById('state').addEventListener('input', function() {
+            this.value = this.value.toUpperCase();
+        });
+
+        // Email validation
+        const emailInput = document.getElementById('email');
+        const emailError = document.getElementById('email-error');
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        function validateEmail() {
+            if (emailInput.value.trim() === '') {
+                emailInput.classList.remove('invalid');
+                emailError.classList.remove('show');
+                return true;
+            }
+            
+            if (!emailRegex.test(emailInput.value)) {
+                emailInput.classList.add('invalid');
+                emailError.classList.add('show');
+                return false;
+            } else {
+                emailInput.classList.remove('invalid');
+                emailError.classList.remove('show');
+                return true;
+            }
+        }
+
+        emailInput.addEventListener('blur', validateEmail);
+        emailInput.addEventListener('input', function() {
+            // Remove error styling as user types if email becomes valid
+            if (this.classList.contains('invalid') && emailRegex.test(this.value)) {
+                this.classList.remove('invalid');
+                emailError.classList.remove('show');
+            }
+        });
+
+        // Form submission
+        document.getElementById('kitForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Validate all sections
+            if (!validateSection(1) || !validateSection(2)) {
+                alert('Please complete all required fields.');
+                return;
+            }
+
+            // Show loading overlay
+            document.getElementById('loadingOverlay').classList.add('show');
+
+            // Get form data
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+
+            // Add timestamp
+            data.timestamp = new Date().toISOString();
+
+            // TESTING: To preview the success page without submitting, uncomment these 3 lines:
+            // showSuccessPage();
+            // document.getElementById('loadingOverlay').classList.remove('show');
+            // return;
+
+            try {
+                // TODO: Replace with your actual Apps Script URL
+                const scriptURL = 'YOUR_APPS_SCRIPT_URL_HERE';
+                
+                const response = await fetch(scriptURL, {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    showSuccessPage();
+                } else {
+                    throw new Error('Submission failed');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('loadingOverlay').classList.remove('show');
+                alert('There was an error submitting your form. Please try again.');
+            }
+        });
+
+        // Function to show success page
+        function showSuccessPage() {
+            // Hide loading
+            document.getElementById('loadingOverlay').classList.remove('show');
+            
+            // Hide form
+            document.getElementById('kitForm').style.display = 'none';
+            document.querySelector('.progress-container').style.display = 'none';
+            
+            // Show success screen
+            document.getElementById('successScreen').classList.add('show');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            goToSection(1);
+        });
+    </script>
+</body>
+</html>
