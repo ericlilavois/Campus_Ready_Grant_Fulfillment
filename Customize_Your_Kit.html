@@ -1218,5 +1218,13 @@
   });
 }
     </script>
+
+<script type="module">
+  import { isValidEmail, isValidZip, doesZipMatchCityState } from '/assets/js/validation.js';
+  window.isValidEmail = isValidEmail;
+  window.isValidZip = isValidZip;
+  window.doesZipMatchCityState = doesZipMatchCityState;
+</script>
+    
 </body>
 </html>
