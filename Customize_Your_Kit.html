@@ -834,10 +834,11 @@
         }
 
         function nextSection() {
-            // Validate current section
-            if (!validateSection(currentSection)) {
-                return;
-            }
+           async function nextSection() {
+    // Validate current section
+    if (!await validateSection(currentSection)) {
+        return;
+    }
 
             if (currentSection < totalSections) {
                 goToSection(currentSection + 1);
@@ -850,73 +851,93 @@
             }
         }
 
-        // Validation functions
-        function validateSection(sectionNum) {
-            const section = document.querySelector(`[data-section="${sectionNum}"]`);
-            const inputs = section.querySelectorAll('input[required], select[required], textarea[required]');
-            let isValid = true;
-
-            inputs.forEach(input => {
-                if (input.type === 'radio') {
-                    const radioGroup = section.querySelectorAll(`input[name="${input.name}"]`);
-                    const anyChecked = Array.from(radioGroup).some(radio => radio.checked);
-                    if (!anyChecked) {
-                        isValid = false;
-                        // Scroll to first unchecked radio group
-                        if (isValid === false) {
-                            input.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }
-                    }
-                } else if (!input.value.trim()) {
-                    isValid = false;
-                    input.focus();
-                    return;
-                }
-            });
+      // Validation functions
+async function validateSection(sectionNum) {
+    const section = document.querySelector(`[data-section="${sectionNum}"]`);
+    // NOTE: input elements are queried here, not select or textarea as they are not used in this form.
+    const inputs = section.querySelectorAll('input[required]'); 
+    
+    // Check all required inputs in the section
+    for (const input of inputs) {
+        if (input.type === 'radio') {
+            const radioGroup = section.querySelectorAll(`input[name="${input.name}"]`);
+            const anyChecked = Array.from(radioGroup).some(radio => radio.checked);
+            if (!anyChecked) {
+                // Scroll to first unchecked radio group and block progress
+                input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return false; // Exit validation
+            }
+        } else if (!input.value.trim()) {
+            // Focus on the missing input and block progress
+            input.focus();
+            return false; // Exit validation
+        }
+    }
 
             // Additional validation for section 1
-            if (sectionNum === 1) {
-                // Email validation
-                if (!validateEmail()) {
-                    isValid = false;
-                    emailInput.focus();
-                }
+           // Additional validation for section 1
+    if (sectionNum === 1) {
+        const emailInput = document.getElementById('email');
+        const emailError = document.getElementById('email-error');
+        const state = document.getElementById('state');
+        const stateError = document.getElementById('state-error');
+        const zip = document.getElementById('zip');
+        const zipError = document.getElementById('zip-error');
 
-                // State validation
-                const state = document.getElementById('state');
-                const stateError = document.getElementById('state-error');
-                const stateRegex = /^[A-Z]{2}$/;
-                
-                if (!stateRegex.test(state.value.toUpperCase())) {
-                    state.classList.add('invalid');
-                    stateError.classList.add('show');
-                    isValid = false;
-                    if (!emailInput.classList.contains('invalid')) {
-                        state.focus();
-                    }
-                } else {
-                    state.classList.remove('invalid');
-                    stateError.classList.remove('show');
-                }
+        // 1. Email validation (Format)
+        if (!window.isValidEmail(emailInput.value)) {
+            emailInput.classList.add('invalid');
+            emailError.classList.add('show');
+            emailInput.focus();
+            return false;
+        } else {
+            emailInput.classList.remove('invalid');
+            emailError.classList.remove('show');
+        }
 
-                // ZIP validation
-                const zip = document.getElementById('zip');
-                const zipError = document.getElementById('zip-error');
-                const zipRegex = /^\d{5}$/;
-                
-                if (!zipRegex.test(zip.value)) {
-                    zip.classList.add('invalid');
-                    zipError.classList.add('show');
-                    isValid = false;
-                    if (!emailInput.classList.contains('invalid') && !state.classList.contains('invalid')) {
-                        zip.focus();
-                    }
-                } else {
-                    zip.classList.remove('invalid');
-                    zipError.classList.remove('show');
-                }
-            }
+        // 2. State validation (2-letter format - kept local)
+        const stateRegex = /^[A-Z]{2}$/;
+        if (!stateRegex.test(state.value.toUpperCase())) {
+            state.classList.add('invalid');
+            stateError.classList.add('show');
+            state.focus();
+            return false;
+        } else {
+            state.classList.remove('invalid');
+            stateError.classList.remove('show');
+        }
 
+        // 3. ZIP validation (5-digit format)
+        if (!window.isValidZip(zip.value)) {
+            zip.classList.add('invalid');
+            zipError.classList.add('show');
+            zip.focus();
+            return false;
+        } else {
+            zip.classList.remove('invalid');
+            zipError.classList.remove('show');
+        }
+
+        // 4. Critical: ZIP, City, State matching (Async API call)
+        const city = document.getElementById('city');
+        const zipMatches = await window.doesZipMatchCityState(zip.value, city.value, state.value);
+        
+        if (!zipMatches) {
+            // Error handling for unmatched address
+            zip.classList.add('invalid');
+            city.classList.add('invalid');
+            state.classList.add('invalid');
+            alert('The City, State, and ZIP code combination you entered appears to be invalid. Please check your address details.');
+            return false;
+        } else {
+            zip.classList.remove('invalid');
+            city.classList.remove('invalid');
+            state.classList.remove('invalid');
+        }
+    }
+
+    return true; // Use 'true' to explicitly pass validation on success
+}
             return isValid;
         }
 
@@ -1065,37 +1086,10 @@
         });
 
         // Email validation
-        const emailInput = document.getElementById('email');
-        const emailError = document.getElementById('email-error');
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-
-        function validateEmail() {
-            if (emailInput.value.trim() === '') {
-                emailInput.classList.remove('invalid');
-                emailError.classList.remove('show');
-                return true;
-            }
-            
-            if (!emailRegex.test(emailInput.value)) {
-                emailInput.classList.add('invalid');
-                emailError.classList.add('show');
-                return false;
-            } else {
-                emailInput.classList.remove('invalid');
-                emailError.classList.remove('show');
-                return true;
-            }
-        }
-
-        emailInput.addEventListener('blur', validateEmail);
-        emailInput.addEventListener('input', function() {
-            // Remove error styling as user types if email becomes valid
-           if (this.classList.contains('invalid') && emailRegex.test(this.value)) {
-                this.classList.remove('invalid');
-                emailError.classList.remove('show');
-            }
         });
-
+// Email validation cleanup: Rely entirely on imported isValidEmail in validateSection
+// Local variables and functions removed: emailInput, emailError, emailRegex, validateEmail, and event listeners.
+        
         // Form submission
         document.getElementById('kitForm').addEventListener('submit', async function(e) {
             e.preventDefault();
