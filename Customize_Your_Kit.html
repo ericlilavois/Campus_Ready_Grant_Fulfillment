@@ -573,12 +573,45 @@
                     </div>
                     <div class="form-group">
                         <label for="state" class="required">State</label>
-                        <input type="text" id="state" name="state" required maxlength="2" placeholder="CA" style="text-transform: uppercase;">
+<select id="state" name="state" required autocomplete="address-level1">
+  <option value="" disabled selected>Select</option>
+  <option value="AL">AL</option><option value="AK">AK</option><option value="AZ">AZ</option>
+  <option value="AR">AR</option><option value="CA">CA</option><option value="CO">CO</option>
+  <option value="CT">CT</option><option value="DE">DE</option><option value="DC">DC</option>
+  <option value="FL">FL</option><option value="GA">GA</option><option value="HI">HI</option>
+  <option value="ID">ID</option><option value="IL">IL</option><option value="IN">IN</option>
+  <option value="IA">IA</option><option value="KS">KS</option><option value="KY">KY</option>
+  <option value="LA">LA</option><option value="ME">ME</option><option value="MD">MD</option>
+  <option value="MA">MA</option><option value="MI">MI</option><option value="MN">MN</option>
+  <option value="MS">MS</option><option value="MO">MO</option><option value="MT">MT</option>
+  <option value="NE">NE</option><option value="NV">NV</option><option value="NH">NH</option>
+  <option value="NJ">NJ</option><option value="NM">NM</option><option value="NY">NY</option>
+  <option value="NC">NC</option><option value="ND">ND</option><option value="OH">OH</option>
+  <option value="OK">OK</option><option value="OR">OR</option><option value="PA">PA</option>
+  <option value="RI">RI</option><option value="SC">SC</option><option value="SD">SD</option>
+  <option value="TN">TN</option><option value="TX">TX</option><option value="UT">UT</option>
+  <option value="VT">VT</option><option value="VA">VA</option><option value="WA">WA</option>
+  <option value="WV">WV</option><option value="WI">WI</option><option value="WY">WY</option>
+  <!-- Territories / Armed Forces (match your app form’s coverage) -->
+  <option value="AS">AS</option><option value="GU">GU</option><option value="MP">MP</option>
+  <option value="PR">PR</option><option value="VI">VI</option>
+  <option value="AA">AA</option><option value="AE">AE</option><option value="AP">AP</option>
+</select>
                         <div class="error-message" id="state-error">Please enter a valid 2-letter state code.</div>
                     </div>
                     <div class="form-group">
                         <label for="zip" class="required">Zip Code</label>
-                        <input type="text" id="zip" name="zip" required maxlength="5" placeholder="12345">
+                      <input
+                      type="text"
+                      id="zip"
+                      name="zip"
+                      required
+                      inputmode="numeric"
+                      autocomplete="postal-code"
+                      maxlength="10"
+                      placeholder="12345 or 12345-6789"
+                    />
+
                         <div class="live-error" id="zip-live-feedback">Please enter a 5-digit ZIP code.</div>
                         <div class="error-message" id="zip-error">The City, State, and ZIP code combination appears to be invalid.</div>
                     </div>
@@ -1056,7 +1089,7 @@ async function validateSection(sectionNum) {
 
         document.getElementById('zip').addEventListener('blur', async function() {
             const zip = this.value;
-            const zipRegex = /^\d{5}$/;
+            + const zipRegex = /^\d{5}(-\d{4})?$/;
             
             if (!zipRegex.test(zip)) {
                 return;
