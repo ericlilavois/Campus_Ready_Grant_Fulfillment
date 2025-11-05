@@ -838,18 +838,16 @@
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            // If going to review section, populate review
             if (sectionNum === 3) {
                 populateReview();
             }
         }
 
-        function nextSection() {
-           async function nextSection() {
-    // Validate current section
-    if (!await validateSection(currentSection)) {
-        return;
-    }
+        async function nextSection() {
+            // Validate current section
+            if (!await validateSection(currentSection)) {
+                return;
+            }
 
             if (currentSection < totalSections) {
                 goToSection(currentSection + 1);
@@ -1091,32 +1089,14 @@ async function validateSection(sectionNum) {
             }
        });
         
-        // Live ZIP Validation Feedback
-        const zipInput = document.getElementById('zip');
-        const zipLiveFeedback = document.getElementById('zip-live-feedback');
-
-        zipInput.addEventListener('input', function() {
-            // Check only if input is not empty
-            if (this.value.trim() === '') {
-                zipLiveFeedback.style.display = 'none';
-                return;
-            }
-
-            // Use the imported function for live validation
-            if (!window.isValidZip(this.value)) {
-                zipLiveFeedback.style.display = 'block';
-            } else {
-                zipLiveFeedback.style.display = 'none';
-            }
         });
-
+        
         // State auto-uppercase
         document.getElementById('state').addEventListener('input', function() {
             this.value = this.value.toUpperCase();
         });
         
         // Email validation
-        });
 // Email validation cleanup: Rely entirely on imported isValidEmail in validateSection
 // Local variables and functions removed: emailInput, emailError, emailRegex, validateEmail, and event listeners.
         
@@ -1239,8 +1219,28 @@ async function validateSection(sectionNum) {
     document.getElementById('loadingOverlay').classList.remove('show');
     console.error('Network error:', error);
     alert('Network error. Please check your connection and try again.');
-  });
+ });
 }
+    
+        // Live ZIP Validation Feedback (Relocated to end of script to ensure it attaches correctly)
+        const zipInput = document.getElementById('zip');
+        const zipLiveFeedback = document.getElementById('zip-live-feedback');
+
+        zipInput.addEventListener('input', function() {
+            // Check only if input is not empty
+            if (this.value.trim() === '') {
+                zipLiveFeedback.style.display = 'none';
+                return;
+            }
+
+            // Use the imported function for live validation
+            if (!window.isValidZip(this.value)) {
+                zipLiveFeedback.style.display = 'block';
+            } else {
+                zipLiveFeedback.style.display = 'none';
+            }
+        });
+
     </script>
 
 <script type="module">
