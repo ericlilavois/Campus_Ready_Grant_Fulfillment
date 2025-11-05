@@ -494,6 +494,36 @@
             }
         }
     </style>
+    <style id="zip-suggestion-styles">
+  .zip-suggestion {
+    background: rgba(20,184,166, .08);
+    border: 1px solid rgba(20,184,166, .25);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-top: 8px;
+    font-size: 0.9rem;
+    color: #064e3b; /* dark teal-ish for readability */
+    display: none;
+    grid-column: 1 / -1;
+    transition: all 0.2s ease;
+  }
+  .zip-suggestion.show { display: block; }
+  .zip-apply-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #14b8a6, #0d9488);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    margin-left: 8px;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+  }
+  .zip-apply-btn:hover {
+    background: linear-gradient(135deg, #0d9488, #0f766e);
+    transform: translateY(-1px);
+  }
+</style>
 </head>
 <body>
     <div class="container">
@@ -538,8 +568,16 @@
 
                 <div class="form-group">
                     <label for="email" class="required">Email Address</label>
-                    <input type="email" id="email" name="email" required>
-                    <div class="error-message" id="email-error">Please enter a valid email address.</div>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
+                      inputmode="email"
+                      autocomplete="email"
+                      placeholder="name@example.com"
+                        />
+                <div class="live-error" id="email-live-feedback" aria-live="polite">Please enter a valid email address.</div>
                 </div>
 
                 <div class="form-group">
@@ -613,6 +651,7 @@
                     />
 
                         <div class="live-error" id="zip-live-feedback">Please enter a 5-digit ZIP code.</div>
+                        <div id="zipSuggestion" class="zip-suggestion" role="status" aria-live="polite"></div>
                         <div class="error-message" id="zip-error">The City, State, and ZIP code combination appears to be invalid.</div>
                     </div>
                 </div>
@@ -1051,80 +1090,62 @@ async function validateSection(sectionNum) {
             document.getElementById('review-products').innerHTML = productsHTML;
         }
 
-        // ZIP code lookup with confirmation
-        let zipLookupData = null;
-
-        async function lookupZip(zip) {
-            try {
-                const response = await fetch(`https://api.zippopotam.us/us/${zip}`);
-                if (!response.ok) throw new Error('ZIP not found');
-                const data = await response.json();
-                if (data.places && data.places[0]) {
-                    return {
-                        city: data.places[0]['place name'],
-                        state: data.places[0]['state abbreviation']
-                    };
-                }
-            } catch (error) {
-                console.log('ZIP lookup failed:', error);
-            }
-            return null;
-        }
-
-        function shouldPromptForZipUpdate() {
-            const city = document.getElementById('city');
-            const state = document.getElementById('state');
-            
-            // If both fields have values, we should prompt
-            return city.value.trim() !== '' && state.value.trim() !== '';
-        }
-
-        function applyZipLookup(data) {
-            if (data) {
-                document.getElementById('city').value = data.city;
-                document.getElementById('state').value = data.state;
-                zipLookupData = null;
-            }
-        }
-
-        document.getElementById('zip').addEventListener('blur', async function() {
-            const zip = this.value;
-            + const zipRegex = /^\d{5}(-\d{4})?$/;
-            
-            if (!zipRegex.test(zip)) {
-                return;
-            }
-
-            const data = await lookupZip(zip);
-            
-            if (data) {
-                if (shouldPromptForZipUpdate()) {
-                    // Store data and show confirmation
-                    zipLookupData = data;
-                    const currentCity = document.getElementById('city').value;
-                    const currentState = document.getElementById('state').value;
-                    
-                    const shouldUpdate = confirm(
-                        `We found this location for ZIP code ${zip}:\n\n` +
-                        `${data.city}, ${data.state}\n\n` +
-                        `Your current address shows:\n` +
-                        `${currentCity}, ${currentState}\n\n` +
-                        `Would you like to update to the ZIP code's location?`
-                    );
-                    
-                    if (shouldUpdate) {
-                        applyZipLookup(data);
-                    }
-                } else {
-                    // Fields are empty, just fill them
-                    applyZipLookup(data);
-                }
-            }
-       });
-        
-        });
+// ZIP suggestion UX (debounced lookup + inline suggestion + submit guard)
+(function ZIP_SUGGESTION_UX(){
+  const zipEl   = document.getElementById('zip');
+  const cityEl  = document.getElementById('city');
+  const stateEl = document.getElementById('state');
+  const suggBox = document.getElementById('zipSuggestion');
+  ...
+})();
         
         // State auto-uppercase
+        // Email live validation + final submit guard
+(function EMAIL_VALIDATION(){
+  const emailEl = document.getElementById('email');
+  const emailFB = document.getElementById('email-live-feedback');
+  const formEl  = document.getElementById('kitForm');
+
+  function showEmailError(msg){
+    if (!emailFB) return;
+    emailFB.textContent = msg || 'Enter a valid email (for example, name@example.com).';
+    emailFB.style.display = 'block';
+  }
+
+  function hideEmailError(){
+    if (!emailFB) return;
+    emailFB.style.display = 'none';
+  }
+
+  function checkEmail(){
+    const val = emailEl ? emailEl.value : '';
+    const ok = window.isValidEmail ? window.isValidEmail(val) : true;
+    if (!ok) { showEmailError(); }
+    else { hideEmailError(); }
+    return ok;
+  }
+
+  if (emailEl){
+    // Live feedback as the user types and on blur
+    emailEl.addEventListener('input', checkEmail);
+    emailEl.addEventListener('blur', checkEmail);
+  }
+
+  // Light-touch submit guard: if email invalid, block and focus the field
+  if (formEl && !formEl.dataset.emailGuardAttached){
+    formEl.dataset.emailGuardAttached = '1';
+    formEl.addEventListener('submit', function(ev){
+      if (!checkEmail()){
+        ev.preventDefault();
+        emailEl.focus();
+        alert('Please enter a valid email before continuing.');
+      }
+    }, true);
+  }
+
+  // Initialize hidden state for feedback line
+  hideEmailError();
+})();
         document.getElementById('state').addEventListener('input', function() {
             this.value = this.value.toUpperCase();
         });
