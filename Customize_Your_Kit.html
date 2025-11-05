@@ -650,7 +650,7 @@
                       placeholder="12345 or 12345-6789"
                     />
 
-                        <div class="live-error" id="zip-live-feedback">Please enter a 5-digit ZIP code.</div>
+                      <div class="live-error" id="zip-live-feedback" aria-live="polite">Please enter a valid ZIP (12345 or 12345-6789).</div>
                         <div id="zipSuggestion" class="zip-suggestion" role="status" aria-live="polite"></div>
                         <div class="error-message" id="zip-error">The City, State, and ZIP code combination appears to be invalid.</div>
                     </div>
@@ -999,28 +999,8 @@ async function validateSection(sectionNum) {
             zipError.classList.remove('show');
         }
 
-        // 4. Critical: ZIP, City, State matching (Async API call)
-        const city = document.getElementById('city');
-        const zipMatches = await window.doesZipMatchCityState(zip.value, city.value, state.value);
-        
-        if (!zipMatches) {
-            // Error handling for unmatched address
-            zip.classList.add('invalid');
-            city.classList.add('invalid');
-            state.classList.add('invalid');
-            alert('The City, State, and ZIP code combination you entered appears to be invalid. Please check your address details.');
-            return false;
-        } else {
-            zip.classList.remove('invalid');
-            city.classList.remove('invalid');
-            state.classList.remove('invalid');
-        }
-    }
-
     return true; // Use 'true' to explicitly pass validation on success
 }
-            return isValid;
-        }
 
         // Populate review section
         function populateReview() {
