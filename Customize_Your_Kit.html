@@ -1283,6 +1283,78 @@ async function validateSection(sectionNum) {
   window.isValidZip = isValidZip;
   window.doesZipMatchCityState = doesZipMatchCityState;
 </script>
+    <script>
+  let currentStep = 1;
+  const totalSteps = 3;
+
+  function showSection(step) {
+    // Toggle form sections
+    document.querySelectorAll('.form-section').forEach((section) => {
+      section.classList.remove('active');
+    });
+    const targetSection = document.querySelector(`.form-section[data-section="${step}"]`);
+    if (targetSection) targetSection.classList.add('active');
+
+    // Update progress bar
+    document.querySelectorAll('.progress-step').forEach((stepEl) => {
+      const stepNum = parseInt(stepEl.getAttribute('data-step'));
+      stepEl.classList.remove('active', 'complete');
+      if (stepNum < step) stepEl.classList.add('complete');
+      else if (stepNum === step) stepEl.classList.add('active');
+    });
+
+    currentStep = step;
+  }
+
+  function nextSection() {
+    if (currentStep < totalSteps) {
+      showSection(currentStep + 1);
+    }
+  }
+
+  function prevSection() {
+    if (currentStep > 1) {
+      showSection(currentStep - 1);
+    }
+  }
+
+  // Optional: initialize on load
+  document.addEventListener('DOMContentLoaded', () => {
+    showSection(currentStep);
+  });
+</script>
+
+    <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const emailInput = document.getElementById('email');
+    const emailError = document.getElementById('email-live-feedback');
+
+    emailInput.addEventListener('input', () => {
+      if (emailInput.validity.valid) {
+        emailError.style.display = 'none';
+        emailInput.classList.remove('invalid');
+      } else {
+        emailError.style.display = 'block';
+        emailInput.classList.add('invalid');
+      }
+    });
+
+    const zipInput = document.getElementById('zip');
+    const zipError = document.getElementById('zip-live-feedback');
+    const zipRegex = /^\d{5}(-\d{4})?$/;
+
+    zipInput.addEventListener('input', () => {
+      if (zipRegex.test(zipInput.value.trim())) {
+        zipError.style.display = 'none';
+        zipInput.classList.remove('invalid');
+      } else {
+        zipError.style.display = 'block';
+        zipInput.classList.add('invalid');
+      }
+    });
+  });
+</script>
+
     
 </body>
 </html>
