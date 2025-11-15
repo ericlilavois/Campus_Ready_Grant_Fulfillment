@@ -507,27 +507,60 @@
         <!-- Progress Bar -->
         <div class="progress-container">
             <div class="progress-bar">
-                <div class="progress-step active" data-step="1">
+              <div class="progress-step active" id="step-1">
                     <div class="step-circle">1</div>
-                    <div class="step-label">Personal Info</div>
+                    <div class="step-label">Verify Email</div>
                 </div>
                 <div class="step-arrow">→</div>
-                <div class="progress-step" data-step="2">
+                <div class="progress-step" id="step-2">
                     <div class="step-circle">2</div>
-                    <div class="step-label">Product Choices</div>
+                    <div class="step-label">Upload Documents</div>
                 </div>
                 <div class="step-arrow">→</div>
-                <div class="progress-step" data-step="3">
+                <div class="progress-step" id="step-3">
                     <div class="step-circle">3</div>
-                    <div class="step-label">Review</div>
+                    <div class="step-label">Customize Kit</div>
                 </div>
+                <div class="step-arrow">→</div>
+                <div class="progress-step" id="step-4">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Submit</div>
+                </div>
+             </div>
             </div>
-        </div>
 
         <!-- Form -->
         <form id="kitForm" class="form-card">
+            <!-- EMAIL VALIDATION SECTION -->
+            <div id="emailValidation" class="form-section active">
+                <h2 class="section-title">Verify Your Email</h2>
+                <p class="section-description">
+                    Enter the email address you used in your Campus Ready grant application. 
+                    This helps us personalize your kit and track your progress.
+                </p>
+                
+                <div class="form-group">
+                    <label for="email_verify" class="required">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="email_verify" 
+                        name="email_verify" 
+                        placeholder="your.email@example.com"
+                        autocomplete="email"
+                    />
+                    <div id="email-verify-error" class="live-error"></div>
+                </div>
+                
+                <button type="button" id="verifyEmailBtn" class="btn-primary">
+                    Verify My Email
+                </button>
+                
+                <div id="email-checking" style="display: none; margin-top: 16px; color: var(--teal); font-weight: 500;">
+                    Checking your status...
+                </div>
+            </div>
             <!-- Section 1: Personal Information -->
-            <div class="form-section active" data-section="1">
+            <div class="form-section" data-section="1">
                 <h2 class="section-title">Personal Information</h2>
                 <p class="section-description">Please use your full legal name and the mailing address (home or college) where you want to receive your curated move-in essentials kit.</p>
 
@@ -1259,10 +1292,120 @@ async function validateSection(sectionNum) {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Initialize
+       // ============================================================
+        // EMAIL VERIFICATION LOGIC
+        // ============================================================
+
+        let studentData = null; // Store student info after verification
+
         document.addEventListener('DOMContentLoaded', function() {
-            goToSection(1);
+            // Email verification button handler
+            document.getElementById('verifyEmailBtn').addEventListener('click', async function() {
+                const emailInput = document.getElementById('email_verify');
+                const email = emailInput.value.trim();
+                const errorDiv = document.getElementById('email-verify-error');
+                const checkingDiv = document.getElementById('email-checking');
+                const btn = this;
+                
+                // Clear previous errors
+                errorDiv.style.display = 'none';
+                errorDiv.textContent = '';
+                emailInput.classList.remove('invalid');
+                
+                // Validate email format
+                const validation = window.isValidEmail(email);
+                if (!validation.valid) {
+                    errorDiv.textContent = validation.message;
+                    errorDiv.style.display = 'block';
+                    emailInput.classList.add('invalid');
+                    return;
+                }
+                
+                // Show checking status
+                btn.disabled = true;
+                checkingDiv.style.display = 'block';
+                
+                try {
+                    // Call Vercel proxy to check student status
+                    const response = await fetch('https://nodejs-serverless-function-express-xi-ruby.vercel.app/api/proxy', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            action: 'checkStudentStatus',
+                            email: email
+                        })
+                    });
+                    
+                   const result = await response.json();
+                    
+                    // IMPORTANT: Proxy wraps response in { status: 'success', data: {...} }
+                    // So we need to access result.data to get the actual Apps Script response
+                    const studentStatus = result.data || result;
+                    
+                    // Hide checking status
+                    checkingDiv.style.display = 'none';
+                    btn.disabled = false;
+                    
+                    if (studentStatus.status === 'not_found') {
+                        // Email not in Grant_Recipients
+                        errorDiv.textContent = 'Email not found. Please check your email or contact hello@campusready.foundation';
+                        errorDiv.style.display = 'block';
+                        emailInput.classList.add('invalid');
+                        
+                    } else if (studentStatus.status === 'found') {
+                        // Store student data for later use
+                        studentData = studentStatus;
+                        
+                        // Determine what to show based on document status
+                        handleStudentStatus(studentStatus);
+                    }
+                    
+                } catch (error) {
+                    console.error('Error verifying email:', error);
+                    checkingDiv.style.display = 'none';
+                    btn.disabled = false;
+                    errorDiv.textContent = 'Unable to verify email. Please try again or contact hello@campusready.foundation';
+                    errorDiv.style.display = 'block';
+                }
+            });
         });
+
+        function handleStudentStatus(data) {
+            const housingStatus = data.housingStatus || 'Pending';
+            const acceptanceStatus = data.acceptanceStatus || 'Pending';
+            
+            // Both documents approved - skip to item selection
+            if (housingStatus === 'Approved' && acceptanceStatus === 'Approved') {
+                document.getElementById('emailValidation').classList.remove('active');
+                // Skip document section, go to item selection (we'll build this next)
+                alert('Both documents approved! Moving to item selection...');
+                // TODO: Show item selection section
+                
+            // At least one document rejected - show upload with message
+            } else if (housingStatus === 'Rejected' || acceptanceStatus === 'Rejected') {
+                document.getElementById('emailValidation').classList.remove('active');
+                alert('Document rejected - need to show upload section');
+                // TODO: Show document upload section with rejection message
+                
+            // Documents uploaded, under review - show waiting message
+            } else if (housingStatus === 'Uploaded' || acceptanceStatus === 'Uploaded') {
+                document.getElementById('emailValidation').classList.remove('active');
+                alert('Documents under review - show waiting message');
+                // TODO: Show "under review" message
+                
+            // First time or both pending - show upload section
+            } else {
+                document.getElementById('emailValidation').classList.remove('active');
+                alert('Show document upload section');
+                // TODO: Show document upload section
+            }
+            
+            // Update progress bar
+            document.getElementById('step-1').classList.add('complete');
+            document.getElementById('step-2').classList.add('active');
+        }
         function submitForm() {
   const formData = {
     student_name: document.getElementById('student_name').value,
