@@ -1521,34 +1521,33 @@ async function validateSection(sectionNum) {
             });
         });
 
-        function handleStudentStatus(data) {
+    function handleStudentStatus(data) {
+            // Store student data for later use
+            studentData = data;
+            
             const housingStatus = data.housingStatus || 'Pending';
             const acceptanceStatus = data.acceptanceStatus || 'Pending';
             
+            // Hide email validation section
+            document.getElementById('emailValidation').style.display = 'none';
+            
             // Both documents approved - skip to item selection
             if (housingStatus === 'Approved' && acceptanceStatus === 'Approved') {
-                document.getElementById('emailValidation').classList.remove('active');
-                // Skip document section, go to item selection (we'll build this next)
-                alert('Both documents approved! Moving to item selection...');
-                // TODO: Show item selection section
+                document.querySelector('[data-section="1"]').classList.add('active');
                 
             // At least one document rejected - show upload with message
             } else if (housingStatus === 'Rejected' || acceptanceStatus === 'Rejected') {
-                document.getElementById('emailValidation').classList.remove('active');
-                alert('Document rejected - need to show upload section');
-                // TODO: Show document upload section with rejection message
+                document.getElementById('documentUpload').style.display = 'block';
+                // TODO: Add rejection message styling in Phase 4
                 
             // Documents uploaded, under review - show waiting message
             } else if (housingStatus === 'Uploaded' || acceptanceStatus === 'Uploaded') {
-                document.getElementById('emailValidation').classList.remove('active');
-                alert('Documents under review - show waiting message');
-                // TODO: Show "under review" message
+                alert('Your documents are under review. We'll email you when they\'re approved.');
+                // TODO: Build proper waiting UI in Phase 4
                 
             // First time or both pending - show upload section
             } else {
-                document.getElementById('emailValidation').classList.remove('active');
-                alert('Show document upload section');
-                // TODO: Show document upload section
+                document.getElementById('documentUpload').style.display = 'block';
             }
             
             // Update progress bar
