@@ -493,6 +493,84 @@
                 width: 100%;
             }
         }
+        /* Document Upload Styles */
+        .upload-help {
+            font-size: 0.9rem;
+            color: var(--grey-text);
+            margin-top: 4px;
+            margin-bottom: 12px;
+        }
+
+        .file-upload-btn {
+            background: var(--white);
+            border: 2px solid var(--grey-border);
+            color: var(--black);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload-btn:hover {
+            border-color: var(--teal);
+            background: var(--grey-light);
+        }
+
+        .filename-display {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            color: var(--grey-text);
+            font-style: italic;
+        }
+
+        .upload-progress {
+            margin-top: 12px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: var(--grey-border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--teal);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            color: var(--teal);
+            text-align: center;
+        }
+
+        .upload-success {
+            margin-top: 12px;
+            padding: 12px;
+            background: #ECFDF5;
+            border: 1px solid #10B981;
+            border-radius: 8px;
+            color: #065F46;
+            font-weight: 500;
+        }
+
+        .success-checkmark {
+            color: #10B981;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .upload-error {
+            margin-top: 8px;
+            color: var(--error);
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
@@ -1476,6 +1554,126 @@ async function validateSection(sectionNum) {
             // Update progress bar
             document.getElementById('step-1').classList.add('complete');
             document.getElementById('step-2').classList.add('active');
+        }
+        // File validation and upload handlers
+        let studentData = null; // Store student info after email validation
+        let housingFileData = null;
+        let acceptanceFileData = null;
+
+        // Validate file type and size
+        function validateFile(file) {
+            const validTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'];
+            const maxSize = 5 * 1024 * 1024; // 5MB
+
+            if (!validTypes.includes(file.type)) {
+                return { valid: false, error: 'Oops - we can only accept PDF, JPG, or PNG files. Please select a different file.' };
+            }
+
+            if (file.size > maxSize) {
+                return { valid: false, error: 'This file is a bit too large (over 5MB). Try compressing it or taking a clearer photo.' };
+            }
+
+            return { valid: true };
+        }
+
+        // Convert file to base64
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result.split(',')[1]);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // Housing document handler
+        document.getElementById('housing_doc').addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const validation = validateFile(file);
+            if (!validation.valid) {
+                document.getElementById('housing_error').textContent = validation.error;
+                document.getElementById('housing_filename').textContent = '';
+                return;
+            }
+
+            document.getElementById('housing_error').textContent = '';
+            document.getElementById('housing_filename').textContent = file.name;
+            housingFileData = { name: file.name, data: await fileToBase64(file) };
+            checkBothFilesSelected();
+        });
+
+        // Acceptance document handler
+        document.getElementById('acceptance_doc').addEventListener('change', async function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const validation = validateFile(file);
+            if (!validation.valid) {
+                document.getElementById('acceptance_error').textContent = validation.error;
+                document.getElementById('acceptance_filename').textContent = '';
+                return;
+            }
+
+            document.getElementById('acceptance_error').textContent = '';
+            document.getElementById('acceptance_filename').textContent = file.name;
+            acceptanceFileData = { name: file.name, data: await fileToBase64(file) };
+            checkBothFilesSelected();
+        });
+
+        // Check if both files are selected
+        function checkBothFilesSelected() {
+            const continueBtn = document.getElementById('continueToKitBtn');
+            if (housingFileData && acceptanceFileData) {
+                continueBtn.disabled = false;
+            }
+        }
+
+        // Continue to kit selection button
+        document.getElementById('continueToKitBtn').addEventListener('click', async function() {
+            await uploadDocuments();
+        });
+
+        // Upload documents to Apps Script
+        async function uploadDocuments() {
+            document.getElementById('housing_progress').style.display = 'block';
+            document.getElementById('acceptance_progress').style.display = 'block';
+
+            try {
+                const response = await fetch('https://nodejs-serverless-function-express-xi-ruby.vercel.app/api/proxy', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'uploadDocuments',
+                        email: studentData.email,
+                        applicationId: studentData.applicationId,
+                        housingFile: housingFileData,
+                        acceptanceFile: acceptanceFileData
+                    })
+                });
+
+                const result = await response.json();
+                const data = result.data || result;
+
+                if (data.status === 'success') {
+                    document.getElementById('housing_progress').style.display = 'none';
+                    document.getElementById('acceptance_progress').style.display = 'none';
+                    document.getElementById('housing_success').style.display = 'block';
+                    document.getElementById('acceptance_success').style.display = 'block';
+
+                    setTimeout(() => {
+                        document.getElementById('documentUpload').style.display = 'none';
+                        document.querySelector('[data-section="1"]').classList.add('active');
+                    }, 1500);
+                } else {
+                    throw new Error(data.message || 'Upload failed');
+                }
+            } catch (error) {
+                document.getElementById('housing_progress').style.display = 'none';
+                document.getElementById('acceptance_progress').style.display = 'none';
+                document.getElementById('housing_error').textContent = 'Hmm, something went wrong. Please try uploading again. If this keeps happening, email us at hello@campusready.foundation';
+            }
         }
         function submitForm() {
   const formData = {
