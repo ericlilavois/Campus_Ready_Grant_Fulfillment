@@ -559,6 +559,77 @@
                     Checking your status...
                 </div>
             </div>
+            <!-- DOCUMENT UPLOAD SECTION -->
+            <div id="documentUpload" class="form-section" style="display: none;">
+                <h2 class="section-title">Upload Required Documents</h2>
+                <p class="section-description">
+                    Great news, you've been selected for a Campus Ready grant! Before we customize your kit, we need two quick documents to confirm we can deliver everything to your dorm. Please upload by June 30th.
+                </p>
+                
+                <!-- Housing Document -->
+                <div class="form-group">
+                    <label for="housing_doc" class="required">Housing Assignment Confirmation</label>
+                    <p class="upload-help">
+                        This confirms you'll be living on campus. Please upload a letter from your school or screenshot of your school portal indicating your housing assignment. We accept PDF, JPG, or PNG files up to 5MB.
+                    </p>
+                    <input 
+                        type="file" 
+                        id="housing_doc" 
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        style="display: none;"
+                    />
+                    <button type="button" class="file-upload-btn" onclick="document.getElementById('housing_doc').click()">
+                        Choose File
+                    </button>
+                    <div id="housing_filename" class="filename-display"></div>
+                    <div id="housing_progress" class="upload-progress" style="display: none;">
+                        <div class="progress-bar">
+                            <div id="housing_progress_fill" class="progress-fill"></div>
+                        </div>
+                        <div id="housing_progress_text" class="progress-text">Uploading...</div>
+                    </div>
+                    <div id="housing_success" class="upload-success" style="display: none;">
+                        <span class="success-checkmark">✓</span> Housing document received
+                    </div>
+                    <div id="housing_error" class="upload-error"></div>
+                </div>
+                
+                <!-- Acceptance Letter -->
+                <div class="form-group">
+                    <label for="acceptance_doc" class="required">College Acceptance Letter</label>
+                    <p class="upload-help">
+                        Official confirmation of your enrollment. We accept PDF, JPG, or PNG files up to 5MB.
+                    </p>
+                    <input 
+                        type="file" 
+                        id="acceptance_doc" 
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        style="display: none;"
+                    />
+                    <button type="button" class="file-upload-btn" onclick="document.getElementById('acceptance_doc').click()">
+                        Choose File
+                    </button>
+                    <div id="acceptance_filename" class="filename-display"></div>
+                    <div id="acceptance_progress" class="upload-progress" style="display: none;">
+                        <div class="progress-bar">
+                            <div id="acceptance_progress_fill" class="progress-fill"></div>
+                        </div>
+                        <div id="acceptance_progress_text" class="progress-text">Uploading...</div>
+                    </div>
+                    <div id="acceptance_success" class="upload-success" style="display: none;">
+                        <span class="success-checkmark">✓</span> Acceptance letter received
+                    </div>
+                    <div id="acceptance_error" class="upload-error"></div>
+                </div>
+                
+                <p class="section-description" style="margin-top: 24px; font-style: italic;">
+                    Don't have these yet? No problem - bookmark this page and come back when you do. We'll save your progress.
+                </p>
+                
+                <button type="button" id="continueToKitBtn" class="btn-primary" disabled style="margin-top: 24px;">
+                    Continue to Kit Selection
+                </button>
+            </div>
             <!-- Section 1: Personal Information -->
             <div class="form-section" data-section="1">
                 <h2 class="section-title">Personal Information</h2>
