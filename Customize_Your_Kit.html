@@ -1656,8 +1656,7 @@ const rotateMessages = setInterval(() => {
     messageIndex = (messageIndex + 1) % messages.length;
 }, 1200); // Rotate every 1.2 seconds
             try {
-                const response = await fetch('https://script.google.com/macros/s/AKfycbwicYwjOiDaTnUVX6UcjSwhH1Lm7a54JlBAfYu6sRCl91NYP7GLnfu8O8KjauxwOaak/exec', {
-                    method: 'POST',
+const response = await fetch('https://script.google.com/macros/s/AKfycbwXzDCad-60tf_-Ze2jif5JR3OkmucmwtWhjsdUA1_IOMVcEvUtp4-oD-XxXO0lPL0A/exec', {                    method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         action: 'uploadDocuments',
