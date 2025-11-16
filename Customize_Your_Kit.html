@@ -1405,8 +1405,8 @@ async function validateSection(sectionNum) {
 
             try {
     // Submit through Vercel proxy (which forwards to Google Apps Script)
-    const response = await fetch('https://nodejs-serverless-function-express-xi-ruby.vercel.app/api/proxy', {
-        method: 'POST',
+const response = await fetch('https://grant-fulfillment-proxy.vercel.app/api/proxy', {
+    method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -1479,8 +1479,8 @@ async function validateSection(sectionNum) {
                 
                 try {
                     // Call Vercel proxy to check student status
-                    const response = await fetch('https://nodejs-serverless-function-express-xi-ruby.vercel.app/api/proxy', {
-                        method: 'POST',
+const response = await fetch('https://grant-fulfillment-proxy.vercel.app/api/proxy', {
+                    method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
@@ -1656,8 +1656,8 @@ const rotateMessages = setInterval(() => {
     messageIndex = (messageIndex + 1) % messages.length;
 }, 1200); // Rotate every 1.2 seconds
             try {
-const response = await fetch('https://nodejs-serverless-function-express-xi-ruby.vercel.app/api/proxy', {
-                    method: 'POST',
+const response = await fetch('https://grant-fulfillment-proxy.vercel.app/api/proxy', {
+                method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         action: 'uploadDocuments',
@@ -1728,8 +1728,8 @@ setTimeout(() => {
   // Show loading overlay
   document.getElementById('loadingOverlay').classList.add('show');
 
- fetch('https://nodejs-serverless-function-express-xi-ruby.vercel.app/api/proxy', {
-     method: 'POST',
+fetch('https://grant-fulfillment-proxy.vercel.app/api/proxy', {
+    method: 'POST',
   headers: {
     'Content-Type': 'application/json'
   },
