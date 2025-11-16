@@ -1656,7 +1656,7 @@ const rotateMessages = setInterval(() => {
     messageIndex = (messageIndex + 1) % messages.length;
 }, 1200); // Rotate every 1.2 seconds
             try {
-const response = await fetch('https://script.google.com/macros/s/AKfycbxG1W2xFhc4z2-JfVydTdlfZPoOhDSpnRi78gEcPlumD7s-QYXeQR9rcw_eBKRzG-2T/exec', {
+const response = await fetch('https://nodejs-serverless-function-express-xi-ruby.vercel.app/api/proxy', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
