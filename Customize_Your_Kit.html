@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customize Your Kit - Campus Ready Foundation</title>
-    
+    <link rel="icon" type="image/x-icon" href="CRF_icon_144_x_144.jpg">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -667,7 +667,7 @@
                         <div id="housing_progress_text" class="progress-text">Uploading...</div>
                     </div>
                    <div id="housing_success" class="upload-success" style="display: none;">
-    <img src="/assets/CRF_icon_144_x_144.jpg" alt="✓" style="width: 32px; height: 32px; vertical-align: middle; margin-right: 8px;">
+    <img src="CRF_icon_144_x_144.jpg" alt="✓" style="width: 32px; height: 32px; vertical-align: middle; margin-right: 8px;">
     Housing document received
 </div>
                     <div id="housing_error" class="upload-error"></div>
@@ -1749,7 +1749,8 @@ continueButton.onclick = function() {
     
     // Show personalization section
     document.querySelector('[data-section="1"]').classList.add('active');
-updateHeader('Customize Your Kit', "We're going shopping. Your responses will guide us to select items that match your style, ensuring you get products you want for the start to your college journey.");    // Small delay to ensure DOM is fully rendered
+updateHeader('Customize Your Kit', "We're going shopping. Your responses will guide us to select items that match your style, ensuring you get products you want for the start to your college journey.");    
+    // Small delay to ensure DOM is fully rendered
     setTimeout(() => {
         // Auto-populate name and email
         const nameField = document.getElementById('student_name');
