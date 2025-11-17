@@ -1526,7 +1526,27 @@ const response = await fetch('https://grant-fulfillment-proxy.vercel.app/api/pro
     function handleStudentStatus(data) {
             // Store student data for later use
             studentData = data;
-            
+        
+        // === AUTO-POPULATE AND LOCK NAME/EMAIL FIELDS ===
+        const nameField = document.getElementById('student_name');
+        const emailField = document.getElementById('email');
+        
+        if (nameField) {
+            nameField.value = data.studentName;
+            nameField.disabled = true;
+            nameField.style.backgroundColor = '#f0f0f0';
+            nameField.style.cursor = 'not-allowed';
+        }
+        
+        if (emailField) {
+            emailField.value = data.email;
+            emailField.disabled = true;
+            emailField.style.backgroundColor = '#f0f0f0';
+            emailField.style.cursor = 'not-allowed';
+        }
+        // === END AUTO-POPULATE ===
+        
+        const housingStatus = data.housingStatus || 'Pending';
             const housingStatus = data.housingStatus || 'Pending';
             const acceptanceStatus = data.acceptanceStatus || 'Pending';
             
