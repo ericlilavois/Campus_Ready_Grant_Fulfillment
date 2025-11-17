@@ -1544,14 +1544,14 @@ if (housingStatus === 'Approved' && acceptanceStatus === 'Approved') {
         
         if (nameField && studentData && studentData.studentName) {
             nameField.value = studentData.studentName;
-            nameField.disabled = true;
+            nameField.readOnly = true;
             nameField.style.backgroundColor = '#f0f0f0';
             nameField.style.cursor = 'not-allowed';
         }
         
         if (emailField && studentData && studentData.email) {
             emailField.value = studentData.email;
-            emailField.disabled = true;
+            emailField.readOnly = true;
             emailField.style.backgroundColor = '#f0f0f0';
             emailField.style.cursor = 'not-allowed';
         }
@@ -1727,14 +1727,14 @@ continueButton.onclick = function() {
         
         if (nameField && studentData && studentData.studentName) {
             nameField.value = studentData.studentName;
-            nameField.disabled = true;
+            nameField.readOnly = true;
             nameField.style.backgroundColor = '#f0f0f0';
             nameField.style.cursor = 'not-allowed';
         }
         
         if (emailField && studentData && studentData.email) {
             emailField.value = studentData.email;
-            emailField.disabled = true;
+            emailField.readOnly = true;
             emailField.style.backgroundColor = '#f0f0f0';
             emailField.style.cursor = 'not-allowed';
         }
