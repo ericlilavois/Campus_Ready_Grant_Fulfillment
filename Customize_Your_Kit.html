@@ -1798,9 +1798,10 @@ document.getElementById('documentUpload').appendChild(continueButton);
             } else {
                 throw new Error(data.message || 'Upload failed');
             }
-        } catch (error) {
+  } catch (error) {
             clearInterval(rotateMessages); // Stop rotating messages
-            console.error('Upload error:', error); // Log the actual error
+            clearInterval(animateProgress); // Stop progress animation
+            console.error('Upload error:', error); // Log the actual error            
             console.error('Error details:', error.message); // Log error message
             document.getElementById('housing_progress').style.display = 'none';
             document.getElementById('acceptance_progress').style.display = 'none';
