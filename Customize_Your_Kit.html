@@ -130,7 +130,10 @@
             color: var(--teal);
             font-weight: 600;
         }
-
+.progress-step.complete .step-label {
+            color: var(--teal);
+            font-weight: 600;
+        }
         .step-arrow {
             color: var(--grey-border);
             font-size: 1.5rem;
@@ -602,12 +605,12 @@
                 <div class="step-arrow">→</div>
                 <div class="progress-step" id="step-3">
                     <div class="step-circle">3</div>
-                    <div class="step-label">Submit My Docuuments</div>
+                    <div class="step-label">Submit My Preferences</div>
                 </div>
                 <div class="step-arrow">→</div>
                 <div class="progress-step" id="step-4">
                     <div class="step-circle">4</div>
-                    <div class="step-label">Submit</div>
+                    <div class="step-label">Done!</div>
                 </div>
              </div>
             </div>
@@ -1029,7 +1032,7 @@
         // Dynamic header update function
         function updateHeader(title, subtitle) {
             document.getElementById('pageTitle').textContent = title;
-            document.getElementById('pageSubtitle').textContent = subtitle;
+            document.getElementById('pageSubtitle').innerHTML = subtitle;
         }
         const totalSections = 3;
 
