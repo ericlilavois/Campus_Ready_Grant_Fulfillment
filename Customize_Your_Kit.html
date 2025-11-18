@@ -1708,8 +1708,6 @@ const animateProgress = setInterval(() => {
         document.getElementById('acceptance_progress_fill').style.width = progress + '%';
     }
 }, 100); // Update every 100ms for smooth animation
-            try {            
-            try {
 const response = await fetch('https://grant-fulfillment-proxy.vercel.app/api/proxy', {
                 method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -1742,11 +1740,12 @@ if (data.status === 'success') {
                     document.getElementById('housing_success').style.display = 'block';
                     document.getElementById('acceptance_success').style.display = 'block';
 
-                   // Add celebration message
+// Add celebration message
 const celebrationMsg = document.createElement('div');
-celebrationMsg.style.cssText = 'margin-top: 20px; padding: 16px; background: #FEF3E7; border: 2px solid #DD693A; border-radius: 8px; color: #8B4513; font-weight: 500; text-align: center;';celebrationMsg.textContent = 'Perfect! Now the fun starts. Let\'s customize your kit.';
+celebrationMsg.style.cssText = 'margin-top: 20px; padding: 16px; background: #FEF3E7; border: 2px solid #DD693A; border-radius: 8px; color: #8B4513; font-weight: 500; text-align: center;';
+celebrationMsg.textContent = 'Perfect! Now the fun starts. Let\'s customize your kit.';
 document.getElementById('documentUpload').appendChild(celebrationMsg);
-}, 300); // End of setTimeout for showing completion
+
 // Hide the original "Continue to Kit Selection" button
 document.getElementById('continueToKitBtn').style.display = 'none';
 
@@ -1762,7 +1761,8 @@ continueButton.onclick = function() {
     
     // Show personalization section
     document.querySelector('[data-section="1"]').classList.add('active');
-updateHeader('Customize Your Kit', "We're going shopping. Your responses will guide us to select items that match your style, ensuring you get products you want for the start to your college journey.");    
+    updateHeader('Customize Your Kit', "We're going shopping. Your responses will guide us to select items that match your style, ensuring you get products you want for the start to your college journey.");
+    
     // Small delay to ensure DOM is fully rendered
     setTimeout(() => {
         // Auto-populate name and email
@@ -1792,17 +1792,19 @@ updateHeader('Customize Your Kit', "We're going shopping. Your responses will gu
     document.getElementById('step-3').classList.add('active');
 };
 document.getElementById('documentUpload').appendChild(continueButton);
-        } else {
-                    throw new Error(data.message || 'Upload failed');
-                }
-           } catch (error) {
-    clearInterval(rotateMessages); // Stop rotating messages
-    console.error('Upload error:', error); // Log the actual error
-    console.error('Error details:', error.message); // Log error message
-    document.getElementById('housing_progress').style.display = 'none';
-    document.getElementById('acceptance_progress').style.display = 'none';
-    document.getElementById('housing_error').innerHTML = 'Hmm, something went wrong. Please try uploading again. If this keeps happening, email us at <a href="mailto:hello@campusready.foundation" style="color: #469E92; text-decoration: underline;">hello@campusready.foundation</a>';
-}
+
+                }, 300); // End of setTimeout for showing completion
+                
+            } else {
+                throw new Error(data.message || 'Upload failed');
+            }
+        } catch (error) {
+            clearInterval(rotateMessages); // Stop rotating messages
+            console.error('Upload error:', error); // Log the actual error
+            console.error('Error details:', error.message); // Log error message
+            document.getElementById('housing_progress').style.display = 'none';
+            document.getElementById('acceptance_progress').style.display = 'none';
+            document.getElementById('housing_error').innerHTML = 'Hmm, something went wrong. Please try uploading again. If this keeps happening, email us at <a href="mailto:hello@campusready.foundation" style="color: #469E92; text-decoration: underline;">hello@campusready.foundation</a>';
         }
         function submitForm() {
   const formData = {
