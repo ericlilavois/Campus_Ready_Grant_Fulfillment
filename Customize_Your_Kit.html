@@ -1580,7 +1580,7 @@ if (housingStatus === 'Approved' && acceptanceStatus === 'Approved') {
             // At least one document rejected - show upload with message
             } else if (housingStatus === 'Rejected' || acceptanceStatus === 'Rejected') {
                 document.getElementById('documentUpload').style.display = 'block';
-                updateHeader('College & Housing Verification', 'Before we customize your kit, we need two quick documents to confirm your housing and college acceptance. Please upload these by June 30th.');
+                updateHeader('College & Housing Verification', 'Before we customize your kit, we need two quick documents. Please upload these by June 30th.');
                 // TODO: Add rejection message styling in Phase 4
                 
             // Documents uploaded, under review - show waiting message
@@ -1591,7 +1591,7 @@ if (housingStatus === 'Approved' && acceptanceStatus === 'Approved') {
             // First time or both pending - show upload section
             } else {
                 document.getElementById('documentUpload').style.display = 'block';
-                updateHeader('College & Housing Verification', 'Before we customize your kit, we need two quick documents to confirm your housing and college acceptance. Please upload these by June 30th.');
+                updateHeader('College & Housing Verification', 'Before we customize your kit, we need two quick documents. Please upload these by June 30th.');
             }
             
             // Update progress bar
