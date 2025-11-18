@@ -1708,6 +1708,7 @@ const animateProgress = setInterval(() => {
         document.getElementById('acceptance_progress_fill').style.width = progress + '%';
     }
 }, 100); // Update every 100ms for smooth animation
+            try {
 const response = await fetch('https://grant-fulfillment-proxy.vercel.app/api/proxy', {
                 method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
