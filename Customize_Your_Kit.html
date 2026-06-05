@@ -383,6 +383,12 @@
             <h2 class="section-title">Personal Information</h2>
             <p class="section-description">Please use your full legal name and the mailing address where you want to receive your kit.</p>
 
+            <div style="margin-bottom:24px; padding:16px 18px; background:#f0fdfa; border-radius:10px; border:1px solid #99f6e4;">
+                <p style="margin:0; color:#0f766e; font-size:0.875rem; line-height:1.5;">
+                    <strong>One more thing:</strong> After you arrive on campus, we may reach out to see how move-in went. If you're up for sharing a quick photo or video, we'll send a $50 gift card as a thank-you. Totally optional — just a heads up it's coming.
+                </p>
+            </div>
+
             <div class="form-group">
                 <label for="student_name" class="required">Student Name</label>
                 <input type="text" id="student_name" name="student_name" required placeholder="Enter your full name, as it appeared on your application">
@@ -409,7 +415,12 @@
                         <input type="radio" id="ship_college" name="shipping_preference" value="College" required>
                         <label for="ship_college">College</label>
                     </div>
+                    <div class="radio-option">
+                        <input type="radio" id="ship_storage" name="shipping_preference" value="Storage Service" required>
+                        <label for="ship_storage">Storage Service (e.g. Uhaul, college storage program)</label>
+                    </div>
                 </div>
+                <p class="helper-text" style="margin-top:8px;">If shipping to a storage service, enter the facility's address in the fields below.</p>
             </div>
 
             <div class="form-group">
@@ -497,12 +508,6 @@
                 <div id="review-products"></div>
             </div>
 
-            <div style="margin-top:24px; margin-bottom:24px; padding:20px; background:#f0fdfa; border-radius:10px; border:1px solid #99f6e4;">
-                <p style="margin:0; color:#0f766e; font-size:0.9rem; line-height:1.5;">
-                    <strong>One More Thing:</strong> After you arrive on campus, we may reach out to see how move-in went. If you're up for sharing a quick photo or video, we'll send a $50 gift card as a thank-you. Totally optional — just a heads up it's coming.
-                </p>
-            </div>
-
             <div class="button-group">
                 <button type="button" class="btn btn-secondary" onclick="prevSection()">Back to Edit</button>
                 <button type="button" class="btn btn-primary" onclick="submitForm()">Submit Your Kit Preferences</button>
@@ -561,14 +566,8 @@ function goToSection(sectionNum) {
     document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
     document.querySelector(`[data-section="${sectionNum}"]`).classList.add('active');
 
-    document.querySelectorAll('.progress-step').forEach((step, index) => {
-        const n = index + 1; // progress steps are 1-indexed but progress-step divs go 1,2,3,4
-        // The actual kit step numbers: step-3 in the progress bar = "Submit My Preferences" = data-section 2 & 3
-        // Keep existing mapping: step circles 1-4 correspond to email→docs→preferences→done
-        step.classList.remove('active', 'complete');
-        if (n < sectionNum + 2) step.classList.add('complete');
-        if (n === sectionNum + 2) step.classList.add('active');
-    });
+    // Progress steps are managed by flow transitions (handleStudentStatus, upload complete, showSuccessPage).
+    // Navigating between form sections 1-3 does not change step indicators.
 
     currentSection = sectionNum;
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -672,16 +671,16 @@ async function validateSection(sectionNum) {
         const city = document.getElementById('city');
         const zipMatches = await window.doesZipMatchCityState(zip.value, city.value, state.value);
         if (!zipMatches) {
-            zip.classList.add('invalid');
-            city.classList.add('invalid');
-            state.classList.add('invalid');
-            alert('The City, State, and ZIP code combination you entered appears to be invalid. Please check your address details.');
-            return false;
-        } else {
-            zip.classList.remove('invalid');
-            city.classList.remove('invalid');
-            state.classList.remove('invalid');
+            // Soft warning only — don't block the student; address will be validated at fulfillment
+            const proceed = confirm(
+                'We weren\'t able to confirm that ZIP code ' + zip.value + ' matches ' + city.value + ', ' + state.value + '.\n\n' +
+                'If your address is correct, click OK to continue. If you made a typo, click Cancel and fix it first.'
+            );
+            if (!proceed) return false;
         }
+        zip.classList.remove('invalid');
+        city.classList.remove('invalid');
+        state.classList.remove('invalid');
     }
 
     return true;
@@ -694,7 +693,7 @@ const KIT_COLORS = [
     { key: 'white', name: 'White', hex: '#FFFFFF' },
     { key: 'gray',  name: 'Gray',  hex: '#9CA3AF' },
     { key: 'navy',  name: 'Navy',  hex: '#1E3A5F' },
-    { key: 'cream', name: 'Cream', hex: '#F5EFE0' },
+    { key: 'cream', name: 'Cream', display: 'Beige', hex: '#F5EFE0' },
     { key: 'pink',  name: 'Pink',  hex: '#F4C2C2' },
     { key: 'mint',  name: 'Mint',  hex: '#B5E3D8' }
 ];
@@ -732,15 +731,16 @@ const CATEGORIES = [
                  {n:'Toothpaste'}, {n:'Dental Floss'}, {n:'Feminine Hygiene'}, {n:'Facial Tissues'}],
       choices: ['personalCare'] },
     { id: 'laundry', emoji: '🧺', title: 'Laundry',
-      included: [{n:'Laundry Pods'}, {n:'Dryer Sheets'}, {n:'Stain Pen', qty:'×3'}],
+      included: [{n:'Laundry Pods'}, {n:'Dryer Sheets'}, {n:'Stain Remover'}],
       choices: [] },
-    { id: 'cleaning', emoji: '🧽', title: 'Cleaning',
+    { id: 'cleaning', emoji: '✨', title: 'Cleaning',
       included: [{n:'Disinfecting Wipes'}, {n:'Bathroom Cleaner'}, {n:'All-Purpose Cleaner'},
                  {n:'Microfiber Cloths'}, {n:'Trash Bin'}, {n:'Paper Towels'}],
       choices: [] },
-    { id: 'desk', emoji: '🪑', title: 'Desk',
-      included: [{n:'Desk Lamp (USB)'}, {n:'Desktop Organizer'}, {n:'Sticky Notes'}, {n:'Whiteboard'},
+    { id: 'desk', emoji: '🖥️', title: 'Desk',
+      included: [{n:'Desk Lamp'}, {n:'Desktop Organizer'}, {n:'Sticky Notes'}, {n:'Whiteboard'},
                  {n:'Power Strip'}, {n:'Command Strips'}],
+
       choices: [] },
     { id: 'storage', emoji: '📦', title: 'Storage',
       included: [{n:'Storage Bins'}, {n:'Under-Bed Storage'}, {n:'Hangers'}, {n:'Pants Hangers'},
@@ -850,7 +850,7 @@ function renderCategories() {
             </div>`).join('');
 
         const seeMore = cat.included.length > VISIBLE
-            ? `<button class="see-more" onclick="toggleMore('${cat.id}',this)">See all ${cat.included.length} included →</button>` : '';
+            ? `<button type="button" class="see-more" onclick="toggleMore('${cat.id}',this)">See all ${cat.included.length} included →</button>` : '';
 
         let choiceRows = cat.choices.map(key => choiceRowHTML(key)).join('');
         if (cat.id === 'personal') {
@@ -932,7 +932,7 @@ function swatchGrid(id, selectedKey) {
         KIT_COLORS.map(c => `
             <div class="color-swatch-item ${selectedKey === c.key ? 'selected' : ''}" data-color="${c.key}" onclick="pickSwatch(this)">
                 <div class="color-swatch" style="background-color:${c.hex};"></div>
-                <span class="color-swatch-label">${c.name}</span>
+                <span class="color-swatch-label">${c.display || c.name}</span>
             </div>`).join('') +
         `</div>`;
 }
@@ -970,7 +970,7 @@ function openBeddingColors() {
     openPopup({
         style: schoolRecord ? schoolRecord.name : 'BEDDING',
         title: 'Bedding colors',
-        copy: 'Pick a color for your sheets and your comforter cover. They can match or mix.',
+        copy: 'Pick a color for your sheets and your comforter cover. You can choose the same color or go with something different.',
         contentHTML: content,
         validate: () =>
             !!document.querySelector('#sheetColorGrid .color-swatch-item.selected') &&
@@ -1535,7 +1535,13 @@ function handleStudentStatus(data) {
     }
 
     document.getElementById('step-1').classList.add('complete');
-    document.getElementById('step-2').classList.add('active');
+    if (housingStatus === 'Approved' && acceptanceStatus === 'Approved') {
+        // Already approved — docs step is done, working on preferences now
+        document.getElementById('step-2').classList.add('complete');
+        document.getElementById('step-3').classList.add('active');
+    } else {
+        document.getElementById('step-2').classList.add('active');
+    }
 }
 
 // ============================================================
