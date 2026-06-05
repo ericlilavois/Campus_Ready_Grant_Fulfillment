@@ -5,17 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customize Your Kit - Campus Ready Foundation</title>
     <link rel="icon" type="image/x-icon" href="CRF_icon_144_x_144.jpg">
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    
+
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
             --teal: #469E92;
@@ -26,6 +21,8 @@
             --grey-text: #6B7280;
             --white: #FFFFFF;
             --error: #DC2626;
+            --school-primary: #469E92;
+            --school-text: #ffffff;
         }
 
         body {
@@ -36,1098 +33,601 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 24px 16px;
-        }
+        .container { max-width: 800px; margin: 0 auto; padding: 24px 16px; }
 
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
+        .header { text-align: center; margin-bottom: 40px; }
+        .logo { max-width: 300px; width: 100%; height: auto; margin: 0 auto 24px; display: block; }
+        .title { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; color: var(--black); margin-bottom: 16px; }
+        .subtitle { font-size: 1.1rem; color: var(--black); max-width: 600px; margin: 0 auto; }
 
-        .logo {
-            max-width: 300px;
-            width: 100%;
-            height: auto;
-            margin: 0 auto 24px;
-            display: block;
-        }
+        .progress-container { margin-bottom: 40px; background: var(--grey-light); padding: 24px; border-radius: 12px; }
+        .progress-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+        .progress-step { flex: 1; text-align: center; position: relative; }
+        .step-circle { width: 40px; height: 40px; border-radius: 50%; background: var(--white); border: 2px solid var(--grey-border); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-weight: 600; color: var(--grey-text); transition: all 0.3s ease; }
+        .progress-step.active .step-circle { background: var(--teal); border-color: var(--teal); color: var(--white); }
+        .progress-step.complete .step-circle { background: var(--teal); border-color: var(--teal); color: var(--white); }
+        .step-label { font-size: 0.75rem; color: var(--grey-text); font-weight: 500; white-space: nowrap; }
+        .progress-step.active .step-label { color: var(--teal); font-weight: 600; }
+        .progress-step.complete .step-label { color: var(--teal); font-weight: 600; }
+        .step-arrow { color: var(--grey-border); font-size: 1.5rem; flex-shrink: 0; }
 
-        .title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--black);
-            margin-bottom: 16px;
-        }
+        .form-card { background: var(--grey-light); border-radius: 12px; padding: 32px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .form-section { display: none; }
+        .form-section.active { display: block; }
+        .section-title { font-size: 1.5rem; font-weight: 600; color: var(--black); margin-bottom: 8px; }
+        .section-description { color: var(--black); margin-bottom: 32px; font-size: 1rem; }
 
-        .subtitle {
-            font-size: 1.1rem;
-            color: var(--black);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            margin-bottom: 40px;
-            background: var(--grey-light);
-            padding: 24px;
-            border-radius: 12px;
-        }
-
-        .progress-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-        }
-
-        .progress-step {
-            flex: 1;
-            text-align: center;
-            position: relative;
-        }
-
-        .step-circle {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--white);
-            border: 2px solid var(--grey-border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 8px;
-            font-weight: 600;
-            color: var(--grey-text);
-            transition: all 0.3s ease;
-        }
-
-        .progress-step.active .step-circle {
-            background: var(--teal);
-            border-color: var(--teal);
-            color: var(--white);
-        }
-
-        .progress-step.complete .step-circle {
-            background: var(--teal);
-            border-color: var(--teal);
-            color: var(--white);
-        }
-
-       .step-label {
-            font-size: 0.75rem;
-            color: var(--grey-text);
-            font-weight: 500;
-            white-space: nowrap;
-        }
-
-        .progress-step.active .step-label {
-            color: var(--teal);
-            font-weight: 600;
-        }
-.progress-step.complete .step-label {
-            color: var(--teal);
-            font-weight: 600;
-        }
-        .step-arrow {
-            color: var(--grey-border);
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-
-        /* Form Card */
-        .form-card {
-            background: var(--grey-light);
-            border-radius: 12px;
-            padding: 32px;
-            margin-bottom: 24px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
-
-        /* Sections */
-        .form-section {
-            display: none;
-        }
-
-        .form-section.active {
-            display: block;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--black);
-            margin-bottom: 8px;
-        }
-
-        .section-description {
-            color: var(--black);
-            margin-bottom: 32px;
-            font-size: 1rem;
-        }
-
-        /* Form Groups */
-        .form-group {
-            margin-bottom: 24px;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 24px;
-            margin-bottom: 24px;
-        }
-
+        .form-group { margin-bottom: 24px; }
+        .form-row { display: grid; grid-template-columns: 1fr; gap: 24px; margin-bottom: 24px; }
         @media (min-width: 640px) {
-            .form-row.cols-2 {
-                grid-template-columns: 1fr 1fr;
-            }
-            
-            .form-row.cols-3 {
-                grid-template-columns: 2fr 1fr 1fr;
-            }
+            .form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+            .form-row.cols-3 { grid-template-columns: 2fr 1fr 1fr; }
         }
 
-        label {
-            display: block;
-            font-weight: 500;
-            color: var(--black);
+        label { display: block; font-weight: 500; color: var(--black); margin-bottom: 8px; font-size: 0.95rem; }
+        .required::after { content: " *"; color: var(--teal); }
+        .helper-text { font-size: 0.875rem; color: var(--black); margin-top: 4px; line-height: 1.4; }
+        .live-error { color: var(--error); font-weight: 500; margin-top: 6px; font-size: 0.875rem; display: none; }
+
+        input[type="text"], input[type="email"] {
+            width: 100%; padding: 12px 16px; border: 2px solid var(--grey-border);
+            border-radius: 8px; font-size: 1rem; font-family: inherit;
+            transition: all 0.2s ease; background: var(--white);
+        }
+        input[type="text"]:focus, input[type="email"]:focus {
+            outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px rgba(70,158,146,0.1);
+        }
+        input.invalid { border-color: var(--error); }
+        .error-message { color: var(--error); font-size: 0.875rem; margin-top: 6px; display: none; }
+        .error-message.show { display: block; }
+
+        .radio-group { display: flex; flex-direction: column; gap: 12px; }
+        .radio-option { display: flex; align-items: center; padding: 14px 16px; border: 2px solid var(--grey-border); border-radius: 8px; background: var(--white); cursor: pointer; transition: all 0.2s ease; }
+        .radio-option:hover { border-color: var(--teal); background: rgba(70,158,146,0.03); }
+        .radio-option input[type="radio"] { width: 20px; height: 20px; margin-right: 12px; cursor: pointer; accent-color: var(--teal); }
+        .radio-option label { margin: 0; cursor: pointer; flex: 1; font-weight: 400; }
+        .radio-option input[type="radio"]:checked + label { font-weight: 500; }
+
+        .button-group { display: flex; justify-content: space-between; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
+        .btn { padding: 14px 28px; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; font-family: inherit; }
+        .btn-primary { background: var(--teal); color: var(--white); padding: 10px 20px; }
+        .btn-primary:hover { background: var(--teal-dark); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(70,158,146,0.3); }
+        .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn-secondary { background: var(--white); color: var(--teal); border: 2px solid var(--teal); padding: 10px 20px; }
+        .btn-secondary:hover { background: var(--grey-light); }
+
+        .review-block { background: var(--white); border-radius: 8px; padding: 24px; margin-bottom: 20px; }
+        .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid var(--grey-light); }
+        .review-title { font-size: 1.1rem; font-weight: 600; color: var(--black); }
+        .edit-link { color: var(--teal); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+        .edit-link:hover { text-decoration: underline; }
+        .review-item { display: grid; grid-template-columns: 160px 1fr; gap: 12px; margin-bottom: 12px; }
+        .review-label { font-weight: 500; color: var(--grey-text); }
+        .review-value { color: var(--black); }
+
+        .success-screen { display: none; text-align: center; padding: 60px 20px; }
+        .success-screen.show { display: block; }
+        .success-icon { width: 200px; max-width: 90%; margin: 0 auto 32px; }
+        .success-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--teal); margin-bottom: 16px; }
+        .success-message { font-size: 1.1rem; color: var(--grey-text); max-width: 600px; margin: 0 auto; line-height: 1.7; }
+
+        .loading-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.95); z-index: 9999; align-items: center; justify-content: center; }
+        .loading-overlay.show { display: flex; }
+        .loading-content { text-align: center; }
+        .spinner { width: 50px; height: 50px; border: 4px solid var(--grey-light); border-top-color: var(--teal); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-text { font-size: 1.1rem; color: var(--grey-text); }
+
+        /* Document Upload */
+        .upload-help { font-size: 0.9rem; color: var(--grey-text); margin-top: 4px; margin-bottom: 12px; }
+        .file-upload-btn { background: var(--white); border: 2px solid var(--grey-border); color: var(--black); padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 1rem; transition: all 0.3s ease; }
+        .file-upload-btn:hover { border-color: var(--teal); background: var(--grey-light); }
+        .filename-display { margin-top: 8px; font-size: 0.9rem; color: #DD693A; font-style: italic; font-weight: 500; }
+        .upload-progress { margin-top: 12px; }
+        .upload-progress-bar { width: 100%; height: 12px; background: var(--grey-border); border-radius: 8px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--teal); width: 0%; transition: width 0.3s ease; }
+        .progress-text { margin-top: 8px; font-size: 1rem; color: var(--teal); text-align: center; font-weight: 600; }
+        .upload-success { margin-top: 12px; padding: 12px; background: #ECFDF5; border: 1px solid #10B981; border-radius: 8px; color: #065F46; font-weight: 500; }
+        .upload-error { margin-top: 8px; color: var(--error); font-size: 0.9rem; }
+
+        /* ===== SCHOOL CARD ===== */
+        .school-card {
+            background: var(--school-primary); border-radius: 16px;
+            padding: 32px 28px; text-align: center; position: relative; overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12); margin-bottom: 16px;
+        }
+        .school-card::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.10) 0%, transparent 55%);
+            pointer-events: none;
+        }
+        .sc-eyebrow {
+            font-family: 'Playfair Display', serif; font-weight: 600; font-size: 1.1rem;
+            color: var(--school-text); opacity: 0.95; margin-bottom: 8px; position: relative;
+        }
+        .sc-headline {
+            font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.625rem;
+            line-height: 1.2; color: var(--school-text); position: relative;
+        }
+        .sc-divider { width: 56px; height: 2px; background: var(--school-text); opacity: 0.4; margin: 16px auto 14px; position: relative; }
+        .sc-rally {
+            font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem;
+            color: var(--school-text); opacity: 0.9; position: relative;
+        }
+
+        .checklist-link {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            margin-bottom: 16px; background: rgba(70,158,146,0.10); color: var(--teal-dark);
+            border: none; border-radius: 12px; padding: 14px 16px;
+            font-family: inherit; font-size: 0.9375rem; font-weight: 600;
+            text-decoration: none; transition: background 0.2s ease;
+        }
+        .checklist-link:hover { background: rgba(70,158,146,0.18); }
+        .checklist-link svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+        .kit-greeting {
+            font-size: 1rem; font-weight: 600; color: var(--black);
             margin-bottom: 8px;
-            font-size: 0.95rem;
         }
+        .kit-intro { font-size: 0.9375rem; color: var(--grey-text); margin-bottom: 16px; line-height: 1.5; }
 
-        .required::after {
-            content: " *";
-            color: var(--teal);
+        /* ===== CATEGORY CARDS ===== */
+        .cat-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+        .cat-card { background: var(--white); border: 1px solid var(--grey-border); border-radius: 14px; overflow: hidden; }
+        .cat-head { display: flex; align-items: center; gap: 12px; padding: 16px 18px; cursor: pointer; user-select: none; }
+        .cat-emoji { width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0; background: var(--grey-light); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .cat-head-body { flex: 1; min-width: 0; }
+        .cat-title { font-size: 1rem; font-weight: 600; color: var(--black); }
+        .cat-meta { font-size: 0.8125rem; color: var(--grey-text); margin-top: 2px; }
+        .cat-meta .needs { color: #DD693A; font-weight: 600; }
+        .cat-chevron { color: var(--grey-border); font-size: 18px; transition: transform 0.2s ease; flex-shrink: 0; }
+        .cat-card.open .cat-chevron { transform: rotate(90deg); }
+        .cat-status-dot { width: 22px; height: 22px; border-radius: 50%; background: var(--teal); color: white; display: none; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; margin-right: 4px; }
+        .cat-card.complete .cat-status-dot { display: flex; }
+        .cat-body { display: none; padding: 0 18px 12px; }
+        .cat-card.open .cat-body { display: block; }
+
+        .kit-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--grey-light); }
+        .kit-row:first-child { border-top: none; }
+        .row-check { width: 22px; height: 22px; border-radius: 50%; background: rgba(70,158,146,0.1); color: var(--teal); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+        .row-label { flex: 1; font-size: 0.9375rem; color: #374151; }
+        .row-tag { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase; color: var(--teal-dark); background: rgba(70,158,146,0.1); border-radius: 999px; padding: 3px 9px; flex-shrink: 0; }
+        .row-qty { font-size: 0.75rem; color: #94a3b8; flex-shrink: 0; }
+
+        .kit-row.choice { cursor: pointer; border-radius: 10px; margin: 2px -8px; padding: 12px 8px; }
+        .kit-row.choice:hover { background: var(--grey-light); }
+        .choice-icon { width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0; border: 2px solid var(--grey-border); display: flex; align-items: center; justify-content: center; color: var(--grey-text); font-size: 13px; }
+        .kit-row.choice.answered .choice-icon { background: var(--teal); border-color: var(--teal); color: white; font-size: 12px; font-weight: 700; }
+        .choice-body { flex: 1; min-width: 0; }
+        .choice-label { font-size: 0.9375rem; font-weight: 500; color: var(--black); }
+        .choice-value { font-size: 0.8125rem; color: var(--grey-text); margin-top: 2px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+        .choice-value .mini-swatch { width: 12px; height: 12px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.12); display: inline-block; flex-shrink: 0; }
+        .choice-cta { font-size: 0.875rem; font-weight: 600; color: var(--teal); flex-shrink: 0; }
+        .kit-row.choice.answered .choice-cta { color: var(--grey-text); font-weight: 500; }
+        .cascade-note { font-size: 0.75rem; color: var(--grey-text); padding: 4px 0 8px; line-height: 1.4; }
+
+        .hidden-rows { display: none; }
+        .hidden-rows.shown { display: flex; }
+        .see-more { background: none; border: none; font-family: inherit; font-size: 0.8125rem; font-weight: 600; color: var(--teal); cursor: pointer; padding: 10px 0 4px; }
+
+        .kit-footer-progress { font-size: 0.875rem; color: var(--grey-text); margin-bottom: 12px; }
+
+        /* ===== POPUP ===== */
+        .pref-popup-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 1100; padding: 20px;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.25s ease, visibility 0.25s ease;
         }
-
-        .helper-text {
-            font-size: 0.875rem;
-            color: var(--black);
-            font-size: 0.875rem;
-            color: var(--black);
-            margin-top: 4px;
-            line-height: 1.4;
+        .pref-popup-overlay.visible { opacity: 1; visibility: visible; }
+        .pref-popup {
+            background: var(--white); border-radius: 20px; padding: 32px 24px;
+            max-width: 400px; width: 100%; max-height: calc(100vh - 40px); overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            transform: scale(0.95); transition: transform 0.25s cubic-bezier(0.16,1,0.3,1);
         }
+        .pref-popup-overlay.visible .pref-popup { transform: scale(1); }
+        .pref-popup-style { font-size: 0.875rem; font-weight: 600; color: var(--teal); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .pref-popup-title { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 600; color: var(--black); margin-bottom: 6px; }
+        .pref-popup-copy { font-size: 0.9375rem; color: var(--grey-text); line-height: 1.5; margin-bottom: 20px; }
 
-        .live-error {
-            color: var(--error);
-            font-weight: 500;
-            margin-top: 6px;
-            font-size: 0.875rem;
-            display: none;
-        }
+        .color-swatches { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+        .color-swatch-item { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
+        .color-swatch { width: 48px; height: 48px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); transition: all 0.15s ease; }
+        .color-swatch-item:hover .color-swatch { transform: scale(1.05); }
+        .color-swatch-item.selected .color-swatch { border: 3px solid var(--teal); box-shadow: 0 0 0 2px rgba(70,158,146,0.2); }
+        .color-swatch-label { font-size: 0.75rem; color: var(--grey-text); text-align: center; max-width: 56px; }
 
-        /* Input Fields */
-        input[type="text"],
-        input[type="email"] {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid var(--grey-border);
-            border-radius: 8px;
-            font-size: 1rem;
-            font-family: inherit;
-            transition: all 0.2s ease;
-            background: var(--white);
-        }
+        .pref-section-label { font-size: 0.8125rem; font-weight: 600; color: var(--grey-text); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+        .pref-section-label.spaced { margin-top: 20px; }
 
-        input[type="text"]:focus,
-        input[type="email"]:focus {
-            outline: none;
-            border-color: var(--teal);
-            box-shadow: 0 0 0 3px rgba(70, 158, 146, 0.1);
-        }
+        .gender-pills { display: flex; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
+        .gender-pill { padding: 10px 18px; border: 2px solid #A3C6C0; border-radius: 20px; background: var(--white); font-family: inherit; font-size: 0.9375rem; font-weight: 500; color: #374151; cursor: pointer; transition: all 0.15s ease; }
+        .gender-pill.selected { background: rgba(70,158,146,0.08); border-color: var(--teal); color: var(--teal-dark); }
 
-        input.invalid {
-            border-color: var(--error);
-        }
+        .unscented-row { margin-top: 8px; min-height: 44px; border: 2px solid var(--grey-border); background: var(--white); border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: border-color 0.15s ease, background 0.15s ease; }
+        .unscented-row.selected { border-color: var(--teal); background: rgba(70,158,146,0.08); }
+        .unscented-label { font-size: 0.9375rem; font-weight: 500; color: #374151; }
+        .unscented-row.selected .unscented-label { color: var(--teal-dark); }
+        .unscented-check { font-size: 0.875rem; font-weight: 700; color: var(--teal); opacity: 0; transition: opacity 0.15s ease; }
+        .unscented-row.selected .unscented-check { opacity: 1; }
 
-        .error-message {
-            color: var(--error);
-            font-size: 0.875rem;
-            margin-top: 6px;
-            display: none;
-        }
+        .scent-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; margin-bottom: 4px; transition: opacity 0.2s ease; }
+        .scent-grid.dimmed { opacity: 0.4; pointer-events: none; }
+        .scent-pill { border: 2px solid var(--grey-border); background: var(--white); border-radius: 12px; padding: 16px 8px; cursor: pointer; text-align: center; position: relative; transition: border-color 0.15s ease, background 0.15s ease; display: flex; flex-direction: column; align-items: center; gap: 0; }
+        .scent-pill.selected { border-color: var(--teal); background: rgba(70,158,146,0.08); }
+        .scent-check { position: absolute; top: 6px; right: 6px; width: 16px; height: 16px; border-radius: 50%; background: var(--teal); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.15s ease; color: white; font-size: 9px; font-weight: 700; }
+        .scent-pill.selected .scent-check { opacity: 1; }
+        .scent-emoji { font-size: 22px; line-height: 1; }
+        .scent-name { font-size: 0.8125rem; font-weight: 600; color: var(--black); margin-top: 6px; line-height: 1.3; }
+        .scent-sub { font-size: 0.6875rem; color: #94a3b8; margin-top: 2px; line-height: 1.3; }
 
-        .error-message.show {
-            display: block;
-        }
+        .preference-card { display: flex; flex-direction: column; align-items: flex-start; border: 2px solid var(--grey-border); background: var(--white); border-radius: 12px; padding: 14px 18px; cursor: pointer; transition: border-color 0.15s ease, background 0.15s ease; }
+        .preference-card.selected { border-color: var(--teal); background: rgba(70,158,146,0.08); }
+        .preference-card .pc-title { font-size: 0.9375rem; font-weight: 600; color: var(--black); }
+        .preference-card .pc-sub { font-size: 0.8125rem; color: var(--grey-text); margin-top: 2px; }
+        .card-stack { display: flex; flex-direction: column; gap: 10px; margin-bottom: 4px; }
+        .card-stack.spaced-top { margin-top: 6px; }
 
-        /* Radio Buttons */
-        .radio-group {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+        .size-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 4px; }
+        .size-card { border: 2px solid var(--grey-border); background: var(--white); border-radius: 12px; padding: 14px 4px; text-align: center; cursor: pointer; font-weight: 600; color: #374151; transition: all 0.15s ease; }
+        .size-card.selected { border-color: var(--teal); background: rgba(70,158,146,0.08); color: var(--teal-dark); }
 
-        .radio-option {
-            display: flex;
-            align-items: center;
-            padding: 14px 16px;
-            border: 2px solid var(--grey-border);
-            border-radius: 8px;
-            background: var(--white);
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
+        .pref-popup-btn { width: 100%; padding: 14px 24px; background: var(--teal); color: var(--white); border: none; border-radius: 12px; font-family: inherit; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; margin-top: 8px; }
+        .pref-popup-btn:hover { background: var(--teal-dark); }
+        .pref-popup-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .popup-note { font-size: 0.75rem; color: var(--grey-text); text-align: center; margin-top: 10px; line-height: 1.4; }
 
-        .radio-option:hover {
-            border-color: var(--teal);
-            background: rgba(70, 158, 146, 0.03);
-        }
-
-        .radio-option input[type="radio"] {
-            width: 20px;
-            height: 20px;
-            margin-right: 12px;
-            cursor: pointer;
-            accent-color: var(--teal);
-        }
-
-        .radio-option label {
-            margin: 0;
-            cursor: pointer;
-            flex: 1;
-            font-weight: 400;
-        }
-
-        .radio-option input[type="radio"]:checked + label {
-            font-weight: 500;
-        }
-
-        /* Buttons */
-        .button-group {
-            display: flex;
-            justify-content: space-between;
-            gap: 12px;
-            margin-top: 32px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 14px 28px;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: none;
-            font-family: inherit;
-        }
-
-        .btn-primary {
-            background: var(--teal);
-            color: var(--white);
-            padding: 10px 20px;
-        }
-
-        .btn-primary:hover {
-            background: var(--teal-dark);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(70, 158, 146, 0.3);
-        }
-
-       .btn-secondary {
-            background: var(--white);
-            color: var(--teal);
-            border: 2px solid var(--teal);
-            padding: 10px 20px;
-        }
-
-        .btn-secondary:hover {
-            background: var(--grey-light);
-        }
-
-        /* Review Section */
-        .review-block {
-            background: var(--white);
-            border-radius: 8px;
-            padding: 24px;
-            margin-bottom: 20px;
-        }
-
-        .review-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--grey-light);
-        }
-
-        .review-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--black);
-        }
-
-        .edit-link {
-            color: var(--teal);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .edit-link:hover {
-            text-decoration: underline;
-        }
-
-        .review-item {
-            display: grid;
-            grid-template-columns: 140px 1fr;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-
-        .review-label {
-            font-weight: 500;
-            color: var(--grey-text);
-        }
-
-        .review-value {
-            color: var(--black);
-        }
-
-        /* Success Screen */
-        .success-screen {
-            display: none;
-            text-align: center;
-            padding: 60px 20px;
-        }
-
-        .success-screen.show {
-            display: block;
-        }
-
-        .success-icon {
-            width: 200px;
-            max-width: 90%;
-            margin: 0 auto 32px;
-        }
-
-        .success-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--teal);
-            margin-bottom: 16px;
-        }
-
-        .success-message {
-            font-size: 1.1rem;
-            color: var(--grey-text);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.7;
-        }
-
-        /* Loading State */
-        .loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            z-index: 9999;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .loading-overlay.show {
-            display: flex;
-        }
-
-        .loading-content {
-            text-align: center;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid var(--grey-light);
-            border-top-color: var(--teal);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .loading-text {
-            font-size: 1.1rem;
-            color: var(--grey-text);
-        }
-
-        /* Responsive */
         @media (max-width: 640px) {
-            .title {
-                font-size: 2rem;
-            }
-
-            .form-card {
-                padding: 24px 20px;
-            }
-
-            .progress-bar {
-                flex-direction: column;
-                gap: 16px;
-            }
-
-            .step-arrow {
-                transform: rotate(90deg);
-            }
-
-            .review-item {
-                grid-template-columns: 1fr;
-                gap: 4px;
-            }
-
-            .button-group {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%;
-            }
-        }
-        /* Document Upload Styles */
-        .upload-help {
-            font-size: 0.9rem;
-            color: var(--grey-text);
-            margin-top: 4px;
-            margin-bottom: 12px;
-        }
-
-        .file-upload-btn {
-            background: var(--white);
-            border: 2px solid var(--grey-border);
-            color: var(--black);
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .file-upload-btn:hover {
-            border-color: var(--teal);
-            background: var(--grey-light);
-        }
-
-       .filename-display {
-            margin-top: 8px;
-            font-size: 0.9rem;
-            color: #DD693A;
-            font-style: italic;
-            font-weight: 500;
-        }
-
-        .upload-progress {
-            margin-top: 12px;
-        }
-
-       .upload-progress-bar {
-            width: 100%;
-            height: 12px;
-            background: var(--grey-border);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: var(--teal);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .progress-text {
-            margin-top: 8px;
-            font-size: 1rem;
-            color: var(--teal);
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .upload-success {
-            margin-top: 12px;
-            padding: 12px;
-            background: #ECFDF5;
-            border: 1px solid #10B981;
-            border-radius: 8px;
-            color: #065F46;
-            font-weight: 500;
-        }
-
-        .success-checkmark {
-            color: #10B981;
-            font-weight: bold;
-            margin-right: 8px;
-        }
-
-        .upload-error {
-            margin-top: 8px;
-            color: var(--error);
-            font-size: 0.9rem;
+            .title { font-size: 2rem; }
+            .form-card { padding: 24px 20px; }
+            .progress-bar { flex-direction: column; gap: 16px; }
+            .step-arrow { transform: rotate(90deg); }
+            .review-item { grid-template-columns: 1fr; gap: 4px; }
+            .button-group { flex-direction: column; }
+            .btn { width: 100%; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <img src="logo-image-1200x630.png" alt="Campus Ready Foundation" class="logo">
-          <h1 class="title" id="pageTitle">You've earned your grant.</h1>
-          <p class="subtitle" style="margin-top: 12px;">Now we just need a little more information.</p>
-            <p class="subtitle" id="pageSubtitle"></p>        
-        </div>
+<div class="container">
 
-        <!-- Progress Bar -->
-        <div class="progress-container">
-            <div class="progress-bar">
-              <div class="progress-step active" id="step-1">
-                    <div class="step-circle">1</div>
-                    <div class="step-label">Verify Email</div>
-                </div>
-                <div class="step-arrow">→</div>
-                <div class="progress-step" id="step-2">
-                    <div class="step-circle">2</div>
-                    <div class="step-label">Upload Documents</div>
-                </div>
-                <div class="step-arrow">→</div>
-                <div class="progress-step" id="step-3">
-                    <div class="step-circle">3</div>
-                    <div class="step-label">Submit My Preferences</div>
-                </div>
-                <div class="step-arrow">→</div>
-                <div class="progress-step" id="step-4">
-                    <div class="step-circle">4</div>
-                    <div class="step-label">Done!</div>
-                </div>
-             </div>
+    <div class="header">
+        <img src="logo-image-1200x630.png" alt="Campus Ready Foundation" class="logo">
+        <h1 class="title" id="pageTitle">You've earned your grant.</h1>
+        <p class="subtitle" id="pageSubtitle"></p>
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress-step active" id="step-1">
+                <div class="step-circle">1</div>
+                <div class="step-label">Verify Email</div>
             </div>
-
-        <!-- Form -->
-        <form id="kitForm" class="form-card">
-            <!-- EMAIL VALIDATION SECTION -->
-            <div id="emailValidation" class="form-section active">
-                <h2 class="section-title">Verify Your Email</h2>
-                <p class="section-description">
-                    Enter the email address you used in your Campus Ready grant application. 
-                    This helps us personalize your kit and track your progress.
-                </p>
-                
-                <div class="form-group">
-                    <label for="email_verify" class="required">Email Address</label>
-                    <input 
-                        type="email" 
-                        id="email_verify" 
-                        name="email_verify" 
-                        placeholder="your.email@example.com"
-                        autocomplete="email"
-                    />
-                    <div id="email-verify-error" class="live-error"></div>
-                </div>
-                
-                <button type="button" id="verifyEmailBtn" class="btn btn-primary">                    
-                    Verify My Email
-                </button>
-                
-                <div id="email-checking" style="display: none; margin-top: 16px; color: var(--teal); font-weight: 500;">
-                    Checking your status...
-                </div>
+            <div class="step-arrow">→</div>
+            <div class="progress-step" id="step-2">
+                <div class="step-circle">2</div>
+                <div class="step-label">Upload Documents</div>
             </div>
-            <!-- DOCUMENT UPLOAD SECTION -->
-            <div id="documentUpload" class="form-section" style="display: none;">
-             <h2 class="section-title">Upload Required Documents</h2>
-                
-                <!-- Housing Document -->
-                <div class="form-group">
-                    <label for="housing_doc" class="required">Housing Assignment Confirmation</label>
-                    <p class="upload-help">
-                   Please upload a letter from your school or screenshot of your school portal indicating your housing assignment. We accept PDF, JPG, or PNG files up to 5MB.
-                    </p>
-                    <input 
-                        type="file" 
-                        id="housing_doc" 
-                        accept=".pdf,.jpg,.jpeg,.png"
-                        style="display: none;"
-                    />
-                    <button type="button" class="file-upload-btn" onclick="document.getElementById('housing_doc').click()">
-                        Choose File
-                    </button>
-                    <div id="housing_filename" class="filename-display"></div>
-                    <div id="housing_progress" class="upload-progress" style="display: none;">
-                        <div class="upload-progress-bar">
-                            <div id="housing_progress_fill" class="progress-fill"></div>
-                        </div>
-                        <div id="housing_progress_text" class="progress-text">Uploading...</div>
-                    </div>
-                   <div id="housing_success" class="upload-success" style="display: none;">
-    <img src="CRF_icon_144_x_144.jpg" alt="✓" style="width: 32px; height: 32px; vertical-align: middle; margin-right: 8px;">
-    Housing document received
-</div>
-                    <div id="housing_error" class="upload-error"></div>
-                </div>
-                
-                <!-- Acceptance Letter -->
-                <div class="form-group">
-                    <label for="acceptance_doc" class="required">College Acceptance Letter</label>
-                    <p class="upload-help">
-                        Please upload your official confirmation of enrollment. We accept PDF, JPG, or PNG files up to 5MB.
-                    </p>
-                    <input 
-                        type="file" 
-                        id="acceptance_doc" 
-                        accept=".pdf,.jpg,.jpeg,.png"
-                        style="display: none;"
-                    />
-                    <button type="button" class="file-upload-btn" onclick="document.getElementById('acceptance_doc').click()">
-                        Choose File
-                    </button>
-                    <div id="acceptance_filename" class="filename-display"></div>
-                    <div id="acceptance_progress" class="upload-progress" style="display: none;">
-                       <div class="upload-progress-bar">
-                            <div id="acceptance_progress_fill" class="progress-fill"></div>
-                        </div>
-                        <div id="acceptance_progress_text" class="progress-text">Uploading...</div>
-                    </div>
-                 <div id="acceptance_success" class="upload-success" style="display: none;">
-<img src="CRF_icon_144_x_144.jpg" alt="✓" style="width: 32px; height: 32px; vertical-align: middle; margin-right: 8px;">    
-                     Acceptance letter received
-</div>
-                    <div id="acceptance_error" class="upload-error"></div>
-                </div>
-                
-                <p class="section-description" style="margin-top: 24px; font-style: italic;">
-                    Don't have these yet? No problem - bookmark this page and come back when you do. We'll save your progress.
-                </p>
-                
-                <button type="button" id="continueToKitBtn" class="btn btn-primary" disabled style="margin-top: 24px;">
-                    Continue to Kit Selection
-                </button>
+            <div class="step-arrow">→</div>
+            <div class="progress-step" id="step-3">
+                <div class="step-circle">3</div>
+                <div class="step-label">Submit My Preferences</div>
             </div>
-            <!-- Section 1: Personal Information -->
-            <div class="form-section" data-section="1">
-                <h2 class="section-title">Personal Information</h2>
-                <p class="section-description">Please use your full legal name and the mailing address (home or college) where you want to receive your curated move-in essentials kit.</p>
-
-                <div class="form-group">
-                    <label for="student_name" class="required">Student Name</label>
-                    <input type="text" id="student_name" name="student_name" required placeholder="Enter your full name, as it appeared on your application">
-                </div>
-
-                <div class="form-group">
-                    <label for="email" class="required">Email Address</label>
-                    <input type="email" id="email" name="email" required>
-                    <div class="live-error" id="email-live-feedback">Please enter a valid email address.</div>
-                </div>
-
-                <div class="form-group">
-                    <label class="required">Shipping Preference</label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="ship_home" name="shipping_preference" value="Home" required>
-                            <label for="ship_home">Home</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="ship_college" name="shipping_preference" value="College" required>
-                            <label for="ship_college">College</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="street_address" class="required">Street Address</label>
-                    <input type="text" id="street_address" name="street_address" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="street_address_2">Street Address 2</label>
-                    <input type="text" id="street_address_2" name="street_address_2">
-                </div>
-
-                <div class="form-row cols-3">
-                    <div class="form-group">
-                        <label for="city" class="required">City</label>
-                        <input type="text" id="city" name="city" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="state" class="required">State</label>
-                        <input type="text" id="state" name="state" required maxlength="2" placeholder="CA" style="text-transform: uppercase;">
-                        <div class="error-message" id="state-error">Please enter a valid 2-letter state code.</div>
-                    </div>
-                    <div class="form-group">
-                        <label for="zip" class="required">Zip Code</label>
-                        <input type="text" id="zip" name="zip" required maxlength="5" placeholder="12345">
-                        <div class="live-error" id="zip-live-feedback">Please enter a 5-digit ZIP code.</div>
-                        <div class="error-message" id="zip-error">The City, State, and ZIP code combination appears to be invalid.</div>
-                    </div>
-                </div>
-
-                <div class="helper-text" style="margin-top: -16px; margin-bottom: 24px;">Use your state's two-letter abbreviation, e.g., CA, NY</div>
-
-                <div class="button-group">
-                    <div></div>
-                    <button type="button" class="btn btn-primary" onclick="nextSection()">Continue to Product Choices</button>
-                </div>
-            </div>
-
-            <!-- Section 2: Product Choices -->
-            <div class="form-section" data-section="2">
-                <h2 class="section-title">Product Choices</h2>
-                <p class="section-description">This part is important. Your responses will guide us to select items that match your style, ensuring you get products you want for the start to your college journey.</p>
-
-                <div class="form-group">
-                    <label class="required">Gender Preference</label>
-                    <div class="helper-text">Your response helps us ensure you receive personal care products (e.g., razor systems, deodorant, hygiene) that best suit your needs. Please note, if you choose Prefer Not to Say (PNS) we will send Unisex/Unscented products when possible.</div>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="gender_female" name="gender_preference" value="Female" required>
-                            <label for="gender_female">Female</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="gender_male" name="gender_preference" value="Male" required>
-                            <label for="gender_male">Male</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="gender_pns" name="gender_preference" value="Prefer Not to Say (PNS)" required>
-                            <label for="gender_pns">Prefer Not to Say (PNS)</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="required">Scent Preference</label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="scent_fresh" name="scent_preference" value="Fresh & Clean" required>
-                            <label for="scent_fresh">Fresh & Clean</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="scent_vanilla" name="scent_preference" value="Vanilla & Botanicals" required>
-                            <label for="scent_vanilla">Vanilla & Botanicals</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="scent_unscented" name="scent_preference" value="Unscented" required>
-                            <label for="scent_unscented">Unscented</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="required">Deodorant Type</label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="deodorant" name="deodorant_type" value="Deodorant" required>
-                            <label for="deodorant">Deodorant</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="antiperspirant" name="deodorant_type" value="Antiperspirant" required>
-                            <label for="antiperspirant">Antiperspirant</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="required">Style Preference</label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="style_modern" name="style_preference" value="Modern & Minimalist" required>
-                            <label for="style_modern">Modern & Minimalist</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="style_cozy" name="style_preference" value="Cozy & Warm" required>
-                            <label for="style_cozy">Cozy & Warm</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="style_bold" name="style_preference" value="Bold & Colorful" required>
-                            <label for="style_bold">Bold & Colorful</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="required">Bedding Color</label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="bedding_white" name="bedding_color" value="White" required>
-                            <label for="bedding_white">White</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="bedding_gray" name="bedding_color" value="Gray" required>
-                            <label for="bedding_gray">Gray</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="bedding_navy" name="bedding_color" value="Navy" required>
-                            <label for="bedding_navy">Navy</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="bedding_cream" name="bedding_color" value="Cream" required>
-                            <label for="bedding_cream">Cream</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="required">Pillow Firmness</label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="pillow_soft" name="pillow_firmness" value="Soft" required>
-                            <label for="pillow_soft">Soft</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="pillow_medium" name="pillow_firmness" value="Medium" required>
-                            <label for="pillow_medium">Medium</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="pillow_firm" name="pillow_firmness" value="Firm" required>
-                            <label for="pillow_firm">Firm</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="required">Towel Color</label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="towel_white" name="towel_color" value="White" required>
-                            <label for="towel_white">White</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="towel_gray" name="towel_color" value="Gray" required>
-                            <label for="towel_gray">Gray</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="towel_navy" name="towel_color" value="Navy" required>
-                            <label for="towel_navy">Navy</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="towel_cream" name="towel_color" value="Cream" required>
-                            <label for="towel_cream">Cream</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="required">Slides Size</label>
-                    <div class="radio-group">
-                        <div class="radio-option">
-                            <input type="radio" id="slides_small" name="slides_size" value="Small" required>
-                            <label for="slides_small">Small</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="slides_medium" name="slides_size" value="Medium" required>
-                            <label for="slides_medium">Medium</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="slides_large" name="slides_size" value="Large" required>
-                            <label for="slides_large">Large</label>
-                        </div>
-                        <div class="radio-option">
-                            <input type="radio" id="slides_xl" name="slides_size" value="Extra Large" required>
-                            <label for="slides_xl">Extra Large</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="button-group">
-                    <button type="button" class="btn btn-secondary" onclick="prevSection()">Back</button>
-                    <button type="button" class="btn btn-primary" onclick="nextSection()">Review Your Choices</button>
-                </div>
-            </div>
-
-            <!-- Section 3: Review -->
-            <div class="form-section" data-section="3">
-                <h2 class="section-title">Review Your Information</h2>
-                <p class="section-description">Please review your information before submitting. You can edit any section by clicking the "Edit" link.</p>
-
-                <div class="review-block">
-                    <div class="review-header">
-                        <h3 class="review-title">Personal Information</h3>
-                        <a href="#" class="edit-link" onclick="goToSection(1); return false;">Edit</a>
-                    </div>
-                    <div id="review-personal"></div>
-                </div>
-
-                <div class="review-block">
-                    <div class="review-header">
-                        <h3 class="review-title">Product Choices</h3>
-                        <a href="#" class="edit-link" onclick="goToSection(2); return false;">Edit</a>
-                    </div>
-                    <div id="review-products"></div>
-                </div>
-
-                <div class="button-group">
-                    <!-- Testimonial Seed -->
-                <div style="margin-top: 24px; margin-bottom: 24px; padding: 20px; background: #f0fdfa; border-radius: 10px; border: 1px solid #99f6e4;">
-                    <p style="margin: 0; color: #0f766e; font-size: 0.9rem; line-height: 1.5;">
-                        <strong>One More Thing:</strong> After you arrive on campus, we may reach out to see how move-in went. If you're up for sharing a quick photo or video, we'll send a $50 gift card as a thank-you. Totally optional—just a heads up it's coming.
-                    </p>
-                </div>
-
-                <div class="button-group">
-                    <button type="button" class="btn btn-secondary" onclick="prevSection()">Back to Edit</button>
-                    <button type="button" class="btn btn-primary" onclick="submitForm()">Submit Your Kit Preferences</button>
-                </div>
-                </div>
-            </div>
-        </form>
-
-        <!-- Success Screen -->
-        <div class="success-screen" id="successScreen">
-          <div class="success-icon">
-    <img src="prepare-badge.jpg" alt="Prepare to Be Prepared" style="width: 100%; max-width: 200px; height: auto;">
-</div>
-            <h2 class="success-title">You're Done!</h2>
-            <p class="success-message">
-                Now we'll get to work. Look for your packages in early August.<br><br>
-                <strong>Congratulations again. You've done something monumental by getting into school. We're proud of you!</strong>
-            </p>
-        </div>
-
-        <!-- Loading Overlay -->
-        <div class="loading-overlay" id="loadingOverlay">
-            <div class="loading-content">
-                <div class="spinner"></div>
-                <div class="loading-text">Submitting your preferences...</div>
+            <div class="step-arrow">→</div>
+            <div class="progress-step" id="step-4">
+                <div class="step-circle">4</div>
+                <div class="step-label">Done!</div>
             </div>
         </div>
     </div>
 
-    <script>
-        /*
-         * ============================================================
-         * CUSTOMIZE YOUR KIT - FIXED VERSION
-         * ============================================================
-         * Base: Customize_Your_Kit (2).html from earlier today
-         * 
-         * ENHANCEMENTS MADE:
-         * 1. Email Live Validation - Real-time feedback as user types
-         *    - Uses isValidEmail() from validation.js
-         *    - Shows/hides error message dynamically
-         *    - Adds 'invalid' class for visual feedback
-         * 
-         * 2. ZIP Live Validation - Real-time feedback as user types  
-         *    - Uses isValidZip() from validation.js
-         *    - Shows/hides error message dynamically
-         * 
-         * PRESERVED FUNCTIONALITY:
-         * - All original form navigation and progress tracking
-         * - ZIP lookup with city/state auto-fill and confirmation
-         * - Critical ZIP/City/State matching validation on submission
-         * - All product preferences and review logic
-         * - Form submission to Vercel proxy
-         * 
-         * VALIDATION FLOW:
-         * - Live feedback: As user types (non-blocking, informational)
-         * - Submit validation: When advancing to next section (blocking)
-         *   - Checks email format via isValidEmail()
-         *   - Checks ZIP format via isValidZip()
-         *   - Verifies ZIP/City/State match via doesZipMatchCityState()
-         * ============================================================
-         */
-        
-        // State management
-        let currentSection = 1;
-        // Dynamic header update function
-        function updateHeader(title, subtitle) {
-            document.getElementById('pageTitle').textContent = title;
-            document.getElementById('pageSubtitle').innerHTML = subtitle;
-        }
-        const totalSections = 3;
+    <!-- School card — shown after email verification, visible on all screens -->
+    <div id="schoolHeader" style="display:none; margin-bottom:16px;">
+        <div class="school-card" id="schoolCard">
+            <div class="sc-eyebrow" id="scEyebrow"></div>
+            <div class="sc-headline" id="scHeadline"></div>
+            <div class="sc-divider" id="scDivider"></div>
+            <div class="sc-rally" id="scRally"></div>
+        </div>
+        <a class="checklist-link" id="checklistLink" href="#" target="_blank" rel="noopener" style="display:none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            <span id="checklistLinkText"></span>
+        </a>
+    </div>
 
-        // Navigation functions
-        function goToSection(sectionNum) {
-            // Hide all sections
-            document.querySelectorAll('.form-section').forEach(section => {
-                section.classList.remove('active');
-            });
+    <form id="kitForm" class="form-card">
 
-            // Show target section
-            document.querySelector(`[data-section="${sectionNum}"]`).classList.add('active');
+        <!-- EMAIL VALIDATION SECTION -->
+        <div id="emailValidation" class="form-section active">
+            <h2 class="section-title">Verify Your Email</h2>
+            <p class="section-description">Enter the email address you used in your Campus Ready grant application. This helps us personalize your kit and track your progress.</p>
+            <div class="form-group">
+                <label for="email_verify" class="required">Email Address</label>
+                <input type="email" id="email_verify" name="email_verify" placeholder="your.email@example.com" autocomplete="email">
+                <div id="email-verify-error" class="live-error"></div>
+            </div>
+            <button type="button" id="verifyEmailBtn" class="btn btn-primary">Verify My Email</button>
+            <div id="email-checking" style="display:none; margin-top:16px; color:var(--teal); font-weight:500;">Checking your status...</div>
+        </div>
 
-            // Update progress bar
-            document.querySelectorAll('.progress-step').forEach((step, index) => {
-                const stepNum = index + 1;
-                step.classList.remove('active', 'complete');
-                
-                if (stepNum < sectionNum) {
-                    step.classList.add('complete');
-                } else if (stepNum === sectionNum) {
-                    step.classList.add('active');
-                }
-            });
+        <!-- DOCUMENT UPLOAD SECTION -->
+        <div id="documentUpload" class="form-section" style="display:none;">
+            <h2 class="section-title">Upload Required Documents</h2>
+            <div class="form-group">
+                <label for="housing_doc" class="required">Housing Assignment Confirmation</label>
+                <p class="upload-help">Please upload a letter from your school or screenshot of your school portal indicating your housing assignment. We accept PDF, JPG, or PNG files up to 5MB.</p>
+                <input type="file" id="housing_doc" accept=".pdf,.jpg,.jpeg,.png" style="display:none;">
+                <button type="button" class="file-upload-btn" onclick="document.getElementById('housing_doc').click()">Choose File</button>
+                <div id="housing_filename" class="filename-display"></div>
+                <div id="housing_progress" class="upload-progress" style="display:none;">
+                    <div class="upload-progress-bar"><div id="housing_progress_fill" class="progress-fill"></div></div>
+                    <div id="housing_progress_text" class="progress-text">Uploading...</div>
+                </div>
+                <div id="housing_success" class="upload-success" style="display:none;">
+                    <img src="CRF_icon_144_x_144.jpg" alt="✓" style="width:32px;height:32px;vertical-align:middle;margin-right:8px;">
+                    Housing document received
+                </div>
+                <div id="housing_error" class="upload-error"></div>
+            </div>
+            <div class="form-group">
+                <label for="acceptance_doc" class="required">College Acceptance Letter</label>
+                <p class="upload-help">Please upload your official confirmation of enrollment. We accept PDF, JPG, or PNG files up to 5MB.</p>
+                <input type="file" id="acceptance_doc" accept=".pdf,.jpg,.jpeg,.png" style="display:none;">
+                <button type="button" class="file-upload-btn" onclick="document.getElementById('acceptance_doc').click()">Choose File</button>
+                <div id="acceptance_filename" class="filename-display"></div>
+                <div id="acceptance_progress" class="upload-progress" style="display:none;">
+                    <div class="upload-progress-bar"><div id="acceptance_progress_fill" class="progress-fill"></div></div>
+                    <div id="acceptance_progress_text" class="progress-text">Uploading...</div>
+                </div>
+                <div id="acceptance_success" class="upload-success" style="display:none;">
+                    <img src="CRF_icon_144_x_144.jpg" alt="✓" style="width:32px;height:32px;vertical-align:middle;margin-right:8px;">
+                    Acceptance letter received
+                </div>
+                <div id="acceptance_error" class="upload-error"></div>
+            </div>
+            <p class="section-description" style="margin-top:24px;font-style:italic;">Don't have these yet? No problem — bookmark this page and come back when you do.</p>
+            <button type="button" id="continueToKitBtn" class="btn btn-primary" disabled style="margin-top:24px;">Continue to Kit Selection</button>
+        </div>
 
-            // Update current section
-            currentSection = sectionNum;
+        <!-- SECTION 1: Personal Information -->
+        <div class="form-section" data-section="1">
+            <h2 class="section-title">Personal Information</h2>
+            <p class="section-description">Please use your full legal name and the mailing address where you want to receive your kit.</p>
 
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            <div style="margin-bottom:24px; padding:16px 18px; background:#f0fdfa; border-radius:10px; border:1px solid #99f6e4;">
+                <p style="margin:0; color:#0f766e; font-size:0.875rem; line-height:1.5;">
+                    <strong>Good news:</strong> After move-in, we'd love to see and hear how your first days went. If you're willing to share a few photos and a short video, we'll send you a $50 gift card as a thank-you. No obligation. We'll reach out when the time comes.
+                </p>
+            </div>
 
-           // If going to review section, populate review
-            if (sectionNum === 3) {
-                populateReview();
-                updateHeader('Review and Submit', 'Please check your entries and your choices.');
-            }
-            
-            // Update header for kit customization section
-            if (sectionNum === 1) {
-                updateHeader('Customize Your Kit', "We're going shopping! Your responses will guide us to select items that match your style, ensuring you get products you want for the start to your college journey.");
-            }
-        }
+            <div class="form-group">
+                <label for="student_name" class="required">Student Name</label>
+                <input type="text" id="student_name" name="student_name" required placeholder="Enter your full name, as it appeared on your application">
+            </div>
 
-        async function nextSection() {
-            // Validate current section
-            if (!await validateSection(currentSection)) {
-                return;
-            }
+            <div class="form-group">
+                <label for="email" class="required">Email Address</label>
+                <input type="email" id="email" name="email" required>
+                <div class="live-error" id="email-live-feedback">Please enter a valid email address.</div>
+            </div>
 
-            if (currentSection < totalSections) {
-                goToSection(currentSection + 1);
-            }
-        }
+            <div id="prefill-notice" style="display:none; margin-bottom:24px; padding:14px 16px; background:#f0fdfa; border:1px solid #99f6e4; border-radius:10px; color:#0f766e; font-size:0.9rem; line-height:1.5;">
+                We've pre-filled your name and email from your application. Please review them and make any corrections before continuing.
+            </div>
 
-        function prevSection() {
-            if (currentSection > 1) {
-                goToSection(currentSection - 1);
-            }
-        }
+            <div class="form-group">
+                <label class="required">Shipping Preference</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="ship_home" name="shipping_preference" value="Home" required>
+                        <label for="ship_home">Home</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="ship_college" name="shipping_preference" value="College" required>
+                        <label for="ship_college">College</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="ship_storage" name="shipping_preference" value="Storage Service" required>
+                        <label for="ship_storage">Storage Service (e.g. Uhaul, college storage program)</label>
+                    </div>
+                </div>
+                <p class="helper-text" style="margin-top:8px;">If shipping to a storage service, enter the facility's address in the fields below.</p>
+            </div>
 
-      // Validation functions
+            <div class="form-group">
+                <label for="street_address" class="required">Street Address</label>
+                <input type="text" id="street_address" name="street_address" required>
+            </div>
+
+            <div class="form-group">
+                <label for="street_address_2">Street Address 2</label>
+                <input type="text" id="street_address_2" name="street_address_2">
+            </div>
+
+            <div class="form-row cols-3">
+                <div class="form-group">
+                    <label for="city" class="required">City</label>
+                    <input type="text" id="city" name="city" required>
+                </div>
+                <div class="form-group">
+                    <label for="state" class="required">State</label>
+                    <input type="text" id="state" name="state" required maxlength="2" placeholder="CA" style="text-transform:uppercase;">
+                    <div class="error-message" id="state-error">Please enter a valid 2-letter state code.</div>
+                </div>
+                <div class="form-group">
+                    <label for="zip" class="required">Zip Code</label>
+                    <input type="text" id="zip" name="zip" required maxlength="5" placeholder="12345">
+                    <div class="live-error" id="zip-live-feedback">Please enter a 5-digit ZIP code.</div>
+                    <div class="error-message" id="zip-error">The City, State, and ZIP code combination appears to be invalid.</div>
+                </div>
+            </div>
+
+            <div class="helper-text" style="margin-top:-16px; margin-bottom:24px;">Use your state's two-letter abbreviation, e.g., CA, NY</div>
+
+            <div class="button-group">
+                <div></div>
+                <button type="button" class="btn btn-primary" onclick="nextSection()">Continue to Kit Selection</button>
+            </div>
+        </div>
+
+        <!-- SECTION 2: Kit Customization -->
+        <div class="form-section" data-section="2">
+
+            <div class="kit-greeting" id="kitGreeting"></div>
+            <p class="kit-intro">We've chosen some great products for you. A few would benefit from your personal preference. Tap to make it yours.</p>
+
+            <p class="kit-intro">We've chosen products for you based on what every student needs for a strong start. We're mostly done. You just have a few choices to make: colors, sizes, and a few personal care preferences.</p>
+            <div class="cat-list" id="catList"></div>
+
+            <div class="kit-footer-progress" id="footerProgress"></div>
+            <div class="button-group">
+                <button type="button" class="btn btn-secondary" onclick="prevSection()">Back</button>
+                <button type="button" class="btn btn-primary" id="kitContinueBtn" disabled onclick="nextSection()">Make your choices to continue</button>
+            </div>
+        </div>
+
+        <!-- SECTION 3: Review -->
+        <div class="form-section" data-section="3">
+            <h2 class="section-title">Review Your Information</h2>
+            <p class="section-description">Please review your information before submitting. Click Edit to go back and change anything.</p>
+
+            <div class="review-block">
+                <div class="review-header">
+                    <h3 class="review-title">Personal Information</h3>
+                    <a href="#" class="edit-link" onclick="goToSection(1); return false;">Edit</a>
+                </div>
+                <div id="review-personal"></div>
+            </div>
+
+            <div class="review-block">
+                <div class="review-header">
+                    <h3 class="review-title">Kit Preferences</h3>
+                    <a href="#" class="edit-link" onclick="goToSection(2); return false;">Edit</a>
+                </div>
+                <div id="review-products"></div>
+            </div>
+
+            <div class="button-group">
+                <button type="button" class="btn btn-secondary" onclick="prevSection()">Back to Edit</button>
+                <button type="button" class="btn btn-primary" onclick="submitForm()">Submit Your Kit Preferences</button>
+            </div>
+        </div>
+
+    </form>
+
+    <!-- Success Screen -->
+    <div class="success-screen" id="successScreen">
+        <div class="success-icon">
+            <img src="prepare-badge.jpg" alt="Prepare to Be Prepared" style="width:100%; max-width:200px; height:auto;">
+        </div>
+        <h2 class="success-title">You're Done!</h2>
+        <p class="success-message">
+            Now we'll get to work. Look for your packages in early August.<br><br>
+            <strong>Congratulations again. You've done something monumental by getting into school. We're proud of you!</strong>
+        </p>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <div class="loading-text">Submitting your preferences...</div>
+        </div>
+    </div>
+
+</div><!-- end .container -->
+
+<!-- Popup Overlay (outside container so it covers full viewport) -->
+<div class="pref-popup-overlay" id="popupOverlay">
+    <div class="pref-popup" id="popupCard">
+        <div class="pref-popup-style" id="popupStyle"></div>
+        <div class="pref-popup-title" id="popupTitle"></div>
+        <div class="pref-popup-copy" id="popupCopy"></div>
+        <div id="popupContent"></div>
+        <button class="pref-popup-btn" id="popupDoneBtn" disabled onclick="commitPopup()">Done</button>
+        <div class="popup-note" id="popupNote"></div>
+    </div>
+</div>
+
+<script>
+// ============================================================
+// PAGE / SECTION STATE
+// ============================================================
+let currentSection = 1;
+const totalSections = 3;
+
+function updateHeader(title, subtitle) {
+    document.getElementById('pageTitle').textContent = title;
+    document.getElementById('pageSubtitle').innerHTML = subtitle;
+}
+
+function goToSection(sectionNum) {
+    document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+    document.querySelector(`[data-section="${sectionNum}"]`).classList.add('active');
+
+    // Progress steps are managed by flow transitions (handleStudentStatus, upload complete, showSuccessPage).
+    // Navigating between form sections 1-3 does not change step indicators.
+
+    currentSection = sectionNum;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (sectionNum === 2) {
+        renderCategories();
+        updateProgress();
+        applySchoolTheme();
+        updateHeader('Customize Your Kit', "We're going shopping! Tap the categories below to make your selections.");
+    }
+    if (sectionNum === 3) {
+        populateReview();
+        updateHeader('Review and Submit', 'Please check your entries and your choices.');
+    }
+    if (sectionNum === 1) {
+        updateHeader('Customize Your Kit', "We're going shopping for you and we just need a little more information. Your responses will guide us to choose items that match your style.");
+    }
+}
+
+async function nextSection() {
+    if (!await validateSection(currentSection)) return;
+    if (currentSection < totalSections) goToSection(currentSection + 1);
+}
+
+function prevSection() {
+    if (currentSection > 1) goToSection(currentSection - 1);
+}
+
 async function validateSection(sectionNum) {
+    if (sectionNum === 2) {
+        const allAnswered = CHOICE_GROUPS.every(g => answered[g]);
+        if (!allAnswered) {
+            const missing = CHOICE_GROUPS.find(g => !answered[g]);
+            const card = document.getElementById('cat-' + missing);
+            if (card) {
+                if (!card.classList.contains('open')) card.classList.toggle('open');
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            return false;
+        }
+        return true;
+    }
+
     const section = document.querySelector(`[data-section="${sectionNum}"]`);
-    // NOTE: input elements are queried here, not select or textarea as they are not used in this form.
-    const inputs = section.querySelectorAll('input[required]'); 
-    
-    // Check all required inputs in the section
+    const inputs = section.querySelectorAll('input[required]');
+
     for (const input of inputs) {
         if (input.type === 'radio') {
-            const radioGroup = section.querySelectorAll(`input[name="${input.name}"]`);
-            const anyChecked = Array.from(radioGroup).some(radio => radio.checked);
-            if (!anyChecked) {
-                // Scroll to first unchecked radio group and block progress
+            const group = section.querySelectorAll(`input[name="${input.name}"]`);
+            if (!Array.from(group).some(r => r.checked)) {
                 input.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                return false; // Exit validation
+                return false;
             }
         } else if (!input.value.trim()) {
-            // Focus on the missing input and block progress
             input.focus();
-            return false; // Exit validation
+            return false;
         }
     }
 
-            // Additional validation for section 1
-           // Additional validation for section 1
     if (sectionNum === 1) {
         const emailInput = document.getElementById('email');
         const emailError = document.getElementById('email-live-feedback');
@@ -1136,7 +636,6 @@ async function validateSection(sectionNum) {
         const zip = document.getElementById('zip');
         const zipError = document.getElementById('zip-error');
 
-        // 1. Email validation (Format)
         const emailResult = window.isValidEmail(emailInput.value);
         if (!emailResult.valid) {
             emailInput.classList.add('invalid');
@@ -1149,7 +648,6 @@ async function validateSection(sectionNum) {
             emailError.classList.remove('show');
         }
 
-        // 2. State validation (2-letter format - kept local)
         const stateRegex = /^[A-Z]{2}$/;
         if (!stateRegex.test(state.value.toUpperCase())) {
             state.classList.add('invalid');
@@ -1161,7 +659,6 @@ async function validateSection(sectionNum) {
             stateError.classList.remove('show');
         }
 
-        // 3. ZIP validation (5-digit format)
         if (!window.isValidZip(zip.value)) {
             zip.classList.add('invalid');
             zipError.classList.add('show');
@@ -1172,846 +669,1131 @@ async function validateSection(sectionNum) {
             zipError.classList.remove('show');
         }
 
-        // 4. Critical: ZIP, City, State matching (Async API call)
         const city = document.getElementById('city');
         const zipMatches = await window.doesZipMatchCityState(zip.value, city.value, state.value);
-        
         if (!zipMatches) {
-            // Error handling for unmatched address
-            zip.classList.add('invalid');
-            city.classList.add('invalid');
-            state.classList.add('invalid');
-            alert('The City, State, and ZIP code combination you entered appears to be invalid. Please check your address details.');
-            return false;
-        } else {
-            zip.classList.remove('invalid');
-            city.classList.remove('invalid');
-            state.classList.remove('invalid');
+            // Soft warning only — don't block the student; address will be validated at fulfillment
+            const proceed = confirm(
+                'We weren\'t able to confirm that ZIP code ' + zip.value + ' matches ' + city.value + ', ' + state.value + '.\n\n' +
+                'If your address is correct, click OK to continue. If you made a typo, click Cancel and fix it first.'
+            );
+            if (!proceed) return false;
         }
+        zip.classList.remove('invalid');
+        city.classList.remove('invalid');
+        state.classList.remove('invalid');
     }
 
-    return true; // Use 'true' to explicitly pass validation on success
+    return true;
 }
 
-        // Populate review section
-        function populateReview() {
-            const form = document.getElementById('kitForm');
-            const formData = new FormData(form);
+// ============================================================
+// KIT CUSTOMIZATION DATA
+// ============================================================
+const KIT_COLORS = [
+    { key: 'white', name: 'White', hex: '#FFFFFF' },
+    { key: 'gray',  name: 'Gray',  hex: '#9CA3AF' },
+    { key: 'navy',  name: 'Navy',  hex: '#1E3A5F' },
+    { key: 'cream', name: 'Cream', display: 'Beige', hex: '#F5EFE0' },
+    { key: 'pink',  name: 'Pink',  hex: '#F4C2C2' },
+    { key: 'mint',  name: 'Mint',  hex: '#B5E3D8' }
+];
 
-            // Personal Information
-            const personalHTML = `
-                <div class="review-item">
-                    <div class="review-label">Name:</div>
-                    <div class="review-value">${formData.get('student_name')}</div>
-                </div>
-                <div class="review-item">
-                    <div class="review-label">Email:</div>
-                    <div class="review-value">${formData.get('email')}</div>
-                </div>
-                <div class="review-item">
-                    <div class="review-label">Shipping:</div>
-                    <div class="review-value">${formData.get('shipping_preference')}</div>
-                </div>
-                <div class="review-item">
-                    <div class="review-label">Address:</div>
-                    <div class="review-value">
-                        ${formData.get('street_address')}<br>
-                        ${formData.get('street_address_2') ? formData.get('street_address_2') + '<br>' : ''}
-                        ${formData.get('city')}, ${formData.get('state')} ${formData.get('zip')}
-                    </div>
-                </div>
-            `;
-            document.getElementById('review-personal').innerHTML = personalHTML;
+const GENDERS = [
+    { value: 'Women',  label: "Women's" },
+    { value: 'Men',    label: "Men's" },
+    { value: 'Unisex', label: 'Unisex' }
+];
 
-            // Product Choices
-            const productsHTML = `
-                <div class="review-item">
-                    <div class="review-label">Gender Preference:</div>
-                    <div class="review-value">${formData.get('gender_preference')}</div>
-                </div>
-                <div class="review-item">
-                    <div class="review-label">Scent:</div>
-                    <div class="review-value">${formData.get('scent_preference')}</div>
-                </div>
-                <div class="review-item">
-                    <div class="review-label">Deodorant Type:</div>
-                    <div class="review-value">${formData.get('deodorant_type')}</div>
-                </div>
-                <div class="review-item">
-                    <div class="review-label">Style:</div>
-                    <div class="review-value">${formData.get('style_preference')}</div>
-                </div>
-                <div class="review-item">
-                    <div class="review-label">Bedding Color:</div>
-                    <div class="review-value">${formData.get('bedding_color')}</div>
-                </div>
-                <div class="review-item">
-                    <div class="review-label">Pillow Firmness:</div>
-                    <div class="review-value">${formData.get('pillow_firmness')}</div>
-                </div>
-                <div class="review-item">
-                    <div class="review-label">Towel Color:</div>
-                    <div class="review-value">${formData.get('towel_color')}</div>
-                </div>
-                <div class="review-item">
-                    <div class="review-label">Slides Size:</div>
-                    <div class="review-value">${formData.get('slides_size')}</div>
-                </div>
-            `;
-            document.getElementById('review-products').innerHTML = productsHTML;
-        }
+const SCENTS = [
+    { key: 'fresh',  emoji: '✨', name: 'Fresh & Clean',  sub: 'citrus, ocean, sport',           catalogValue: 'Fresh & Clean' },
+    { key: 'floral', emoji: '🌸', name: 'Soft & Floral',  sub: 'lavender, vanilla, coconut',     catalogValue: 'Vanilla & Botanicals' },
+    { key: 'herbal', emoji: '🌿', name: 'Cool & Herbal',  sub: 'eucalyptus, mint, tea tree',     catalogValue: 'Cool & Herbal' },
+    { key: 'wood',   emoji: '🪵', name: 'Wood & Amber',   sub: 'sandalwood, musk, cedar',        catalogValue: 'Wood & Amber' }
+];
 
-        // ZIP code lookup with confirmation
-        let zipLookupData = null;
+const SLIDES_SIZES = [
+    { value: 'Small',       label: 'S' },
+    { value: 'Medium',      label: 'M' },
+    { value: 'Large',       label: 'L' },
+    { value: 'Extra Large', label: 'XL' }
+];
 
-        async function lookupZip(zip) {
-            try {
-                const response = await fetch(`https://api.zippopotam.us/us/${zip}`);
-                if (!response.ok) throw new Error('ZIP not found');
-                const data = await response.json();
-                if (data.places && data.places[0]) {
-                    return {
-                        city: data.places[0]['place name'],
-                        state: data.places[0]['state abbreviation']
-                    };
-                }
-            } catch (error) {
-                console.log('ZIP lookup failed:', error);
-            }
-            return null;
-        }
+const CATEGORIES = [
+    { id: 'bedding', emoji: '🛏️', title: 'Bedding',
+      included: [{n:'Comforter'}, {n:'Mattress Protector'}, {n:'Pillow Protectors', qty:'×2'}],
+      choices: ['beddingColors', 'beddingFirmness'] },
+    { id: 'bath', emoji: '🛁', title: 'Bath',
+      included: [{n:'Shower Caddy'}, {n:'Toiletry Bag'}],
+      choices: ['towelColor', 'slides'] },
+    { id: 'personal', emoji: '🧴', title: 'Personal Care',
+      included: [{n:'Shampoo'}, {n:'Conditioner'}, {n:'Body Wash'}, {n:'Deodorant / Antiperspirant'},
+                 {n:'Shaving Cream'}, {n:'Razor Handle'}, {n:'Razor Refills'}, {n:'Toothbrush'},
+                 {n:'Toothpaste'}, {n:'Dental Floss'}, {n:'Feminine Hygiene'}, {n:'Facial Tissues'}],
+      choices: ['personalCare'] },
+    { id: 'laundry', emoji: '🧺', title: 'Laundry',
+      included: [{n:'Laundry Pods'}, {n:'Dryer Sheets'}, {n:'Stain Remover'}],
+      choices: [] },
+    { id: 'cleaning', emoji: '✨', title: 'Cleaning',
+      included: [{n:'Disinfecting Wipes'}, {n:'Bathroom Cleaner'}, {n:'All-Purpose Cleaner'},
+                 {n:'Microfiber Cloths'}, {n:'Trash Bin'}, {n:'Paper Towels'}],
+      choices: [] },
+    { id: 'desk', emoji: '🖥️', title: 'Desk',
+      included: [{n:'Desk Lamp'}, {n:'Desktop Organizer'}, {n:'Sticky Notes'}, {n:'Whiteboard'},
+                 {n:'Power Strip'}, {n:'Command Strips'}],
 
-        function applyZipLookup(data) {
-            if (data) {
-                document.getElementById('city').value = data.city;
-                document.getElementById('state').value = data.state;
-                zipLookupData = null;
-            }
-        }
+      choices: [] },
+    { id: 'storage', emoji: '📦', title: 'Storage',
+      included: [{n:'Storage Bins'}, {n:'Under-Bed Storage'}, {n:'Hangers'}, {n:'Pants Hangers'},
+                 {n:'Closet Organizer'}, {n:'Drawer Organizer'}],
+      choices: [] }
+];
 
-        document.getElementById('zip').addEventListener('blur', async function() {
-            const zip = this.value;
-            const zipRegex = /^\d{5}$/;
-            
-            if (!zipRegex.test(zip)) {
-                return;
-            }
+const CHOICE_DEFS = {
+    beddingColors:   { label: 'Sheet & comforter cover colors', group: 'bedding' },
+    beddingFirmness: { label: 'Pillow firmness', group: 'bedding' },
+    towelColor:      { label: 'Towel color', group: 'bath' },
+    slides:          { label: 'Slides — size & color', group: 'bath' },
+    personalCare:    { label: 'A few quick questions about you', group: 'personal' }
+};
 
-            const data = await lookupZip(zip);
-            
-            if (data) {
-                const currentCity = document.getElementById('city').value.trim();
-                const currentState = document.getElementById('state').value.trim();
-                
-                // Normalize for comparison (case-insensitive, handle common variations)
-                const normalizeCity = (city) => city.toLowerCase().replace(/\./g, '').replace(/\s+/g, ' ').trim();
-                const apiCityNorm = normalizeCity(data.city);
-                const currentCityNorm = normalizeCity(currentCity);
-                const apiStateUpper = data.state.toUpperCase();
-                const currentStateUpper = currentState.toUpperCase();
-                
-                // Check if fields are empty OR if they differ from ZIP lookup
-                const fieldsEmpty = currentCity === '' && currentState === '';
-                const cityMatches = currentCityNorm === apiCityNorm;
-                const stateMatches = currentStateUpper === apiStateUpper;
-                const valuesMatch = cityMatches && stateMatches;
-                
-                if (fieldsEmpty) {
-                    // Fields are empty, just fill them
-                    applyZipLookup(data);
-                } else if (!valuesMatch) {
-                    // Values differ, prompt user
-                    zipLookupData = data;
-                    const shouldUpdate = confirm(
-                        `We found this location for ZIP code ${zip}:\n\n` +
-                        `${data.city}, ${data.state}\n\n` +
-                        `Your current address shows:\n` +
-                        `${currentCity}, ${currentState}\n\n` +
-                        `Would you like to update to the ZIP code's location?`
-                    );
-                    
-                    if (shouldUpdate) {
-                        applyZipLookup(data);
-                    }
-                }
-                // If valuesMatch is true, do nothing (ZIP matches existing data)
-            }
-       });
-        
-        // === ENHANCEMENT: Live ZIP Validation Feedback ===
-        const zipInput = document.getElementById('zip');
-        const zipLiveFeedback = document.getElementById('zip-live-feedback');
+// ============================================================
+// KIT CUSTOMIZATION STATE
+// ============================================================
+const sel = {
+    sheetColor: null, comforterCoverColor: null, beddingFirmness: null,
+    towelColor: null, slidesSize: null, slidesColor: null,
+    pcGender: null, pcScent: null, pcUnscented: false, deodorant: null
+};
+const CHOICE_GROUPS = ['bedding', 'bath', 'personal'];
+const answered = { bedding: false, bath: false, personal: false };
+let activeChoiceKey = null;
+let activeGroup = null;
+let schoolRecord = null;
 
-        zipInput.addEventListener('input', function() {
-            // Check only if input is not empty
-            if (this.value.trim() === '') {
-                zipLiveFeedback.style.display = 'none';
-                return;
-            }
-
-            // Use the imported function for live validation
-            if (!window.isValidZip(this.value)) {
-                zipLiveFeedback.style.display = 'block';
-            } else {
-                zipLiveFeedback.style.display = 'none';
-            }
-        });
-        // === END ENHANCEMENT ===
-
-        // State auto-uppercase
-        document.getElementById('state').addEventListener('input', function() {
-            this.value = this.value.toUpperCase();
-        });
-        
-        // === ENHANCEMENT: Live Email Validation Feedback ===
-        const emailInput = document.getElementById('email');
-        const emailLiveFeedback = document.getElementById('email-live-feedback');
-
-        emailInput.addEventListener('input', function() {
-            // Check only if input is not empty
-            if (this.value.trim() === '') {
-                emailLiveFeedback.style.display = 'none';
-                emailInput.classList.remove('invalid');
-                return;
-            }
-
-            // Use the imported function for live validation - now returns {valid, message}
-            const result = window.isValidEmail(this.value);
-            if (!result.valid) {
-                emailLiveFeedback.textContent = result.message;
-                emailLiveFeedback.style.display = 'block';
-                emailInput.classList.add('invalid');
-            } else {
-                emailLiveFeedback.style.display = 'none';
-                emailInput.classList.remove('invalid');
-            }
-        });
-
-        emailInput.addEventListener('blur', function() {
-            // Revalidate on blur for immediate feedback
-            if (this.value.trim() !== '') {
-                const result = window.isValidEmail(this.value);
-                if (!result.valid) {
-                    emailLiveFeedback.textContent = result.message;
-                    emailLiveFeedback.style.display = 'block';
-                    emailInput.classList.add('invalid');
-                }
-            }
-        });
-        // === END ENHANCEMENT ===
-        
-        // Form submission
-        document.getElementById('kitForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            // Validate all sections
-            if (!validateSection(1) || !validateSection(2)) {
-                alert('Please complete all required fields.');
-                return;
-            }
-
-            // Show loading overlay
-            document.getElementById('loadingOverlay').classList.add('show');
-
-            // Get form data
-            const formData = new FormData(this);
-            const data = {};
-            formData.forEach((value, key) => {
-                data[key] = value;
-            });
-
-            // Add timestamp
-            data.timestamp = new Date().toISOString();
-
-            // TESTING: To preview the success page without submitting, uncomment these 3 lines:
-            // showSuccessPage();
-            // document.getElementById('loadingOverlay').classList.remove('show');
-            // return;
-
-            try {
-    // Submit through Vercel proxy (which forwards to Google Apps Script)
-const response = await fetch('https://grant-fulfillment-proxy.vercel.app/api/proxy', {
-    method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    });
-
-    const result = await response.json();
-    
-    // Check if submission was successful
-    if (result.status === 'success') {
-        showSuccessPage();
-    } else {
-        throw new Error(result.message || 'Submission failed');
+// ============================================================
+// SCHOOL THEMING
+// ============================================================
+async function loadSchoolData(unitid) {
+    if (!unitid) return;
+    try {
+        const resp = await fetch('crf_schools_kit.json');
+        if (!resp.ok) return;
+        const schools = await resp.json();
+        const numId = parseInt(unitid, 10);
+        schoolRecord = schools.find(s => s.unitid === numId) || null;
+        // Apply theme as soon as school data loads — visible on all screens
+        applySchoolTheme();
+    } catch (e) {
+        console.error('Could not load school data:', e);
     }
-            } catch (error) {
-                console.error('Error:', error);
-                document.getElementById('loadingOverlay').classList.remove('show');
-                alert('There was an error submitting your form. Please try again.');
-            }
-        });
+}
 
-    // Function to show success page
-     function showSuccessPage() {
-            // Update progress bar FIRST - mark step 4 as complete
-            document.getElementById('step-3').classList.remove('active');
-            document.getElementById('step-3').classList.add('complete');
-            document.getElementById('step-4').classList.add('complete');
-            document.getElementById('step-4').classList.add('active');
-            
-            // Small delay to ensure progress bar updates are rendered
-            setTimeout(() => {
-                // Hide loading
-                document.getElementById('loadingOverlay').classList.remove('show');
-                
-                // Hide form
-                document.getElementById('kitForm').style.display = 'none';
-                
-                // KEEP progress bar visible - don't hide it
-                // Students should see all 4 steps complete
-                
-                // Show success screen
-                document.getElementById('successScreen').classList.add('show');
-                
-                // Scroll to top
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 50);
+function applySchoolTheme() {
+    if (!schoolRecord) return;
+
+    const primary = schoolRecord.primary_color_hex || '#469E92';
+    const textColor = schoolRecord.text_color_override || '#ffffff';
+    document.documentElement.style.setProperty('--school-primary', primary);
+    document.documentElement.style.setProperty('--school-text', textColor);
+
+    const displayName = schoolRecord.name || 'your school';
+    document.getElementById('schoolHeader').style.display = 'block';
+
+    if (schoolRecord.secondary_phrase) {
+        document.getElementById('scEyebrow').textContent = schoolRecord.secondary_phrase;
+    } else {
+        document.getElementById('scEyebrow').style.display = 'none';
+    }
+    document.getElementById('scHeadline').textContent = `Let's set you up for ${displayName}`;
+    if (schoolRecord.slogan) {
+        document.getElementById('scRally').textContent = schoolRecord.slogan;
+    } else {
+        document.getElementById('scRally').style.display = 'none';
+        document.getElementById('scDivider').style.display = 'none';
+    }
+
+    const link = document.getElementById('checklistLink');
+    if (schoolRecord.checklist_url) {
+        link.href = schoolRecord.checklist_url;
+        document.getElementById('checklistLinkText').textContent = `See ${displayName}'s official packing list →`;
+        link.style.display = 'flex';
+    }
+
+    if (studentData && studentData.studentName) {
+        const firstName = studentData.studentName.split(' ')[0];
+        document.getElementById('kitGreeting').textContent =
+            `${firstName}, below is everything we're sending you for your move-in kit.`;
+    }
+}
+
+// ============================================================
+// CATEGORY RENDERING
+// ============================================================
+let categoriesRendered = false;
+
+function renderCategories() {
+    if (categoriesRendered) return;
+    categoriesRendered = true;
+
+    const VISIBLE = 4;
+    document.getElementById('catList').innerHTML = CATEGORIES.map(cat => {
+        const hasChoices = cat.choices.length > 0;
+        const includedRows = cat.included.map((it, i) => `
+            <div class="kit-row included ${i >= VISIBLE ? 'hidden-rows extra-' + cat.id : ''}">
+                <span class="row-check">✓</span>
+                <span class="row-label">${it.n}</span>
+                ${it.qty ? `<span class="row-qty">${it.qty}</span>` : ''}
+                <span class="row-tag">Included</span>
+            </div>`).join('');
+
+        const seeMore = cat.included.length > VISIBLE
+            ? `<button type="button" class="see-more" onclick="toggleMore('${cat.id}',this)">See all ${cat.included.length} included →</button>` : '';
+
+        let choiceRows = cat.choices.map(key => choiceRowHTML(key)).join('');
+        if (cat.id === 'personal') {
+            choiceRows += `<div class="cascade-note">Your answers apply to every personal care item above.</div>`;
         }
-       // ============================================================
-        // EMAIL VERIFICATION LOGIC
-        // ============================================================
 
-        let studentData = null; // Store student info after verification
+        const metaText = hasChoices
+            ? `<span class="needs">Choices to make</span> · ${cat.included.length} included`
+            : `${cat.included.length} item${cat.included.length !== 1 ? 's' : ''} included`;
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Email verification button handler
-            document.getElementById('verifyEmailBtn').addEventListener('click', async function() {
-                const emailInput = document.getElementById('email_verify');
-                const email = emailInput.value.trim();
-                const errorDiv = document.getElementById('email-verify-error');
-                const checkingDiv = document.getElementById('email-checking');
-                const btn = this;
-                
-                // Clear previous errors
-                errorDiv.style.display = 'none';
-                errorDiv.textContent = '';
-                emailInput.classList.remove('invalid');
-                
-                // Validate email format
-                const validation = window.isValidEmail(email);
-                if (!validation.valid) {
-                    errorDiv.textContent = validation.message;
-                    errorDiv.style.display = 'block';
-                    emailInput.classList.add('invalid');
-                    return;
-                }
-                
-                // Show checking status
-                btn.disabled = true;
-                checkingDiv.style.display = 'block';
-                
-                try {
-                    // Call Vercel proxy to check student status
-const response = await fetch('https://grant-fulfillment-proxy.vercel.app/api/proxy', {
-                    method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            action: 'checkStudentStatus',
-                            email: email
-                        })
-                    });
-                    
-                   const result = await response.json();
-                    
-                    // IMPORTANT: Proxy wraps response in { status: 'success', data: {...} }
-                    // So we need to access result.data to get the actual Apps Script response
-                    const studentStatus = result.data || result;
-                    
-                    // Hide checking status
-                    checkingDiv.style.display = 'none';
-                    btn.disabled = false;
-                    
-                    if (studentStatus.status === 'not_found') {
-                        // Email not in Grant_Recipients
-                        errorDiv.textContent = 'Email not found. Please check your email or contact hello@campusready.foundation';
-                        errorDiv.style.display = 'block';
-                        emailInput.classList.add('invalid');
-                        
-                    } else if (studentStatus.status === 'found') {
-                        // Store student data for later use
-                        studentData = studentStatus;
-                        
-                        // Determine what to show based on document status
-                        handleStudentStatus(studentStatus);
-                    }
-                    
-                } catch (error) {
-                    console.error('Error verifying email:', error);
-                    checkingDiv.style.display = 'none';
-                    btn.disabled = false;
-                    errorDiv.textContent = 'Unable to verify email. Please try again or contact hello@campusready.foundation';
-                    errorDiv.style.display = 'block';
-                }
-            });
+        return `
+            <div class="cat-card" id="cat-${cat.id}" data-has-choices="${hasChoices}">
+                <div class="cat-head" onclick="toggleCat('${cat.id}')">
+                    <div class="cat-emoji">${cat.emoji}</div>
+                    <div class="cat-head-body">
+                        <div class="cat-title">${cat.title}</div>
+                        <div class="cat-meta" id="meta-${cat.id}">${metaText}</div>
+                    </div>
+                    <span class="cat-status-dot">✓</span>
+                    <span class="cat-chevron">›</span>
+                </div>
+                <div class="cat-body">
+                    ${choiceRows}
+                    ${includedRows}
+                    ${seeMore}
+                </div>
+            </div>`;
+    }).join('');
+}
+
+function choiceRowHTML(key) {
+    const def = CHOICE_DEFS[key];
+    return `
+        <div class="kit-row choice" id="choice-${key}" onclick="openChoice('${key}')">
+            <span class="choice-icon">›</span>
+            <div class="choice-body">
+                <div class="choice-label">${def.label}</div>
+                <div class="choice-value" id="cv-${key}" style="display:none;"></div>
+            </div>
+            <span class="choice-cta">Choose →</span>
+        </div>`;
+}
+
+function toggleCat(id) { document.getElementById('cat-' + id).classList.toggle('open'); }
+function toggleMore(id, btn) {
+    const rows = document.querySelectorAll('.extra-' + id);
+    const shown = rows[0]?.classList.contains('shown');
+    rows.forEach(r => r.classList.toggle('shown'));
+    const cat = CATEGORIES.find(c => c.id === id);
+    btn.textContent = shown ? `See all ${cat.included.length} included →` : 'Show less';
+}
+
+// ============================================================
+// POPUP HELPERS
+// ============================================================
+function openPopup({ style, title, copy, contentHTML, note, validate }) {
+    const styleEl = document.getElementById('popupStyle');
+    styleEl.textContent = style || '';
+    styleEl.style.display = style ? 'block' : 'none';
+    document.getElementById('popupTitle').textContent = title;
+    document.getElementById('popupCopy').textContent = copy;
+    document.getElementById('popupContent').innerHTML = contentHTML;
+    document.getElementById('popupNote').textContent = note || '';
+    document.getElementById('popupDoneBtn').disabled = true;
+    document.getElementById('popupOverlay')._validate = validate;
+    document.getElementById('popupOverlay').classList.add('visible');
+}
+function closePopup() { document.getElementById('popupOverlay').classList.remove('visible'); }
+function refreshDoneBtn() {
+    const v = document.getElementById('popupOverlay')._validate;
+    document.getElementById('popupDoneBtn').disabled = v ? !v() : true;
+}
+document.getElementById('popupOverlay').addEventListener('click', e => {
+    if (e.target.id === 'popupOverlay') closePopup();
+});
+
+function swatchGrid(id, selectedKey) {
+    return `<div class="color-swatches" id="${id}">` +
+        KIT_COLORS.map(c => `
+            <div class="color-swatch-item ${selectedKey === c.key ? 'selected' : ''}" data-color="${c.key}" onclick="pickSwatch(this)">
+                <div class="color-swatch" style="background-color:${c.hex};"></div>
+                <span class="color-swatch-label">${c.display || c.name}</span>
+            </div>`).join('') +
+        `</div>`;
+}
+function pickSwatch(el) {
+    const grid = el.closest('.color-swatches');
+    grid.querySelectorAll('.color-swatch-item').forEach(s => s.classList.remove('selected'));
+    el.classList.add('selected');
+    refreshDoneBtn();
+}
+function pickCard(el, stackId) {
+    document.querySelectorAll(`#${stackId} .preference-card`).forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    refreshDoneBtn();
+}
+
+// ============================================================
+// CHOICE ROUTER
+// ============================================================
+function openChoice(key) {
+    activeChoiceKey = key;
+    activeGroup = CHOICE_DEFS[key].group;
+    if (key === 'beddingColors')   openBeddingColors();
+    else if (key === 'beddingFirmness') openFirmness();
+    else if (key === 'towelColor') openTowelColor();
+    else if (key === 'slides')     openSlides();
+    else if (key === 'personalCare') openPersonalCare();
+}
+
+function openBeddingColors() {
+    const content = `
+        <div class="pref-section-label">Sheet set color</div>
+        ${swatchGrid('sheetColorGrid', sel.sheetColor)}
+        <div class="pref-section-label spaced">Comforter cover color</div>
+        ${swatchGrid('comforterColorGrid', sel.comforterCoverColor)}`;
+    openPopup({
+        style: schoolRecord ? schoolRecord.name : 'BEDDING',
+        title: 'Bedding colors',
+        copy: 'Pick a color for your sheets and your comforter cover. You can choose the same color or go with something different.',
+        contentHTML: content,
+        validate: () =>
+            !!document.querySelector('#sheetColorGrid .color-swatch-item.selected') &&
+            !!document.querySelector('#comforterColorGrid .color-swatch-item.selected')
     });
-    function handleStudentStatus(data) {
-            // Store student data for later use
-            studentData = data;
-        
-                   const housingStatus = data.housingStatus || 'Pending';
-            const acceptanceStatus = data.acceptanceStatus || 'Pending';
-            
-            // Hide email validation section
-            document.getElementById('emailValidation').style.display = 'none';
-            
-          // Both documents approved - skip to item selection
-if (housingStatus === 'Approved' && acceptanceStatus === 'Approved') {
-    document.querySelector('[data-section="1"]').classList.add('active');
- updateHeader('Customize Your Kit', "We're going shopping! Your responses will guide us to select items that match your style, ensuring you get products you want for the start to your college journey.");   
-    // Auto-populate fields for already-approved students
-    setTimeout(() => {
-        const nameField = document.getElementById('student_name');
-        const emailField = document.getElementById('email');
-        
-        if (nameField && studentData && studentData.studentName) {
-            nameField.value = studentData.studentName;
-            nameField.readOnly = true;
-            nameField.style.backgroundColor = '#f0f0f0';
-            nameField.style.cursor = 'not-allowed';
+}
+
+function openFirmness() {
+    const opts = ['Soft', 'Medium', 'Firm'];
+    openPopup({
+        style: schoolRecord ? schoolRecord.name : 'BEDDING',
+        title: 'Pillow firmness',
+        copy: 'How do you like your pillow?',
+        contentHTML: `<div class="card-stack" id="firmnessStack">` +
+            opts.map(o => `<div class="preference-card ${sel.beddingFirmness === o ? 'selected' : ''}" data-value="${o}" onclick="pickCard(this,'firmnessStack')"><span class="pc-title">${o}</span></div>`).join('') +
+            `</div>`,
+        validate: () => !!document.querySelector('#firmnessStack .preference-card.selected')
+    });
+}
+
+function openTowelColor() {
+    openPopup({
+        style: schoolRecord ? schoolRecord.name : 'BATH',
+        title: 'Towel color',
+        copy: 'Pick the color for your towel set.',
+        contentHTML: swatchGrid('towelColorGrid', sel.towelColor),
+        validate: () => !!document.querySelector('#towelColorGrid .color-swatch-item.selected')
+    });
+}
+
+function openSlides() {
+    const content = `
+        <div class="pref-section-label">Gender</div>
+        <div class="gender-pills" id="slideGenderPills">
+            ${GENDERS.map(g => `<button class="gender-pill ${sel.pcGender === g.value ? 'selected' : ''}" data-value="${g.value}" onclick="pickSlideGender(this)">${g.label}</button>`).join('')}
+        </div>
+        <div class="pref-section-label spaced">Size</div>
+        <div class="size-grid" id="sizeGrid">` +
+            SLIDES_SIZES.map(s => `<div class="size-card ${sel.slidesSize === s.value ? 'selected' : ''}" data-value="${s.value}" onclick="pickSize(this)">${s.label}</div>`).join('') +
+        `</div>
+        <div class="pref-section-label spaced">Color</div>
+        ${swatchGrid('slidesColorGrid', sel.slidesColor)}`;
+    openPopup({
+        style: schoolRecord ? schoolRecord.name : 'BATH',
+        title: 'Slides',
+        copy: 'Pick the sizing that works for you, then choose your color.',
+        contentHTML: content,
+        validate: () =>
+            !!document.querySelector('#slideGenderPills .gender-pill.selected') &&
+            !!document.querySelector('#sizeGrid .size-card.selected') &&
+            !!document.querySelector('#slidesColorGrid .color-swatch-item.selected')
+    });
+}
+function pickSlideGender(el) {
+    document.querySelectorAll('#slideGenderPills .gender-pill').forEach(p => p.classList.remove('selected'));
+    el.classList.add('selected');
+    // Keep in sync with Personal Care gender so both popups agree
+    sel.pcGender = el.dataset.value;
+    refreshDoneBtn();
+}
+function pickSize(el) {
+    document.querySelectorAll('#sizeGrid .size-card').forEach(s => s.classList.remove('selected'));
+    el.classList.add('selected');
+    refreshDoneBtn();
+}
+
+function openPersonalCare() {
+    const content = `
+        <div class="pref-section-label">Which products should we send you?</div>
+        <div class="gender-pills" id="genderPills">
+            ${GENDERS.map(g => `<button class="gender-pill ${sel.pcGender === g.value ? 'selected' : ''}" data-value="${g.value}" onclick="pickGender(this)">${g.label}</button>`).join('')}
+        </div>
+        <div class="pref-section-label spaced">Scent preference</div>
+        <div class="unscented-row ${sel.pcUnscented ? 'selected' : ''}" id="unscentedRow" onclick="toggleUnscented()">
+            <span class="unscented-label">Unscented</span><span class="unscented-check">✓</span>
+        </div>
+        <div class="scent-grid ${sel.pcUnscented ? 'dimmed' : ''}" id="scentGrid">
+            ${SCENTS.map(s => `
+                <div class="scent-pill ${sel.pcScent === s.key ? 'selected' : ''}" data-scent="${s.key}" onclick="pickScent(this)">
+                    <span class="scent-check">✓</span>
+                    <span class="scent-emoji">${s.emoji}</span>
+                    <span class="scent-name">${s.name}</span>
+                    <span class="scent-sub">${s.sub}</span>
+                </div>`).join('')}
+        </div>
+        <div class="pref-section-label spaced">Deodorant or antiperspirant?</div>
+        <div class="card-stack spaced-top" id="deodorantStack">
+            <div class="preference-card ${sel.deodorant === 'Deodorant' ? 'selected' : ''}" data-value="Deodorant" onclick="pickCard(this,'deodorantStack')"><span class="pc-title">Deodorant</span></div>
+            <div class="preference-card ${sel.deodorant === 'Antiperspirant' ? 'selected' : ''}" data-value="Antiperspirant" onclick="pickCard(this,'deodorantStack')"><span class="pc-title">Antiperspirant</span></div>
+        </div>`;
+    openPopup({
+        style: 'PERSONAL CARE',
+        title: 'Tell us a little about yourself',
+        copy: 'Three quick questions so we can pick the right products for you.',
+        contentHTML: content,
+        validate: () => {
+            const g = !!document.querySelector('#genderPills .gender-pill.selected');
+            const sc = document.getElementById('unscentedRow').classList.contains('selected') ||
+                       !!document.querySelector('#scentGrid .scent-pill.selected');
+            const d = !!document.querySelector('#deodorantStack .preference-card.selected');
+            return g && sc && d;
         }
-        
-        if (emailField && studentData && studentData.email) {
-            emailField.value = studentData.email;
-            emailField.readOnly = true;
-            emailField.style.backgroundColor = '#f0f0f0';
-            emailField.style.cursor = 'not-allowed';
+    });
+}
+function pickGender(el) {
+    document.querySelectorAll('#genderPills .gender-pill').forEach(p => p.classList.remove('selected'));
+    el.classList.add('selected');
+    refreshDoneBtn();
+}
+function pickScent(pill) {
+    if (document.getElementById('unscentedRow').classList.contains('selected')) return;
+    document.querySelectorAll('#scentGrid .scent-pill').forEach(p => p.classList.remove('selected'));
+    pill.classList.add('selected');
+    refreshDoneBtn();
+}
+function toggleUnscented() {
+    const row = document.getElementById('unscentedRow');
+    const grid = document.getElementById('scentGrid');
+    if (!row.classList.contains('selected')) {
+        row.classList.add('selected');
+        grid.classList.add('dimmed');
+        grid.querySelectorAll('.scent-pill.selected').forEach(p => p.classList.remove('selected'));
+    } else {
+        row.classList.remove('selected');
+        grid.classList.remove('dimmed');
+    }
+    refreshDoneBtn();
+}
+
+function openShipping() {
+    const content = `<div class="card-stack" id="shipStack">
+        <div class="preference-card ${sel.shipDest === 'Home' ? 'selected' : ''}" data-value="Home" onclick="pickCard(this,'shipStack')">
+            <span class="pc-title">Ship to home</span>
+            <span class="pc-sub">Arrives before you leave for campus</span>
+        </div>
+        <div class="preference-card ${sel.shipDest === 'College' ? 'selected' : ''}" data-value="College" onclick="pickCard(this,'shipStack')">
+            <span class="pc-title">Ship to college</span>
+            <span class="pc-sub">Waiting for you at your dorm</span>
+        </div>
+    </div>`;
+    openPopup({
+        style: '',
+        title: 'Where should we send it?',
+        copy: 'Pick wherever is easiest.',
+        contentHTML: content,
+        validate: () => !!document.querySelector('#shipStack .preference-card.selected')
+    });
+}
+
+// ============================================================
+// COMMIT POPUP
+// ============================================================
+function commitPopup() {
+    const k = activeChoiceKey;
+
+    if (k === 'beddingColors') {
+        sel.sheetColor = document.querySelector('#sheetColorGrid .color-swatch-item.selected').dataset.color;
+        sel.comforterCoverColor = document.querySelector('#comforterColorGrid .color-swatch-item.selected').dataset.color;
+        const s = KIT_COLORS.find(x => x.key === sel.sheetColor);
+        const d = KIT_COLORS.find(x => x.key === sel.comforterCoverColor);
+        setChoiceValue('beddingColors',
+            `<span class="mini-swatch" style="background:${s.hex}"></span>Sheets ${s.name} · ` +
+            `<span class="mini-swatch" style="background:${d.hex}"></span>Cover ${d.name}`);
+
+    } else if (k === 'beddingFirmness') {
+        sel.beddingFirmness = document.querySelector('#firmnessStack .preference-card.selected').dataset.value;
+        setChoiceValue('beddingFirmness', sel.beddingFirmness);
+
+    } else if (k === 'towelColor') {
+        sel.towelColor = document.querySelector('#towelColorGrid .color-swatch-item.selected').dataset.color;
+        setChoiceValue('towelColor', swatchValueHTML(sel.towelColor));
+
+    } else if (k === 'slides') {
+        sel.pcGender = document.querySelector('#slideGenderPills .gender-pill.selected').dataset.value;
+        sel.slidesSize = document.querySelector('#sizeGrid .size-card.selected').dataset.value;
+        sel.slidesColor = document.querySelector('#slidesColorGrid .color-swatch-item.selected').dataset.color;
+        const sizeLabel = SLIDES_SIZES.find(s => s.value === sel.slidesSize).label;
+        const c = KIT_COLORS.find(x => x.key === sel.slidesColor);
+        const genderLabel = GENDERS.find(g => g.value === sel.pcGender)?.label;
+        setChoiceValue('slides',
+            `${genderLabel} · Size ${sizeLabel} · <span class="mini-swatch" style="background:${c.hex}"></span>${c.name}`);
+
+    } else if (k === 'personalCare') {
+        sel.pcGender = document.querySelector('#genderPills .gender-pill.selected').dataset.value;
+        sel.pcUnscented = document.getElementById('unscentedRow').classList.contains('selected');
+        sel.pcScent = sel.pcUnscented ? null : (document.querySelector('#scentGrid .scent-pill.selected')?.dataset.scent || null);
+        sel.deodorant = document.querySelector('#deodorantStack .preference-card.selected').dataset.value;
+        const genderLabel = GENDERS.find(g => g.value === sel.pcGender)?.label;
+        const scentLabel = sel.pcUnscented ? 'Unscented' : SCENTS.find(s => s.key === sel.pcScent)?.name;
+        setChoiceValue('personalCare', `${genderLabel} · ${scentLabel} · ${sel.deodorant}`);
+
+    }
+
+    updateGroupAnswered(activeGroup);
+    closePopup();
+    updateProgress();
+}
+
+function swatchValueHTML(key) {
+    const c = KIT_COLORS.find(x => x.key === key);
+    return `<span class="mini-swatch" style="background:${c.hex}"></span>${c.name}`;
+}
+
+function setChoiceValue(key, html) {
+    const row = document.getElementById('choice-' + key);
+    row.classList.add('answered');
+    row.querySelector('.choice-icon').textContent = '✓';
+    const cv = document.getElementById('cv-' + key);
+    cv.innerHTML = html;
+    cv.style.display = 'flex';
+    row.querySelector('.choice-cta').textContent = 'Edit';
+}
+
+function groupComplete(group) {
+    if (group === 'bedding')  return !!sel.sheetColor && !!sel.comforterCoverColor && !!sel.beddingFirmness;
+    if (group === 'bath')     return !!sel.towelColor && !!sel.slidesSize && !!sel.slidesColor;
+    if (group === 'personal') return !!sel.pcGender && (sel.pcUnscented || !!sel.pcScent) && !!sel.deodorant;
+    return false;
+}
+
+function updateGroupAnswered(group) {
+    answered[group] = groupComplete(group);
+    const card = document.getElementById('cat-' + group);
+    if (answered[group]) card.classList.add('complete');
+    else card.classList.remove('complete');
+    const cat = CATEGORIES.find(c => c.id === group);
+    if (answered[group]) {
+        document.getElementById('meta-' + group).innerHTML =
+            `<span style="color:var(--teal);font-weight:600;">Set</span> · ${cat.included.length} included`;
+    }
+}
+
+function updateProgress() {
+    const total = CHOICE_GROUPS.length;
+    const done = CHOICE_GROUPS.filter(g => answered[g]).length;
+    document.getElementById('footerProgress').textContent = `${done} of ${total} categories set`;
+    const btn = document.getElementById('kitContinueBtn');
+    if (done === total) {
+        btn.disabled = false;
+        btn.textContent = 'Review My Choices';
+    } else {
+        btn.disabled = true;
+        btn.textContent = `${total - done} more to make it yours`;
+    }
+}
+
+// ============================================================
+// REVIEW
+// ============================================================
+function populateReview() {
+    const form = document.getElementById('kitForm');
+    const formData = new FormData(form);
+
+    const personalHTML = `
+        <div class="review-item">
+            <div class="review-label">Name:</div>
+            <div class="review-value">${formData.get('student_name') || ''}</div>
+        </div>
+        <div class="review-item">
+            <div class="review-label">Email:</div>
+            <div class="review-value">${formData.get('email') || ''}</div>
+        </div>
+        <div class="review-item">
+            <div class="review-label">Shipping:</div>
+            <div class="review-value">${formData.get('shipping_preference') || ''}</div>
+        </div>
+        <div class="review-item">
+            <div class="review-label">Address:</div>
+            <div class="review-value">
+                ${formData.get('street_address') || ''}<br>
+                ${formData.get('street_address_2') ? formData.get('street_address_2') + '<br>' : ''}
+                ${formData.get('city') || ''}, ${formData.get('state') || ''} ${formData.get('zip') || ''}
+            </div>
+        </div>`;
+    document.getElementById('review-personal').innerHTML = personalHTML;
+
+    const sheetC   = KIT_COLORS.find(c => c.key === sel.sheetColor);
+    const coverC   = KIT_COLORS.find(c => c.key === sel.comforterCoverColor);
+    const towelC   = KIT_COLORS.find(c => c.key === sel.towelColor);
+    const slidesC  = KIT_COLORS.find(c => c.key === sel.slidesColor);
+    const sizeLabel = SLIDES_SIZES.find(s => s.value === sel.slidesSize)?.label;
+    const scentLabel = sel.pcUnscented ? 'Unscented' : SCENTS.find(s => s.key === sel.pcScent)?.name;
+    const genderLabel = GENDERS.find(g => g.value === sel.pcGender)?.label;
+
+    const productsHTML = `
+        <div class="review-item">
+            <div class="review-label">Sheet color:</div>
+            <div class="review-value">${sheetC?.name || ''}</div>
+        </div>
+        <div class="review-item">
+            <div class="review-label">Comforter cover color:</div>
+            <div class="review-value">${coverC?.name || ''}</div>
+        </div>
+        <div class="review-item">
+            <div class="review-label">Pillow firmness:</div>
+            <div class="review-value">${sel.beddingFirmness || ''}</div>
+        </div>
+        <div class="review-item">
+            <div class="review-label">Towel color:</div>
+            <div class="review-value">${towelC?.name || ''}</div>
+        </div>
+        <div class="review-item">
+            <div class="review-label">Slides:</div>
+            <div class="review-value">Size ${sizeLabel || ''} · ${slidesC?.name || ''}</div>
+        </div>
+        <div class="review-item">
+            <div class="review-label">Gender preference:</div>
+            <div class="review-value">${genderLabel || ''}</div>
+        </div>
+        <div class="review-item">
+            <div class="review-label">Scent:</div>
+            <div class="review-value">${scentLabel || ''}</div>
+        </div>
+        <div class="review-item">
+            <div class="review-label">Deodorant type:</div>
+            <div class="review-value">${sel.deodorant || ''}</div>
+        </div>`;
+    document.getElementById('review-products').innerHTML = productsHTML;
+}
+
+// ============================================================
+// FORM SUBMISSION
+// ============================================================
+function submitForm() {
+    const form = document.getElementById('kitForm');
+    const formData = new FormData(form);
+
+    const scentValue = sel.pcUnscented
+        ? 'Unscented'
+        : (SCENTS.find(s => s.key === sel.pcScent)?.catalogValue || '');
+
+    const data = {
+        student_name:          formData.get('student_name'),
+        email:                 formData.get('email'),
+        street_address:        formData.get('street_address'),
+        street_address_2:      formData.get('street_address_2') || '',
+        city:                  formData.get('city'),
+        state:                 formData.get('state'),
+        zip:                   formData.get('zip'),
+        shipping_preference:   formData.get('shipping_preference'),
+        gender_preference:     sel.pcGender,
+        scent_preference:      scentValue,
+        deodorant_type:        sel.deodorant,
+        bedding_color:         KIT_COLORS.find(c => c.key === sel.sheetColor)?.name || '',
+        comforter_cover_color: KIT_COLORS.find(c => c.key === sel.comforterCoverColor)?.name || '',
+        pillow_firmness:       sel.beddingFirmness,
+        towel_color:           KIT_COLORS.find(c => c.key === sel.towelColor)?.name || '',
+        slides_size:           sel.slidesSize,
+        slides_color:          KIT_COLORS.find(c => c.key === sel.slidesColor)?.name || '',
+        college_name:          (studentData && studentData.collegeName)   || '',
+        college_unit_id:       (studentData && studentData.collegeUnitId) || '',
+        timestamp:             new Date().toISOString()
+    };
+
+    document.getElementById('loadingOverlay').classList.add('show');
+
+    fetch('https://grant-fulfillment-proxy.vercel.app/api/proxy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        document.getElementById('loadingOverlay').classList.remove('show');
+        if (result.status === 'success') {
+            showSuccessPage();
+        } else {
+            console.error('Submission error:', result.message);
+            alert('There was an error submitting your form. Please try again.');
+        }
+    })
+    .catch(error => {
+        document.getElementById('loadingOverlay').classList.remove('show');
+        console.error('Network error:', error);
+        alert('Network error. Please check your connection and try again.');
+    });
+}
+
+function showSuccessPage() {
+    document.getElementById('step-3').classList.remove('active');
+    document.getElementById('step-3').classList.add('complete');
+    document.getElementById('step-4').classList.add('complete');
+    document.getElementById('step-4').classList.add('active');
+    setTimeout(() => {
+        document.getElementById('loadingOverlay').classList.remove('show');
+        document.getElementById('kitForm').style.display = 'none';
+        document.getElementById('successScreen').classList.add('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 50);
+}
+
+// ============================================================
+// ZIP LOOKUP
+// ============================================================
+let zipLookupData = null;
+
+async function lookupZip(zip) {
+    try {
+        const response = await fetch(`https://api.zippopotam.us/us/${zip}`);
+        if (!response.ok) throw new Error('ZIP not found');
+        const data = await response.json();
+        if (data.places && data.places[0]) {
+            return { city: data.places[0]['place name'], state: data.places[0]['state abbreviation'] };
+        }
+    } catch (error) { console.log('ZIP lookup failed:', error); }
+    return null;
+}
+
+function applyZipLookup(data) {
+    if (data) {
+        document.getElementById('city').value = data.city;
+        document.getElementById('state').value = data.state;
+        zipLookupData = null;
+    }
+}
+
+document.getElementById('zip').addEventListener('blur', async function() {
+    const zip = this.value;
+    if (!/^\d{5}$/.test(zip)) return;
+    const data = await lookupZip(zip);
+    if (data) {
+        const currentCity = document.getElementById('city').value.trim();
+        const currentState = document.getElementById('state').value.trim();
+        const norm = s => s.toLowerCase().replace(/\./g,'').replace(/\s+/g,' ').trim();
+        const fieldsEmpty = currentCity === '' && currentState === '';
+        const valuesMatch = norm(data.city) === norm(currentCity) &&
+                            data.state.toUpperCase() === currentState.toUpperCase();
+        if (fieldsEmpty) {
+            applyZipLookup(data);
+        } else if (!valuesMatch) {
+            zipLookupData = data;
+            const ok = confirm(
+                `We found this location for ZIP code ${zip}:\n\n${data.city}, ${data.state}\n\n` +
+                `Your current address shows:\n${currentCity}, ${currentState}\n\n` +
+                `Would you like to update to the ZIP code's location?`
+            );
+            if (ok) applyZipLookup(data);
+        }
+    }
+});
+
+const zipInput = document.getElementById('zip');
+const zipLiveFeedback = document.getElementById('zip-live-feedback');
+zipInput.addEventListener('input', function() {
+    if (!this.value.trim()) { zipLiveFeedback.style.display = 'none'; return; }
+    zipLiveFeedback.style.display = window.isValidZip(this.value) ? 'none' : 'block';
+});
+
+document.getElementById('state').addEventListener('input', function() {
+    this.value = this.value.toUpperCase();
+});
+
+const emailInputEl = document.getElementById('email');
+const emailLiveFeedback = document.getElementById('email-live-feedback');
+emailInputEl.addEventListener('input', function() {
+    if (!this.value.trim()) { emailLiveFeedback.style.display = 'none'; emailInputEl.classList.remove('invalid'); return; }
+    const result = window.isValidEmail(this.value);
+    if (!result.valid) {
+        emailLiveFeedback.textContent = result.message;
+        emailLiveFeedback.style.display = 'block';
+        emailInputEl.classList.add('invalid');
+    } else {
+        emailLiveFeedback.style.display = 'none';
+        emailInputEl.classList.remove('invalid');
+    }
+});
+emailInputEl.addEventListener('blur', function() {
+    if (this.value.trim()) {
+        const result = window.isValidEmail(this.value);
+        if (!result.valid) {
+            emailLiveFeedback.textContent = result.message;
+            emailLiveFeedback.style.display = 'block';
+            emailInputEl.classList.add('invalid');
+        }
+    }
+});
+
+// ============================================================
+// EMAIL VERIFICATION
+// ============================================================
+let studentData = null;
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('verifyEmailBtn').addEventListener('click', async function() {
+        const emailInput = document.getElementById('email_verify');
+        const email = emailInput.value.trim();
+        const errorDiv = document.getElementById('email-verify-error');
+        const checkingDiv = document.getElementById('email-checking');
+        const btn = this;
+
+        errorDiv.style.display = 'none';
+        errorDiv.textContent = '';
+        emailInput.classList.remove('invalid');
+
+        const validation = window.isValidEmail(email);
+        if (!validation.valid) {
+            errorDiv.textContent = validation.message;
+            errorDiv.style.display = 'block';
+            emailInput.classList.add('invalid');
+            return;
+        }
+
+        btn.disabled = true;
+        checkingDiv.style.display = 'block';
+
+        try {
+            const response = await fetch('https://grant-fulfillment-proxy.vercel.app/api/proxy', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'checkStudentStatus', email: email })
+            });
+            const result = await response.json();
+            const studentStatus = result.data || result;
+
+            checkingDiv.style.display = 'none';
+            btn.disabled = false;
+
+            if (studentStatus.status === 'not_found') {
+                errorDiv.textContent = 'Email not found. Please check your email or contact hello@campusready.foundation';
+                errorDiv.style.display = 'block';
+                emailInput.classList.add('invalid');
+            } else if (studentStatus.status === 'found') {
+                studentData = studentStatus;
+                handleStudentStatus(studentStatus);
+            }
+        } catch (error) {
+            console.error('Error verifying email:', error);
+            checkingDiv.style.display = 'none';
+            btn.disabled = false;
+            errorDiv.textContent = 'Unable to verify email. Please try again or contact hello@campusready.foundation';
+            errorDiv.style.display = 'block';
+        }
+    });
+});
+
+function handleStudentStatus(data) {
+    studentData = data;
+    const housingStatus    = data.housingStatus    || 'Pending';
+    const acceptanceStatus = data.acceptanceStatus || 'Pending';
+
+    document.getElementById('emailValidation').style.display = 'none';
+
+    // Begin loading school data in the background so it's ready when section 2 opens
+    if (data.collegeUnitId) loadSchoolData(data.collegeUnitId);
+
+    if (housingStatus === 'Approved' && acceptanceStatus === 'Approved') {
+        document.querySelector('[data-section="1"]').classList.add('active');
+        updateHeader('Customize Your Kit', "We're going shopping for you and we just need a little more information. Your responses will guide us to choose items that match your style.");
+        setTimeout(() => {
+            const nameField = document.getElementById('student_name');
+            const emailField = document.getElementById('email');
+            let prefilled = false;
+            if (nameField && data.studentName) {
+                nameField.value = data.studentName;
+                prefilled = true;
+            }
+            if (emailField && data.email) {
+                emailField.value = data.email;
+                prefilled = true;
+            }
+            if (prefilled) {
+                document.getElementById('prefill-notice').style.display = 'block';
+            }
+        }, 100);
+
+    } else if (housingStatus === 'Rejected' || acceptanceStatus === 'Rejected') {
+        document.getElementById('documentUpload').style.display = 'block';
+        updateHeader('College & Housing Verification', 'Almost there. Before we finalize your selections, please upload two quick documents. We\'ll need these by July 15th.');
+
+    } else if (housingStatus === 'Uploaded' || acceptanceStatus === 'Uploaded') {
+        alert("Your documents are being reviewed. Don't worry, we'll email you when they're approved.");
+
+    } else {
+        document.getElementById('documentUpload').style.display = 'block';
+        updateHeader('College & Housing Verification', 'Almost there. Before we finalize your selections, please upload two quick documents. We\'ll need these by July 15th.');
+    }
+
+    document.getElementById('step-1').classList.add('complete');
+    if (housingStatus === 'Approved' && acceptanceStatus === 'Approved') {
+        // Already approved — docs step is done, working on preferences now
+        document.getElementById('step-2').classList.add('complete');
+        document.getElementById('step-3').classList.add('active');
+    } else {
+        document.getElementById('step-2').classList.add('active');
+    }
+}
+
+// ============================================================
+// FILE UPLOAD
+// ============================================================
+let housingFileData = null;
+let acceptanceFileData = null;
+
+function validateFile(file) {
+    const validTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'];
+    if (!validTypes.includes(file.type))
+        return { valid: false, error: 'Oops — we can only accept PDF, JPG, or PNG files. Please select a different file.' };
+    if (file.size > 5 * 1024 * 1024)
+        return { valid: false, error: 'This file is a bit too large (over 5MB). Try compressing it or taking a clearer photo.' };
+    return { valid: true };
+}
+
+function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+}
+
+document.getElementById('housing_doc').addEventListener('change', async function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const validation = validateFile(file);
+    if (!validation.valid) {
+        document.getElementById('housing_error').textContent = validation.error;
+        document.getElementById('housing_filename').textContent = '';
+        return;
+    }
+    document.getElementById('housing_error').textContent = '';
+    document.getElementById('housing_filename').textContent = file.name;
+    housingFileData = { name: file.name, data: await fileToBase64(file) };
+    checkBothFilesSelected();
+});
+
+document.getElementById('acceptance_doc').addEventListener('change', async function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const validation = validateFile(file);
+    if (!validation.valid) {
+        document.getElementById('acceptance_error').textContent = validation.error;
+        document.getElementById('acceptance_filename').textContent = '';
+        return;
+    }
+    document.getElementById('acceptance_error').textContent = '';
+    document.getElementById('acceptance_filename').textContent = file.name;
+    acceptanceFileData = { name: file.name, data: await fileToBase64(file) };
+    checkBothFilesSelected();
+});
+
+function checkBothFilesSelected() {
+    document.getElementById('continueToKitBtn').disabled = !(housingFileData && acceptanceFileData);
+}
+
+document.getElementById('continueToKitBtn').addEventListener('click', async function() {
+    await uploadDocuments();
+});
+
+async function uploadDocuments() {
+    document.getElementById('housing_progress').style.display = 'block';
+    document.getElementById('acceptance_progress').style.display = 'block';
+
+    const messages = ['Sending your documents...', 'Almost there...', 'Preparing to be prepared...'];
+    let messageIndex = 0;
+    const rotateMessages = setInterval(() => {
+        document.getElementById('housing_progress_text').textContent = messages[messageIndex];
+        document.getElementById('acceptance_progress_text').textContent = messages[messageIndex];
+        messageIndex = (messageIndex + 1) % messages.length;
+    }, 1200);
+
+    let progress = 0;
+    const animateProgress = setInterval(() => {
+        progress += 5;
+        if (progress <= 90) {
+            document.getElementById('housing_progress_fill').style.width = progress + '%';
+            document.getElementById('acceptance_progress_fill').style.width = progress + '%';
         }
     }, 100);
-                
-            // At least one document rejected - show upload with message
-            } else if (housingStatus === 'Rejected' || acceptanceStatus === 'Rejected') {
-                document.getElementById('documentUpload').style.display = 'block';
-updateHeader('College & Housing Verification', 'Before we customize your kit, we need two quick documents.<br>Please upload these by June 30th.');
-    // TODO: Add rejection message styling in Phase 4
-                
-            // Documents uploaded, under review - show waiting message
-            } else if (housingStatus === 'Uploaded' || acceptanceStatus === 'Uploaded') {
-                alert("Your documents are being reviewed. Don't worry, we'll email you when they're approved.");
-                // TODO: Build proper waiting UI in Phase 4
-                
-            // First time or both pending - show upload section
-            } else {
-                document.getElementById('documentUpload').style.display = 'block';
-updateHeader('College & Housing Verification', 'Before we customize your kit, we need two quick documents.<br>Please upload these by June 30th.');   
-}
-            
-            // Update progress bar
-            document.getElementById('step-1').classList.add('complete');
-            document.getElementById('step-2').classList.add('active');
-        }
-        // File validation and upload handlers
-        let housingFileData = null;
-        let acceptanceFileData = null;
 
-        // Validate file type and size
-        function validateFile(file) {
-            const validTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'];
-            const maxSize = 5 * 1024 * 1024; // 5MB
-
-            if (!validTypes.includes(file.type)) {
-                return { valid: false, error: 'Oops - we can only accept PDF, JPG, or PNG files. Please select a different file.' };
-            }
-
-            if (file.size > maxSize) {
-                return { valid: false, error: 'This file is a bit too large (over 5MB). Try compressing it or taking a clearer photo.' };
-            }
-
-            return { valid: true };
-        }
-
-        // Convert file to base64
-        function fileToBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = () => resolve(reader.result.split(',')[1]);
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
-        }
-
-        // Housing document handler
-        document.getElementById('housing_doc').addEventListener('change', async function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const validation = validateFile(file);
-            if (!validation.valid) {
-                document.getElementById('housing_error').textContent = validation.error;
-                document.getElementById('housing_filename').textContent = '';
-                return;
-            }
-
-            document.getElementById('housing_error').textContent = '';
-            document.getElementById('housing_filename').textContent = file.name;
-            housingFileData = { name: file.name, data: await fileToBase64(file) };
-            checkBothFilesSelected();
+    try {
+        const response = await fetch('https://grant-fulfillment-proxy.vercel.app/api/proxy', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                action: 'uploadDocuments',
+                email: studentData.email,
+                applicationId: studentData.applicationId,
+                housingFile: housingFileData,
+                acceptanceFile: acceptanceFileData
+            })
         });
+        const result = await response.json();
+        const data = result;
 
-        // Acceptance document handler
-        document.getElementById('acceptance_doc').addEventListener('change', async function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
+        if (data.status === 'success') {
+            clearInterval(rotateMessages);
+            clearInterval(animateProgress);
+            document.getElementById('housing_progress_fill').style.width = '100%';
+            document.getElementById('acceptance_progress_fill').style.width = '100%';
 
-            const validation = validateFile(file);
-            if (!validation.valid) {
-                document.getElementById('acceptance_error').textContent = validation.error;
-                document.getElementById('acceptance_filename').textContent = '';
-                return;
-            }
+            setTimeout(() => {
+                document.getElementById('housing_progress').style.display = 'none';
+                document.getElementById('acceptance_progress').style.display = 'none';
+                document.getElementById('housing_success').style.display = 'block';
+                document.getElementById('acceptance_success').style.display = 'block';
 
-            document.getElementById('acceptance_error').textContent = '';
-            document.getElementById('acceptance_filename').textContent = file.name;
-            acceptanceFileData = { name: file.name, data: await fileToBase64(file) };
-            checkBothFilesSelected();
-        });
+                const celebrationMsg = document.createElement('div');
+                celebrationMsg.style.cssText = 'margin-top:20px; padding:16px; background:#FEF3E7; border:2px solid #DD693A; border-radius:8px; color:#8B4513; font-weight:500; text-align:center;';
+                celebrationMsg.textContent = "Perfect! Now the fun starts. Let's customize your kit.";
+                document.getElementById('documentUpload').appendChild(celebrationMsg);
 
-        // Check if both files are selected
-        function checkBothFilesSelected() {
-            const continueBtn = document.getElementById('continueToKitBtn');
-            if (housingFileData && acceptanceFileData) {
-                continueBtn.disabled = false;
-            }
+                document.getElementById('continueToKitBtn').style.display = 'none';
+
+                const continueButton = document.createElement('button');
+                continueButton.type = 'button';
+                continueButton.className = 'btn btn-primary';
+                continueButton.textContent = 'Continue to Personalize Your Kit';
+                continueButton.style.cssText = 'margin-top:20px;';
+                continueButton.onclick = function() {
+                    document.getElementById('documentUpload').style.display = 'none';
+                    document.querySelector('[data-section="1"]').classList.add('active');
+                    updateHeader('Customize Your Kit', "We're going shopping for you and we just need a little more information. Your responses will guide us to choose items that match your style.");
+                    setTimeout(() => {
+                        const nameField = document.getElementById('student_name');
+                        const emailField = document.getElementById('email');
+                        let prefilled = false;
+                        if (nameField && studentData && studentData.studentName) {
+                            nameField.value = studentData.studentName;
+                            prefilled = true;
+                        }
+                        if (emailField && studentData && studentData.email) {
+                            emailField.value = studentData.email;
+                            prefilled = true;
+                        }
+                        if (prefilled) {
+                            document.getElementById('prefill-notice').style.display = 'block';
+                        }
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }, 100);
+                    document.getElementById('step-2').classList.add('complete');
+                    document.getElementById('step-3').classList.add('active');
+                };
+                document.getElementById('documentUpload').appendChild(continueButton);
+            }, 300);
+        } else {
+            throw new Error(data.message || 'Upload failed');
         }
-
-        // Continue to kit selection button
-        document.getElementById('continueToKitBtn').addEventListener('click', async function() {
-            await uploadDocuments();
-        });
-
-        // Upload documents to Apps Script
-        async function uploadDocuments() {
-      // Show progress indicators
-document.getElementById('housing_progress').style.display = 'block';
-document.getElementById('acceptance_progress').style.display = 'block';
-
-// Rotating progress messages
-const messages = [
-    'Sending your documents...',
-    'Almost there...',
-    'Preparing to be prepared...'
-];
-let messageIndex = 0;
-
-// Update housing progress text with rotating messages
-const rotateMessages = setInterval(() => {
-    document.getElementById('housing_progress_text').textContent = messages[messageIndex];
-    document.getElementById('acceptance_progress_text').textContent = messages[messageIndex];
-    messageIndex = (messageIndex + 1) % messages.length;
-}, 1200); // Rotate every 1.2 seconds
-// Animate progress bars (simulated progress)
-let progress = 0;
-const animateProgress = setInterval(() => {
-    progress += 5; // Increment by 5%
-    if (progress <= 90) { // Stop at 90% until actual upload completes
-        document.getElementById('housing_progress_fill').style.width = progress + '%';
-        document.getElementById('acceptance_progress_fill').style.width = progress + '%';
+    } catch (error) {
+        clearInterval(rotateMessages);
+        clearInterval(animateProgress);
+        console.error('Upload error:', error);
+        document.getElementById('housing_progress').style.display = 'none';
+        document.getElementById('acceptance_progress').style.display = 'none';
+        document.getElementById('housing_error').innerHTML =
+            'Hmm, something went wrong. Please try uploading again. If this keeps happening, email us at ' +
+            '<a href="mailto:hello@campusready.foundation" style="color:#469E92;text-decoration:underline;">hello@campusready.foundation</a>';
     }
-}, 100); // Update every 100ms for smooth animation
-            try {
-const response = await fetch('https://grant-fulfillment-proxy.vercel.app/api/proxy', {
-                method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        action: 'uploadDocuments',
-                        email: studentData.email,
-                        applicationId: studentData.applicationId,
-                        housingFile: housingFileData,
-                        acceptanceFile: acceptanceFileData
-                    })
-                });
-
-               const result = await response.json();
-console.log('Upload response:', result);
-const data = result; // Apps Script direct (no proxy wrapper)
-console.log('Processed data:', data); // Log processed data
-
-if (data.status === 'success') {
-                clearInterval(rotateMessages); // Stop rotating messages
-                clearInterval(animateProgress); // Stop progress animation
-                
-                // Complete progress bar to 100%
-                document.getElementById('housing_progress_fill').style.width = '100%';
-                document.getElementById('acceptance_progress_fill').style.width = '100%';
-                
-                // Brief pause to show 100% completion
-                setTimeout(() => {
-                    document.getElementById('housing_progress').style.display = 'none';
-                    document.getElementById('acceptance_progress').style.display = 'none';
-                    document.getElementById('housing_success').style.display = 'block';
-                    document.getElementById('acceptance_success').style.display = 'block';
-
-// Add celebration message
-const celebrationMsg = document.createElement('div');
-celebrationMsg.style.cssText = 'margin-top: 20px; padding: 16px; background: #FEF3E7; border: 2px solid #DD693A; border-radius: 8px; color: #8B4513; font-weight: 500; text-align: center;';
-celebrationMsg.textContent = 'Perfect! Now the fun starts. Let\'s customize your kit.';
-document.getElementById('documentUpload').appendChild(celebrationMsg);
-
-// Hide the original "Continue to Kit Selection" button
-document.getElementById('continueToKitBtn').style.display = 'none';
-
-// Add button to continue to personalization
-const continueButton = document.createElement('button');
-continueButton.type = 'button';
-continueButton.className = 'btn btn-primary';
-continueButton.textContent = 'Continue to Personalize Your Kit';
-continueButton.style.cssText = 'margin-top: 20px;';
-continueButton.onclick = function() {
-    // Hide document upload section
-    document.getElementById('documentUpload').style.display = 'none';
-    
-    // Show personalization section
-    document.querySelector('[data-section="1"]').classList.add('active');
-    updateHeader('Customize Your Kit', "We're going shopping. Your responses will guide us to select items that match your style, ensuring you get products you want for the start to your college journey.");
-    
-    // Small delay to ensure DOM is fully rendered
-    setTimeout(() => {
-        // Auto-populate name and email
-        const nameField = document.getElementById('student_name');
-        const emailField = document.getElementById('email');
-        
-        if (nameField && studentData && studentData.studentName) {
-            nameField.value = studentData.studentName;
-            nameField.readOnly = true;
-            nameField.style.backgroundColor = '#f0f0f0';
-            nameField.style.cursor = 'not-allowed';
-        }
-        
-        if (emailField && studentData && studentData.email) {
-            emailField.value = studentData.email;
-            emailField.readOnly = true;
-            emailField.style.backgroundColor = '#f0f0f0';
-            emailField.style.cursor = 'not-allowed';
-        }
-        
-        // Scroll to top of form
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 100); // Short delay just to ensure section is visible
-    
-    // Update progress bar
-    document.getElementById('step-2').classList.add('complete');
-    document.getElementById('step-3').classList.add('active');
-};
-document.getElementById('documentUpload').appendChild(continueButton);
-
-                }, 300); // End of setTimeout for showing completion
-                
-            } else {
-                throw new Error(data.message || 'Upload failed');
-            }
-  } catch (error) {
-            clearInterval(rotateMessages); // Stop rotating messages
-            clearInterval(animateProgress); // Stop progress animation
-            console.error('Upload error:', error); // Log the actual error            
-            console.error('Error details:', error.message); // Log error message
-            document.getElementById('housing_progress').style.display = 'none';
-            document.getElementById('acceptance_progress').style.display = 'none';
-            document.getElementById('housing_error').innerHTML = 'Hmm, something went wrong. Please try uploading again. If this keeps happening, email us at <a href="mailto:hello@campusready.foundation" style="color: #469E92; text-decoration: underline;">hello@campusready.foundation</a>';
-        }
-        }    
-        function submitForm() {
-  const formData = {
-    student_name: document.getElementById('student_name').value,
-    email: document.getElementById('email').value,
-    shipping_preference: document.querySelector('input[name="shipping_preference"]:checked')?.value,
-    street_address: document.getElementById('street_address').value,
-    street_address_2: document.getElementById('street_address_2').value,
-    city: document.getElementById('city').value,
-    state: document.getElementById('state').value,
-    zip: document.getElementById('zip').value,
-    gender_preference: document.querySelector('input[name="gender_preference"]:checked')?.value,
-    scent_preference: document.querySelector('input[name="scent_preference"]:checked')?.value,
-    deodorant_type: document.querySelector('input[name="deodorant_type"]:checked')?.value,
-    style_preference: document.querySelector('input[name="style_preference"]:checked')?.value,
-    bedding_color: document.querySelector('input[name="bedding_color"]:checked')?.value,
-    pillow_firmness: document.querySelector('input[name="pillow_firmness"]:checked')?.value,
-    towel_color: document.querySelector('input[name="towel_color"]:checked')?.value,
-    slides_size: document.querySelector('input[name="slides_size"]:checked')?.value,
-    timestamp: new Date().toISOString()
-  };
-
-  // Show loading overlay
-  document.getElementById('loadingOverlay').classList.add('show');
-
-fetch('https://grant-fulfillment-proxy.vercel.app/api/proxy', {
-    method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify(formData)
-})
-  .then(response => response.json())
-  .then(data => {
-    document.getElementById('loadingOverlay').classList.remove('show');
-    if (data.status === 'success') {
-      document.getElementById('kitForm').style.display = 'none';
-      document.getElementById('successScreen').classList.add('show');
-    } else {
-      console.error('Submission error:', data.message);
-      alert('There was an error submitting your form. Please try again.');
-    }
-  })
-  .catch(error => {
-    document.getElementById('loadingOverlay').classList.remove('show');
-    console.error('Network error:', error);
-    alert('Network error. Please check your connection and try again.');
-  });
 }
-    </script>
-
+</script>
 
 <script>
 // ============================================================
-// VALIDATION FUNCTIONS (Inlined for reliability)
+// VALIDATION FUNCTIONS (inlined)
 // ============================================================
-// These functions were previously in /assets/js/validation.js
-// but are now inlined to eliminate external dependencies
-
-// EMAIL VALIDATION - Full featured version matching index.html
 window.isValidEmail = function(email) {
     const val = (email || '').trim();
     if (!val) return { valid: false, message: 'Email is required.' };
-
-    // 1. Structural Check: Single @
     const atIndex = val.indexOf('@');
-    if (atIndex <= 0 || atIndex !== val.lastIndexOf('@') || atIndex === val.length - 1) {
+    if (atIndex <= 0 || atIndex !== val.lastIndexOf('@') || atIndex === val.length - 1)
         return { valid: false, message: 'Email must contain a single @ (e.g., name@example.com).' };
-    }
-
     const parts = val.split('@');
     const local = parts[0], domain = parts[1];
-
-    // 2. Local Part Rules: (Cannot start/end with dot, no control characters, etc.)
-    if (!local || local.length > 64 || local.startsWith('.') || local.endsWith('.')) {
+    if (!local || local.length > 64 || local.startsWith('.') || local.endsWith('.'))
         return { valid: false, message: 'The part before @ looks invalid.' };
-    }
-    if (local.includes('..')) {
+    if (local.includes('..'))
         return { valid: false, message: 'The part before @ looks invalid.' };
-    }
     for (const ch of local) {
         const code = ch.charCodeAt(0);
-        if (code <= 31 || code === 127 || [' ', '"', '\\', '<', '>'].includes(ch)) {
+        if (code <= 31 || code === 127 || [' ', '"', '\\', '<', '>'].includes(ch))
             return { valid: false, message: 'The part before @ looks invalid.' };
-        }
     }
-
-    // 3. Domain Part Rules: (At least two labels, no illegal chars/hyphens)
-    if (!domain) {
-        return { valid: false, message: 'The domain after @ looks invalid.' };
-    }
+    if (!domain) return { valid: false, message: 'The domain after @ looks invalid.' };
     const labels = domain.split('.');
-    if (labels.length < 2) {
-        return { valid: false, message: 'The domain after @ looks invalid.' };
-    }
-
+    if (labels.length < 2) return { valid: false, message: 'The domain after @ looks invalid.' };
     for (const lab of labels) {
-        if (!lab || lab.length > 63 || lab.startsWith('-') || lab.endsWith('-')) {
+        if (!lab || lab.length > 63 || lab.startsWith('-') || lab.endsWith('-'))
             return { valid: false, message: 'The domain after @ looks invalid.' };
-        }
-        // Allows letters, numbers, and hyphens (and unicode as per RFC)
-        if (/[^0-9A-Za-z\u00C0-\uFFFF-]/.test(lab)) {
+        if (/[^0-9A-Za-zÀ-￿-]/.test(lab))
             return { valid: false, message: 'The domain after @ looks invalid.' };
-        }
     }
-
-    // 4. TLD validation and typo detection
     const tld = labels[labels.length - 1].toLowerCase();
-    if (tld.length < 2) {
-        return { valid: false, message: 'The domain after @ looks invalid.' };
-    }
-    
-    // Block TLDs with numbers (almost always invalid)
-    if (/\d/.test(tld)) {
-        return { valid: false, message: 'The domain after @ looks invalid.' };
-    }
-    
-    // Block TLDs longer than 6 characters (likely typos)
-    if (tld.length > 6) {
-        return { valid: false, message: 'The domain after @ looks invalid.' };
-    }
-    
-    // Check for specific common typo TLDs with helpful message
-    if (tld === 'con' || tld === 'cmo' || tld === 'ocm') {
+    if (tld.length < 2) return { valid: false, message: 'The domain after @ looks invalid.' };
+    if (/\d/.test(tld)) return { valid: false, message: 'The domain after @ looks invalid.' };
+    if (tld.length > 6) return { valid: false, message: 'The domain after @ looks invalid.' };
+    if (tld === 'con' || tld === 'cmo' || tld === 'ocm')
         return { valid: false, message: 'Top-level domain looks wrong: "' + tld + '". Did you mean ".com"?' };
-    }
-    
-    // Blocks other common typos
-    const badTLD = ['comm', 'cpm', 'xom', 'vom', 'cim', 'cin', 'xeres', 'nett', 'orgg', 'gom'];
-    if (badTLD.includes(tld)) {
-        return { valid: false, message: 'The domain after @ looks invalid.' };
-    }
-    
-    // 5. Domain suggestion for common typos
+    const badTLD = ['comm','cpm','xom','vom','cim','cin','xeres','nett','orgg','gom'];
+    if (badTLD.includes(tld)) return { valid: false, message: 'The domain after @ looks invalid.' };
     const domainSuggestions = {
-        'gamil.com': 'gmail.com',
-        'gmial.com': 'gmail.com',
-        'gmai.com': 'gmail.com',
-        'hotnail.com': 'hotmail.com',
-        'hotmial.com': 'hotmail.com',
-        'hotmai.com': 'hotmail.com',
-        'yahho.com': 'yahoo.com',
-        'yaho.com': 'yahoo.com',
-        'yahooo.com': 'yahoo.com',
-        'outlok.com': 'outlook.com',
-        'outloo.com': 'outlook.com',
-        'iclouds.com': 'icloud.com',
-        'iclould.com': 'icloud.com',
-        'iclou.com': 'icloud.com'
+        'gamil.com':'gmail.com','gmial.com':'gmail.com','gmai.com':'gmail.com',
+        'hotnail.com':'hotmail.com','hotmial.com':'hotmail.com','hotmai.com':'hotmail.com',
+        'yahho.com':'yahoo.com','yaho.com':'yahoo.com','yahooo.com':'yahoo.com',
+        'outlok.com':'outlook.com','outloo.com':'outlook.com',
+        'iclouds.com':'icloud.com','iclould.com':'icloud.com','iclou.com':'icloud.com'
     };
-    
     const domainLower = domain.toLowerCase();
-    if (domainSuggestions[domainLower]) {
+    if (domainSuggestions[domainLower])
         return { valid: false, message: 'Did you mean ' + local + '@' + domainSuggestions[domainLower] + '?' };
-    }
-    
     return { valid: true, message: '' };
 };
 
 window.isValidZip = function(zip) {
-    // Allow 5-digit or ZIP+4 with optional hyphen
     return /^\d{5}(-\d{4})?$/.test(String(zip || '').trim());
 };
 
 window.doesZipMatchCityState = async function(zip, city, state) {
-    // Normalize inputs
-    const zip5 = String(zip || '').trim().slice(0, 10).replace(/\D/g, '').slice(0, 5); // use 5-digit portion
-    const st  = String(state || '').trim().toUpperCase(); // USPS 2-letter
-    const normCity = (s) => {
+    const zip5 = String(zip || '').trim().slice(0,10).replace(/\D/g,'').slice(0,5);
+    const st = String(state || '').trim().toUpperCase();
+    const normCity = s => {
         let x = String(s || '').toLowerCase();
-        x = x.replace(/\./g, '');        // drop periods: "St." -> "St"
-        x = x.replace(/\s+/g, ' ').trim();
-        // Expand common prefixes to reduce false mismatches
-        x = x.replace(/^st\s+/, 'saint ');
-        x = x.replace(/^ste\s+/, 'sainte ');
+        x = x.replace(/\./g,'').replace(/\s+/g,' ').trim();
+        x = x.replace(/^st\s+/,'saint ').replace(/^ste\s+/,'sainte ');
         return x;
     };
     const c = normCity(city);
-
     try {
         if (!zip5 || zip5.length !== 5) return false;
         const response = await fetch(`https://api.zippopotam.us/us/${zip5}`);
         if (!response.ok) return false;
-
         const data = await response.json();
         const places = Array.isArray(data.places) ? data.places : [];
-
         return places.some(place => {
-            const apiCity  = normCity(place['place name']);
+            const apiCity = normCity(place['place name']);
             const apiState = String(place['state abbreviation'] || '').toUpperCase();
-            // Match on exact state, and city after normalization
             return apiState === st && apiCity === c;
         });
     } catch (error) {
@@ -2020,6 +1802,6 @@ window.doesZipMatchCityState = async function(zip, city, state) {
     }
 };
 </script>
-    
+
 </body>
 </html>
