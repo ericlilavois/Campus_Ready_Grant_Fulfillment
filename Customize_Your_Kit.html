@@ -1539,7 +1539,8 @@ function handleStudentStatus(data) {
         updateHeader('College & Housing Verification', 'Almost there. Before we finalize your selections, please upload two quick documents. We\'ll need these by July 15th.');
 
     } else if (housingStatus === 'Uploaded' || acceptanceStatus === 'Uploaded') {
-        alert("Your documents are being reviewed. Don't worry, we'll email you when they're approved.");
+        document.getElementById('documentUpload').style.display = 'block';
+        updateHeader('Documents Received', 'We have your documents and are reviewing them now. We\'ll email you once they\'re approved and your kit is ready to customize.');
 
     } else {
         document.getElementById('documentUpload').style.display = 'block';
