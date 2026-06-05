@@ -385,7 +385,7 @@
 
             <div style="margin-bottom:24px; padding:16px 18px; background:#f0fdfa; border-radius:10px; border:1px solid #99f6e4;">
                 <p style="margin:0; color:#0f766e; font-size:0.875rem; line-height:1.5;">
-                    <strong>One more thing:</strong> After you arrive on campus, we may reach out to see how move-in went. If you're up for sharing a quick photo or video, we'll send a $50 gift card as a thank-you. Totally optional — just a heads up it's coming.
+                    <strong>Good news:</strong> After move-in, we'd love to see and hear how your first days went. If you're willing to share a few photos and a short video, we'll send you a $50 gift card as a thank-you. No obligation. We'll reach out when the time comes.
                 </p>
             </div>
 
@@ -476,8 +476,9 @@
             </a>
 
             <div class="kit-greeting" id="kitGreeting"></div>
-            <p class="kit-intro">Most of it's already set. Tap the categories with choices to make them yours.</p>
+            <p class="kit-intro">We've chosen some great products for you. A few would benefit from your personal preference. Tap to make it yours.</p>
 
+            <p class="kit-intro">We've chosen products for you based on what every student needs for a strong start. We're mostly done. You just have a few choices to make: colors, sizes, and a few personal care preferences.</p>
             <div class="cat-list" id="catList"></div>
 
             <div class="kit-footer-progress" id="footerProgress"></div>
@@ -753,7 +754,7 @@ const CHOICE_DEFS = {
     beddingFirmness: { label: 'Pillow firmness', group: 'bedding' },
     towelColor:      { label: 'Towel color', group: 'bath' },
     slides:          { label: 'Slides — size & color', group: 'bath' },
-    personalCare:    { label: 'A couple quick questions', group: 'personal' }
+    personalCare:    { label: 'A few quick questions about you', group: 'personal' }
 };
 
 // ============================================================
@@ -1016,7 +1017,7 @@ function openSlides() {
     openPopup({
         style: schoolRecord ? schoolRecord.name : 'BATH',
         title: 'Slides',
-        copy: 'We use gender to find the right sizing. Pick yours, then choose a size and color.',
+        copy: 'Pick the sizing that works for you, then choose your color.',
         contentHTML: content,
         validate: () =>
             !!document.querySelector('#slideGenderPills .gender-pill.selected') &&
@@ -1063,8 +1064,8 @@ function openPersonalCare() {
         </div>`;
     openPopup({
         style: 'PERSONAL CARE',
-        title: 'A couple quick questions',
-        copy: 'This helps us dial in the right items for you.',
+        title: 'Tell us a little about yourself',
+        copy: 'Three quick questions so we can pick the right products for you.',
         contentHTML: content,
         validate: () => {
             const g = !!document.querySelector('#genderPills .gender-pill.selected');
