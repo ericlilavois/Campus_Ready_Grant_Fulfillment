@@ -584,7 +584,7 @@ function goToSection(sectionNum) {
         updateHeader('Review and Submit', 'Please check your entries and your choices.');
     }
     if (sectionNum === 1) {
-        updateHeader('Customize Your Kit', "We're going shopping! Your responses will guide us to select items that match your style.");
+        updateHeader('Customize Your Kit', "We're going shopping for you and we just need a little more information. Your responses will guide us to choose items that match your style.");
     }
 }
 
@@ -1519,7 +1519,7 @@ function handleStudentStatus(data) {
 
     if (housingStatus === 'Approved' && acceptanceStatus === 'Approved') {
         document.querySelector('[data-section="1"]').classList.add('active');
-        updateHeader('Customize Your Kit', "We're going shopping! Your responses will guide us to select items that match your style.");
+        updateHeader('Customize Your Kit', "We're going shopping for you and we just need a little more information. Your responses will guide us to choose items that match your style.");
         setTimeout(() => {
             const nameField = document.getElementById('student_name');
             const emailField = document.getElementById('email');
@@ -1684,7 +1684,7 @@ async function uploadDocuments() {
                 continueButton.onclick = function() {
                     document.getElementById('documentUpload').style.display = 'none';
                     document.querySelector('[data-section="1"]').classList.add('active');
-                    updateHeader('Customize Your Kit', "We're going shopping. Your responses will guide us to select items that match your style.");
+                    updateHeader('Customize Your Kit', "We're going shopping for you and we just need a little more information. Your responses will guide us to choose items that match your style.");
                     setTimeout(() => {
                         const nameField = document.getElementById('student_name');
                         const emailField = document.getElementById('email');
