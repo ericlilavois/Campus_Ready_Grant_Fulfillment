@@ -324,6 +324,20 @@
         </div>
     </div>
 
+    <!-- School card — shown after email verification, visible on all screens -->
+    <div id="schoolHeader" style="display:none; margin-bottom:16px;">
+        <div class="school-card" id="schoolCard">
+            <div class="sc-eyebrow" id="scEyebrow"></div>
+            <div class="sc-headline" id="scHeadline"></div>
+            <div class="sc-divider" id="scDivider"></div>
+            <div class="sc-rally" id="scRally"></div>
+        </div>
+        <a class="checklist-link" id="checklistLink" href="#" target="_blank" rel="noopener" style="display:none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            <span id="checklistLinkText"></span>
+        </a>
+    </div>
+
     <form id="kitForm" class="form-card">
 
         <!-- EMAIL VALIDATION SECTION -->
@@ -461,19 +475,6 @@
 
         <!-- SECTION 2: Kit Customization -->
         <div class="form-section" data-section="2">
-
-            <!-- School card (filled in by JS after school data loads) -->
-            <div class="school-card" id="schoolCard" style="display:none;">
-                <div class="sc-eyebrow" id="scEyebrow"></div>
-                <div class="sc-headline" id="scHeadline"></div>
-                <div class="sc-divider" id="scDivider"></div>
-                <div class="sc-rally" id="scRally"></div>
-            </div>
-
-            <a class="checklist-link" id="checklistLink" href="#" target="_blank" rel="noopener" style="display:none;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                <span id="checklistLinkText"></span>
-            </a>
 
             <div class="kit-greeting" id="kitGreeting"></div>
             <p class="kit-intro">We've chosen some great products for you. A few would benefit from your personal preference. Tap to make it yours.</p>
@@ -782,10 +783,8 @@ async function loadSchoolData(unitid) {
         const schools = await resp.json();
         const numId = parseInt(unitid, 10);
         schoolRecord = schools.find(s => s.unitid === numId) || null;
-        // Apply theme immediately if section 2 is already visible
-        if (document.querySelector('[data-section="2"]').classList.contains('active')) {
-            applySchoolTheme();
-        }
+        // Apply theme as soon as school data loads — visible on all screens
+        applySchoolTheme();
     } catch (e) {
         console.error('Could not load school data:', e);
     }
@@ -800,8 +799,7 @@ function applySchoolTheme() {
     document.documentElement.style.setProperty('--school-text', textColor);
 
     const displayName = schoolRecord.name || 'your school';
-    const card = document.getElementById('schoolCard');
-    card.style.display = 'block';
+    document.getElementById('schoolHeader').style.display = 'block';
 
     if (schoolRecord.secondary_phrase) {
         document.getElementById('scEyebrow').textContent = schoolRecord.secondary_phrase;
