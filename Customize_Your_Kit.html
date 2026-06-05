@@ -1003,7 +1003,11 @@ function openTowelColor() {
 
 function openSlides() {
     const content = `
-        <div class="pref-section-label">Size</div>
+        <div class="pref-section-label">Gender</div>
+        <div class="gender-pills" id="slideGenderPills">
+            ${GENDERS.map(g => `<button class="gender-pill ${sel.pcGender === g.value ? 'selected' : ''}" data-value="${g.value}" onclick="pickSlideGender(this)">${g.label}</button>`).join('')}
+        </div>
+        <div class="pref-section-label spaced">Size</div>
         <div class="size-grid" id="sizeGrid">` +
             SLIDES_SIZES.map(s => `<div class="size-card ${sel.slidesSize === s.value ? 'selected' : ''}" data-value="${s.value}" onclick="pickSize(this)">${s.label}</div>`).join('') +
         `</div>
@@ -1012,12 +1016,20 @@ function openSlides() {
     openPopup({
         style: schoolRecord ? schoolRecord.name : 'BATH',
         title: 'Slides',
-        copy: 'Pick your size and color.',
+        copy: 'We use gender to find the right sizing. Pick yours, then choose a size and color.',
         contentHTML: content,
         validate: () =>
+            !!document.querySelector('#slideGenderPills .gender-pill.selected') &&
             !!document.querySelector('#sizeGrid .size-card.selected') &&
             !!document.querySelector('#slidesColorGrid .color-swatch-item.selected')
     });
+}
+function pickSlideGender(el) {
+    document.querySelectorAll('#slideGenderPills .gender-pill').forEach(p => p.classList.remove('selected'));
+    el.classList.add('selected');
+    // Keep in sync with Personal Care gender so both popups agree
+    sel.pcGender = el.dataset.value;
+    refreshDoneBtn();
 }
 function pickSize(el) {
     document.querySelectorAll('#sizeGrid .size-card').forEach(s => s.classList.remove('selected'));
@@ -1132,12 +1144,14 @@ function commitPopup() {
         setChoiceValue('towelColor', swatchValueHTML(sel.towelColor));
 
     } else if (k === 'slides') {
+        sel.pcGender = document.querySelector('#slideGenderPills .gender-pill.selected').dataset.value;
         sel.slidesSize = document.querySelector('#sizeGrid .size-card.selected').dataset.value;
         sel.slidesColor = document.querySelector('#slidesColorGrid .color-swatch-item.selected').dataset.color;
         const sizeLabel = SLIDES_SIZES.find(s => s.value === sel.slidesSize).label;
         const c = KIT_COLORS.find(x => x.key === sel.slidesColor);
+        const genderLabel = GENDERS.find(g => g.value === sel.pcGender)?.label;
         setChoiceValue('slides',
-            `Size ${sizeLabel} · <span class="mini-swatch" style="background:${c.hex}"></span>${c.name}`);
+            `${genderLabel} · Size ${sizeLabel} · <span class="mini-swatch" style="background:${c.hex}"></span>${c.name}`);
 
     } else if (k === 'personalCare') {
         sel.pcGender = document.querySelector('#genderPills .gender-pill.selected').dataset.value;
