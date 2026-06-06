@@ -1351,9 +1351,39 @@ const PRODUCT_IMAGES = {
     'Slides|Pink':  'https://m.media-amazon.com/images/I/61erhf4rQVL._AC_SX695_.jpg',
     'Slides|Mint':  'https://m.media-amazon.com/images/I/71Gl+xLPD5L._AC_SX695_.jpg',
 
-    // ── PERSONAL CARE ───────────────────────────────────────
-    // Shampoo, Body Wash, Deodorant, Shaving Cream, Toothbrush — pending
-    'Dental Floss':    'https://m.media-amazon.com/images/I/710k1gFyLvL._AC_SL1500_.jpg',
+    // ── SHAMPOO & CONDITIONER (scent-specific; Men and Women share same bundle image) ──
+    'Shampoo & Conditioner|Unscented':     'https://m.media-amazon.com/images/I/617J7KJPFhL._SL1500_.jpg', // CeraVe shampoo (separate unscented)
+    'Shampoo & Conditioner|Fresh & Clean': 'https://m.media-amazon.com/images/I/71dLuswyJBL._SL1500_.jpg', // Native
+    'Shampoo & Conditioner|Soft & Floral': 'https://m.media-amazon.com/images/I/71jyiuNOmKL._SL1500_.jpg', // Native
+    'Shampoo & Conditioner|Cool & Herbal': 'https://m.media-amazon.com/images/I/71CmY7A9E0L._SL1500_.jpg', // Native
+    'Shampoo & Conditioner|Wood & Amber':  'https://m.media-amazon.com/images/I/71SeHZcapXL._SL1500_.jpg', // Native
+
+    // ── BODY WASH (gender-specific) ─────────────────────────
+    'Body Wash|Women':  'https://m.media-amazon.com/images/I/51JjHDWgSKL._SL1000_.jpg',  // EOS Women's
+    'Body Wash|Men':    'https://m.media-amazon.com/images/I/51jQQ8yUfQL._SL1500_.jpg',  // Method Men's
+    'Body Wash|Unisex': 'https://m.media-amazon.com/images/I/61FiC6PgWzL._SL1500_.jpg',  // Native Unisex
+
+    // ── DEODORANT / ANTIPERSPIRANT (gender-specific) ─────────
+    'Deodorant|Women':      'https://m.media-amazon.com/images/I/61CDk0aPrfL._SL1500_.jpg', // Native Women's
+    'Deodorant|Men':        'https://m.media-amazon.com/images/I/71-krfs03hL._SL1500_.jpg', // Dove Men's
+    'Deodorant|Unisex':     'https://m.media-amazon.com/images/I/61XoNO89w7L._SL1500_.jpg', // Vanicream Unisex
+    'Antiperspirant|Women': 'https://m.media-amazon.com/images/I/61XoNO89w7L._SL1500_.jpg', // Vanicream
+    'Antiperspirant|Men':   'https://m.media-amazon.com/images/I/71-krfs03hL._SL1500_.jpg', // Dove Men's
+    'Antiperspirant|Unisex':'https://m.media-amazon.com/images/I/61XoNO89w7L._SL1500_.jpg', // Vanicream
+
+    // ── SHAVING CREAM (gender-specific) ─────────────────────
+    'Shaving Cream|Women':  'https://m.media-amazon.com/images/I/61QjCZz+-dL._SL1500_.jpg', // Billie Women's
+    'Shaving Cream|Men':    'https://m.media-amazon.com/images/I/61dhc56as4L._SL1500_.jpg', // VaniCream Men's
+    'Shaving Cream|Unisex': 'https://m.media-amazon.com/images/I/61d-l41z6xL._SL1500_.jpg', // Cremo Unisex
+
+    // ── RAZOR (gender-specific) ──────────────────────────────
+    'Razor Handle|Women':   'https://m.media-amazon.com/images/I/615WLv5hD5L._SL1500_.jpg', // Billie
+    'Razor Handle|Men':     'https://m.media-amazon.com/images/I/71Q8+TBhTzL._SL1500_.jpg', // Harry's
+    'Razor Handle|Unisex':  'https://m.media-amazon.com/images/I/81RoJEgK5UL._SL1500_.jpg', // Dollar Shave Club
+
+    // ── TOOTHBRUSH / DENTAL ─────────────────────────────────
+    'Toothbrush':  'https://m.media-amazon.com/images/I/71K9jutKeCL._AC_SL1500_.jpg', // Curaprox
+    'Dental Floss':'https://m.media-amazon.com/images/I/710k1gFyLvL._AC_SL1500_.jpg',
 
     // ── LAUNDRY ─────────────────────────────────────────────
     'Laundry Pods':  'https://m.media-amazon.com/images/I/81Yw8gFOqoL._AC_SL1500_.jpg',
@@ -1385,9 +1415,10 @@ const PRODUCT_IMAGES = {
     'Drawer Organizer': 'https://m.media-amazon.com/images/I/51ekZ5lDZBL._AC_SL1000_.jpg',
 };
 
-// Color-aware lookup: checks "Product|Color" first, then "Product", then placeholder
-function getProductImg(key, color) {
-    if (color && PRODUCT_IMAGES[key + '|' + color]) return PRODUCT_IMAGES[key + '|' + color];
+// Lookup with up to two fallback levels: "Product|A|B" → "Product|A" → "Product" → placeholder
+function getProductImg(key, a, b) {
+    if (a && b && PRODUCT_IMAGES[key + '|' + a + '|' + b]) return PRODUCT_IMAGES[key + '|' + a + '|' + b];
+    if (a && PRODUCT_IMAGES[key + '|' + a]) return PRODUCT_IMAGES[key + '|' + a];
     return PRODUCT_IMAGES[key] || PLACEHOLDER_IMG;
 }
 
@@ -1479,14 +1510,16 @@ function populateReview() {
         reviewProductRow(getProductImg('Shower Caddy'),             'Shower Caddy',                 null,                        'Included') +
         reviewProductRow(getProductImg('Toiletry Bag'),             'Toiletry Bag',                 null,                        'Included');
 
-    // Personal Care
+    // Personal Care — images keyed by scent (shampoo) or gender (everything else)
+    const scentForImg   = sel.pcUnscented ? 'Unscented' : SCENTS.find(s => s.key === sel.pcScent)?.catalogValue;
+    const deodorantType = sel.deodorant || 'Deodorant'; // 'Deodorant' or 'Antiperspirant'
     const pcRows =
-        reviewProductRow(getProductImg('Shampoo'),          'Shampoo & Conditioner',        [genderLabel, scentLabel].filter(Boolean).join(' · '), 'Included') +
-        reviewProductRow(getProductImg('Body Wash'),        'Body Wash',                    scentLabel || null,          'Included') +
-        reviewProductRow(getProductImg('Deodorant'),        sel.deodorant || 'Deodorant',   genderLabel || null,         'Included') +
-        reviewProductRow(getProductImg('Shaving Cream'),    'Shaving Cream & Razor',        genderLabel || null,         'Included') +
-        reviewProductRow(getProductImg('Toothbrush'),       'Toothbrush & Toothpaste',      null,                        'Included') +
-        reviewProductRow(getProductImg('Dental Floss'),     'Dental Floss',                 null,                        'Included');
+        reviewProductRow(getProductImg('Shampoo & Conditioner', scentForImg), 'Shampoo & Conditioner', [genderLabel, scentLabel].filter(Boolean).join(' · '), 'Included') +
+        reviewProductRow(getProductImg('Body Wash', sel.pcGender),            'Body Wash',              scentLabel || null,          'Included') +
+        reviewProductRow(getProductImg(deodorantType, sel.pcGender),          deodorantType,            genderLabel || null,         'Included') +
+        reviewProductRow(getProductImg('Shaving Cream', sel.pcGender),        'Shaving Cream & Razor',  genderLabel || null,         'Included') +
+        reviewProductRow(getProductImg('Toothbrush'),                         'Toothbrush & Toothpaste',null,                        'Included') +
+        reviewProductRow(getProductImg('Dental Floss'),                       'Dental Floss',           null,                        'Included');
 
     function simpleSection(title, emoji, items) {
         return reviewCategorySection(title, emoji,
