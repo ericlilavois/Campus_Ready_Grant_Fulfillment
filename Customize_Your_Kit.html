@@ -933,8 +933,9 @@ function renderCategories() {
             choiceRows += `<div class="cascade-note">Your answers apply to every personal care item above.</div>`;
         }
 
+        const totalCount = cat.included.length + cat.choices.length;
         const metaText = hasChoices
-            ? `${cat.included.length} included · <span class="needs">Tap to customize</span>`
+            ? `${totalCount} item${totalCount !== 1 ? 's' : ''} · <span class="needs">Tap to customize</span>`
             : `${cat.included.length} item${cat.included.length !== 1 ? 's' : ''} included`;
 
         return `
@@ -1056,16 +1057,16 @@ function openBeddingColors() {
 
 function openFirmness() {
     const opts = [
-        { value: 'Soft',   emoji: '☁️', label: 'Sink Right In',     sub: 'Fluffy, great for side sleepers.' },
-        { value: 'Medium', emoji: '⚖️', label: 'Balanced Support',  sub: 'Most popular, works for most people.' },
-        { value: 'Firm',   emoji: '🪨', label: 'Solid Support',      sub: 'Stays flat, good for back sleepers.' }
+        { value: 'Soft',   emoji: '☁️', sub: 'Sink right in' },
+        { value: 'Medium', emoji: '⚖️', sub: 'Balanced support' },
+        { value: 'Firm',   emoji: '🪨', sub: 'Solid support' }
     ];
     openPopup({
         style: schoolRecord ? schoolRecord.name : 'BEDDING',
         title: 'Pillow firmness',
         copy: 'How do you like your pillow?',
         contentHTML: `<div class="card-stack" id="firmnessStack">` +
-            opts.map(o => `<div class="preference-card ${sel.beddingFirmness === o.value ? 'selected' : ''}" data-value="${o.value}" onclick="pickCard(this,'firmnessStack')"><span class="pc-title">${o.emoji} ${o.label}</span><span class="pc-sub">${o.sub}</span></div>`).join('') +
+            opts.map(o => `<div class="preference-card ${sel.beddingFirmness === o.value ? 'selected' : ''}" data-value="${o.value}" onclick="pickCard(this,'firmnessStack')" style="flex-direction:row; align-items:center; gap:14px;"><span style="font-size:1.5rem; flex-shrink:0;">${o.emoji}</span><div><div class="pc-title">${o.value}</div><div class="pc-sub">${o.sub}</div></div></div>`).join('') +
             `</div>`,
         validate: () => !!document.querySelector('#firmnessStack .preference-card.selected')
     });
