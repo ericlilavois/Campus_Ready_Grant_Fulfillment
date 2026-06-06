@@ -328,7 +328,7 @@
 
     <div class="header">
         <img src="logo-image-1200x630.png" alt="Campus Ready Foundation" class="logo">
-        <h1 class="title" id="pageTitle">You've earned your grant.</h1>
+        <h1 class="title" id="pageTitle">Let's make sure it's you.</h1>
         <p class="subtitle" id="pageSubtitle"></p>
     </div>
 
@@ -420,7 +420,15 @@
                 </div>
                 <div id="acceptance_error" class="upload-error"></div>
             </div>
-            <p class="section-description" style="margin-top:24px;font-style:italic;">Don't have these yet? No problem — bookmark this page and come back when you do.</p>
+            <div style="margin-top:24px; border-radius:12px; overflow:hidden; border:1px solid rgba(221,105,58,0.25); box-shadow:0 2px 8px rgba(221,105,58,0.08);">
+                <div style="background:#DD693A; padding:12px 18px; display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.25rem;">📅</span>
+                    <span style="font-family:'Playfair Display',serif; font-size:1rem; font-weight:600; color:#ffffff;">No documents yet? No problem.</span>
+                </div>
+                <div style="background:#FEF3E7; padding:14px 18px;">
+                    <p style="margin:0; color:#8B4513; font-size:0.9rem; line-height:1.5;">Bookmark this page and come back when you have them. You have until <strong>July 15</strong> — we'll be here.</p>
+                </div>
+            </div>
             <button type="button" id="continueToKitBtn" class="btn btn-primary" disabled style="margin-top:24px;">Continue to Kit Selection</button>
         </div>
 
@@ -450,10 +458,6 @@
                 <label for="email" class="required">Email Address</label>
                 <input type="email" id="email" name="email" required>
                 <div class="live-error" id="email-live-feedback">Please enter a valid email address.</div>
-            </div>
-
-            <div id="prefill-notice" style="display:none; margin-bottom:24px; padding:14px 16px; background:#f0fdfa; border:1px solid #99f6e4; border-radius:10px; color:#0f766e; font-size:0.9rem; line-height:1.5;">
-                We've pre-filled your name and email from your application. Please review them and make any corrections before continuing.
             </div>
 
             <div class="form-group">
@@ -524,7 +528,7 @@
         <div class="form-section" data-section="1">
 
             <div class="kit-greeting" id="kitGreeting"></div>
-            <p class="kit-intro">We've chosen some great products for you. A few would benefit from your personal preference. Tap to make it yours.</p>
+            <p class="kit-intro">We've chosen some great products for you. Some need your input. Tap the cards to review all the options.</p>
 
             <div class="cat-list" id="catList"></div>
 
@@ -655,7 +659,7 @@ function goToSection(sectionNum) {
         let prefilled = false;
         if (nameField && studentData && studentData.studentName && !nameField.value) { nameField.value  = studentData.studentName; prefilled = true; }
         if (emailField && studentData && studentData.email && !emailField.value)     { emailField.value = studentData.email;        prefilled = true; }
-        if (prefilled) document.getElementById('prefill-notice').style.display = 'block';
+        // prefill-notice removed
     }
     if (sectionNum === 3) {
         populateReview();
@@ -1436,18 +1440,36 @@ function reviewProductRow(imgSrc, name, detail, brand) {
         </div>`;
 }
 
+function toggleReviewSection(el) {
+    var b = el.parentElement.querySelector('.rv-body');
+    var c = el.querySelector('.rv-chev');
+    var isOpen = b.style.display !== 'none';
+    b.style.display = isOpen ? 'none' : 'block';
+    if (isOpen) {
+        c.textContent = 'Tap to review ›';
+        Object.assign(c.style, { background:'var(--teal)', color:'#fff', padding:'4px 10px',
+            borderRadius:'20px', fontSize:'0.6875rem', fontWeight:'600', letterSpacing:'0.02em' });
+    } else {
+        c.textContent = '›';
+        Object.assign(c.style, { background:'transparent', color:'var(--grey-text)', padding:'0',
+            borderRadius:'0', fontSize:'14px', fontWeight:'400', letterSpacing:'0' });
+    }
+}
+
 let _reviewSectionIdx = 0;
 function reviewCategorySection(title, emoji, rows, startOpen) {
     const id = 'rvsec-' + (_reviewSectionIdx++);
     const open = startOpen ? '' : 'display:none;';
-    const chevronRotate = startOpen ? 'transform:rotate(90deg);' : '';
+    const cta = startOpen
+        ? `<span class="rv-chev" style="color:var(--grey-text); font-size:14px;">›</span>`
+        : `<span class="rv-chev" style="background:var(--teal); color:#fff; padding:4px 10px; border-radius:20px; font-size:0.6875rem; font-weight:600; letter-spacing:0.02em; white-space:nowrap;">Tap to review ›</span>`;
     return `
         <div style="background:var(--white); border:1px solid var(--grey-border); border-radius:14px; overflow:hidden; margin-bottom:10px;">
-            <div onclick="(function(el){var b=el.parentElement.querySelector('.rv-body');var c=el.querySelector('.rv-chev');var o=b.style.display!=='none';b.style.display=o?'none':'block';c.style.transform=o?'':'rotate(90deg)';})(this)"
+            <div onclick="toggleReviewSection(this)"
                  style="display:flex; align-items:center; gap:10px; padding:14px 18px; background:var(--grey-light); cursor:pointer; user-select:none;">
                 <span style="font-size:18px;">${emoji}</span>
                 <span style="font-size:0.9375rem; font-weight:600; color:var(--black); flex:1;">${title}</span>
-                <span class="rv-chev" style="color:var(--grey-text); font-size:14px; transition:transform 0.2s ease; ${chevronRotate}">›</span>
+                ${cta}
             </div>
             <div class="rv-body" style="${open}padding:0 18px 4px;">
                 ${rows}
@@ -1801,7 +1823,7 @@ function handleStudentStatus(data) {
 
     } else if (housingStatus === 'Rejected' || acceptanceStatus === 'Rejected') {
         document.getElementById('documentUpload').style.display = 'block';
-        updateHeader('College & Housing Verification', 'Before we finalize your selections, please upload two quick documents. We\'ll need these by July 15th.');
+        updateHeader('College & Housing Verification', 'Before we finalize your selections, please upload two quick documents. <span style="display:inline-flex;align-items:center;background:#DD693A;color:white;font-size:0.75rem;font-weight:700;border-radius:20px;padding:2px 10px;margin-left:6px;vertical-align:middle;letter-spacing:0.02em;">Due July 15</span>');
 
     } else if (housingStatus === 'Uploaded' || acceptanceStatus === 'Uploaded') {
         document.getElementById('documentUpload').style.display = 'block';
@@ -1809,7 +1831,7 @@ function handleStudentStatus(data) {
 
     } else {
         document.getElementById('documentUpload').style.display = 'block';
-        updateHeader('College & Housing Verification', 'Before we finalize your selections, please upload two quick documents. We\'ll need these by July 15th.');
+        updateHeader('College & Housing Verification', 'Before we finalize your selections, please upload two quick documents. <span style="display:inline-flex;align-items:center;background:#DD693A;color:white;font-size:0.75rem;font-weight:700;border-radius:20px;padding:2px 10px;margin-left:6px;vertical-align:middle;letter-spacing:0.02em;">Due July 15</span>');
     }
 
     document.getElementById('step-1').classList.add('complete');
