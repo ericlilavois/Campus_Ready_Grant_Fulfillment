@@ -1300,13 +1300,87 @@ function updateProgress() {
 
 // ============================================================
 // PRODUCT IMAGES
-// Placeholder until crf_product_images.json is ready.
-// Keys match product names used in reviewProductRow() calls below.
+// Color-variable products use "Product|Color" keys.
+// Personal Care and Slides pending — placeholders remain.
 // ============================================================
 const PLACEHOLDER_IMG = 'https://placehold.co/80x80/F3F4F6/9CA3AF?text=Photo';
-const PRODUCT_IMAGES = {};  // populate with real URLs when images are ready
+const PRODUCT_IMAGES = {
+    // ── SHEET SET (color-specific) ──────────────────────────
+    'Sheet Set|White':  'https://m.media-amazon.com/images/I/813EcCwq3+L._AC_SL1500_.jpg',
+    'Sheet Set|Gray':   'https://m.media-amazon.com/images/I/71zK7nK9axL._AC_SL1500_.jpg',
+    'Sheet Set|Navy':   'https://m.media-amazon.com/images/I/71VQbIPNfjL._AC_SL1500_.jpg',
+    'Sheet Set|Cream':  'https://m.media-amazon.com/images/I/71H2utHgjJL._AC_SL1500_.jpg',
+    'Sheet Set|Pink':   'https://m.media-amazon.com/images/I/71nfRko+mAL._AC_SL1500_.jpg',
+    'Sheet Set|Mint':   'https://m.media-amazon.com/images/I/71WHDDq8f7L._AC_SL1500_.jpg',
 
-function getProductImg(key) {
+    // ── DUVET COVER (color-specific) ───────────────────────
+    'Duvet Cover|White': 'https://m.media-amazon.com/images/I/81qMhSMnQKL._AC_SL1500_.jpg',
+    'Duvet Cover|Gray':  'https://m.media-amazon.com/images/I/81t-MlivJEL._AC_SL1500_.jpg',
+    'Duvet Cover|Navy':  'https://m.media-amazon.com/images/I/81sAbt2Us3L._AC_SL1500_.jpg',
+    'Duvet Cover|Cream': 'https://m.media-amazon.com/images/I/81uFBS1kFcL._AC_SL1500_.jpg',
+    'Duvet Cover|Pink':  'https://m.media-amazon.com/images/I/81CjlZT5G4L._AC_SL1500_.jpg',
+    'Duvet Cover|Mint':  'https://m.media-amazon.com/images/I/81Iol9Pw5NL._AC_SL1500_.jpg',
+
+    // ── COMFORTER / PROTECTORS ──────────────────────────────
+    'Comforter':          'https://m.media-amazon.com/images/I/61SzkB9DTGL._AC_SL1500_.jpg',
+    'Mattress Protector': 'https://m.media-amazon.com/images/I/71OrR2UH6cL._AC_SL1500_.jpg',
+    'Pillow Protectors':  'https://m.media-amazon.com/images/I/61SrfE5Y+dL._AC_SL1500_.jpg',
+
+    // ── PILLOW (firmness-specific) ──────────────────────────
+    'Pillow|Soft':   'https://m.media-amazon.com/images/I/71329CVoVDL._AC_SL1500_.jpg',
+    'Pillow|Medium': 'https://m.media-amazon.com/images/I/6145-k9xSPL._AC_SL1500_.jpg',
+    'Pillow|Firm':   'https://m.media-amazon.com/images/I/81vowBO1VrL._AC_SL1500_.jpg',
+
+    // ── TOWEL SET (color-specific) ──────────────────────────
+    'Towel Set|White': 'https://m.media-amazon.com/images/I/71brbA5eSxL._AC_SL1500_.jpg',
+    'Towel Set|Gray':  'https://m.media-amazon.com/images/I/913hqZ9Qb+L._AC_SL1500_.jpg',
+    'Towel Set|Navy':  'https://m.media-amazon.com/images/I/91gpuqttYpL._AC_SL1500_.jpg',
+    'Towel Set|Cream': 'https://m.media-amazon.com/images/I/91kN6m4K0oL._AC_SL1500_.jpg',
+    'Towel Set|Pink':  'https://m.media-amazon.com/images/I/91Ml4RHHyPL._AC_SL1500_.jpg',
+    'Towel Set|Mint':  'https://m.media-amazon.com/images/I/91fAaFxF72L._AC_SL1500_.jpg',
+
+    // ── BATH ────────────────────────────────────────────────
+    'Shower Caddy':  'https://m.media-amazon.com/images/I/71GURerjSaL._AC_SL1500_.jpg',
+    // 'Toiletry Bag' — pending Accessories CSV
+    // 'Slides'       — pending Accessories CSV
+
+    // ── PERSONAL CARE ───────────────────────────────────────
+    // Shampoo, Body Wash, Deodorant, Shaving Cream, Toothbrush — pending
+    'Dental Floss':    'https://m.media-amazon.com/images/I/710k1gFyLvL._AC_SL1500_.jpg',
+
+    // ── LAUNDRY ─────────────────────────────────────────────
+    'Laundry Pods':  'https://m.media-amazon.com/images/I/81Yw8gFOqoL._AC_SL1500_.jpg',
+    'Dryer Sheets':  'https://m.media-amazon.com/images/I/61GXEDQ6DvL._AC_SL1500_.jpg',
+    'Stain Remover': 'https://m.media-amazon.com/images/I/61QHDaGestL._AC_SL1500_.jpg',
+
+    // ── CLEANING ────────────────────────────────────────────
+    'Disinfecting Wipes':  'https://m.media-amazon.com/images/I/71re5SFRK4L._AC_SL1500_.jpg',
+    'Bathroom Cleaner':    'https://m.media-amazon.com/images/I/71iQ1AoegWL._AC_SL1500_.jpg',
+    'All-Purpose Cleaner': 'https://m.media-amazon.com/images/I/71KhddMxKUL._AC_SL1500_.jpg',
+    'Microfiber Cloths':   'https://m.media-amazon.com/images/I/81w8bOHAQHL._AC_SL1500_.jpg',
+    'Trash Bin':           'https://m.media-amazon.com/images/I/41rZFx3ltvL._SL1500_.jpg',
+    'Paper Towels':        'https://m.media-amazon.com/images/I/71tXcUdNE+L._AC_SL1500_.jpg',
+
+    // ── DESK ────────────────────────────────────────────────
+    'Desk Lamp':         'https://m.media-amazon.com/images/I/51Ap5qHeQGL._AC_SL1500_.jpg',
+    'Desktop Organizer': 'https://m.media-amazon.com/images/I/614z7w+EtsL._AC_SL1500_.jpg',
+    'Sticky Notes':      'https://m.media-amazon.com/images/I/71jRyBA8hwL._AC_SL1500_.jpg',
+    'Whiteboard':        'https://m.media-amazon.com/images/I/610zpxSKvlL._AC_SL1500_.jpg',
+    'Power Strip':       'https://m.media-amazon.com/images/I/611IqNw495L._AC_SL1500_.jpg',
+    'Command Strips':    'https://m.media-amazon.com/images/I/81TY1nb1vxL._SL1500_.jpg',
+
+    // ── STORAGE ─────────────────────────────────────────────
+    'Storage Bins':     'https://m.media-amazon.com/images/I/515ngqr1KML._AC_SL1200_.jpg',
+    'Under-Bed Storage':'https://m.media-amazon.com/images/I/51TUWJwtR+L._AC_SL1500_.jpg',
+    'Hangers':          'https://m.media-amazon.com/images/I/71PDwhyAN-L._AC_SL1500_.jpg',
+    'Pants Hangers':    'https://m.media-amazon.com/images/I/61-VcTJfgZL._AC_SL1500_.jpg',
+    'Closet Organizer': 'https://m.media-amazon.com/images/I/71d2zg7GAeL._AC_SL1500_.jpg',
+    'Drawer Organizer': 'https://m.media-amazon.com/images/I/51ekZ5lDZBL._AC_SL1000_.jpg',
+};
+
+// Color-aware lookup: checks "Product|Color" first, then "Product", then placeholder
+function getProductImg(key, color) {
+    if (color && PRODUCT_IMAGES[key + '|' + color]) return PRODUCT_IMAGES[key + '|' + color];
     return PRODUCT_IMAGES[key] || PLACEHOLDER_IMG;
 }
 
@@ -1384,18 +1458,19 @@ function populateReview() {
     // Bedding
     const slidesDetail = [genderLabel, sizeLabel ? `Size ${sizeLabel}` : '', slidesC?.name || ''].filter(Boolean).join(' · ');
     const beddingRows =
-        reviewProductRow(getProductImg('Sheet Set'),        '450 Thread Count Sheet Set',   sheetC?.name || '',          'Lane Linen') +
-        reviewProductRow(getProductImg('Duvet Cover'),      '100% Cotton Duvet Cover',      coverC?.name || '',          'California Design Den') +
-        reviewProductRow(getProductImg('Comforter'),        'Down Alternative Comforter',   sel.beddingFirmness ? sel.beddingFirmness + ' pillow' : null, 'ViscoSoft') +
-        reviewProductRow(getProductImg('Mattress Protector'), 'Mattress Protector',         null,                        'Included') +
-        reviewProductRow(getProductImg('Pillow Protectors'), 'Pillow Protectors',           '×2',                        'Included');
+        reviewProductRow(getProductImg('Sheet Set',   sheetC?.name),  '450 Thread Count Sheet Set',  sheetC?.name || '',          'Lane Linen') +
+        reviewProductRow(getProductImg('Duvet Cover', coverC?.name),  '100% Cotton Duvet Cover',     coverC?.name || '',          'California Design Den') +
+        reviewProductRow(getProductImg('Comforter'),                   'Down Alternative Comforter',  null,                        'ViscoSoft') +
+        reviewProductRow(getProductImg('Pillow', sel.beddingFirmness),'Standard Pillow',             sel.beddingFirmness || null, 'Included') +
+        reviewProductRow(getProductImg('Mattress Protector'),          'Mattress Protector',          null,                        'Included') +
+        reviewProductRow(getProductImg('Pillow Protectors'),           'Pillow Protectors',           '×2',                        'Included');
 
     // Bath
     const bathRows =
-        reviewProductRow(getProductImg('Towel Set'),        'Bath Towel Set',               towelC?.name || '',          'Included') +
-        reviewProductRow(getProductImg('Slides'),           'Slides',                       slidesDetail,                'Included') +
-        reviewProductRow(getProductImg('Shower Caddy'),     'Shower Caddy',                 null,                        'Included') +
-        reviewProductRow(getProductImg('Toiletry Bag'),     'Toiletry Bag',                 null,                        'Included');
+        reviewProductRow(getProductImg('Towel Set', towelC?.name), 'Bath Towel Set',               towelC?.name || '',          'Included') +
+        reviewProductRow(getProductImg('Slides'),                   'Slides',                       slidesDetail,                'Included') +
+        reviewProductRow(getProductImg('Shower Caddy'),             'Shower Caddy',                 null,                        'Included') +
+        reviewProductRow(getProductImg('Toiletry Bag'),             'Toiletry Bag',                 null,                        'Included');
 
     // Personal Care
     const pcRows =
