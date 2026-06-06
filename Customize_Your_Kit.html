@@ -40,16 +40,18 @@
         .title { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; color: var(--black); margin-bottom: 16px; }
         .subtitle { font-size: 1.1rem; color: var(--black); max-width: 600px; margin: 0 auto; }
 
-        .progress-container { margin-bottom: 40px; background: var(--grey-light); padding: 24px; border-radius: 12px; }
-        .progress-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+        .progress-container { margin-bottom: 28px; background: var(--grey-light); padding: 14px 20px; border-radius: 10px; }
+        .progress-bar { display: flex; align-items: center; justify-content: space-between; gap: 4px; }
         .progress-step { flex: 1; text-align: center; position: relative; }
-        .step-circle { width: 40px; height: 40px; border-radius: 50%; background: var(--white); border: 2px solid var(--grey-border); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px; font-weight: 600; color: var(--grey-text); transition: all 0.3s ease; }
+        .step-circle { width: 28px; height: 28px; border-radius: 50%; background: var(--white); border: 2px solid var(--grey-border); display: flex; align-items: center; justify-content: center; margin: 0 auto 5px; font-weight: 600; font-size: 0.75rem; color: var(--grey-text); transition: all 0.3s ease; }
         .progress-step.active .step-circle { background: var(--teal); border-color: var(--teal); color: var(--white); }
         .progress-step.complete .step-circle { background: var(--teal); border-color: var(--teal); color: var(--white); }
-        .step-label { font-size: 0.75rem; color: var(--grey-text); font-weight: 500; white-space: nowrap; }
+        .progress-step:not(.active):not(.complete) .step-circle { opacity: 0.45; }
+        .step-label { font-size: 0.6875rem; color: var(--grey-text); font-weight: 500; white-space: nowrap; }
         .progress-step.active .step-label { color: var(--teal); font-weight: 600; }
         .progress-step.complete .step-label { color: var(--teal); font-weight: 600; }
-        .step-arrow { color: var(--grey-border); font-size: 1.5rem; flex-shrink: 0; }
+        .progress-step:not(.active):not(.complete) .step-label { opacity: 0.45; }
+        .step-arrow { color: var(--grey-border); font-size: 1rem; flex-shrink: 0; }
 
         .form-card { background: var(--grey-light); border-radius: 12px; padding: 32px; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .form-section { display: none; }
@@ -169,7 +171,7 @@
             font-size: 1rem; font-weight: 600; color: var(--black);
             margin-bottom: 8px;
         }
-        .kit-intro { font-size: 0.9375rem; color: var(--grey-text); margin-bottom: 16px; line-height: 1.5; }
+        .kit-intro { font-size: 0.9375rem; color: var(--black); margin-bottom: 16px; line-height: 1.5; }
 
         /* ===== CATEGORY CARDS ===== */
         .cat-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
@@ -187,23 +189,24 @@
         .cat-body { display: none; padding: 0 18px 12px; }
         .cat-card.open .cat-body { display: block; }
 
-        .kit-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--grey-light); }
+        .kit-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--grey-light); }
         .kit-row:first-child { border-top: none; }
-        .row-check { width: 22px; height: 22px; border-radius: 50%; background: rgba(70,158,146,0.1); color: var(--teal); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
-        .row-label { flex: 1; font-size: 0.9375rem; color: #374151; }
-        .row-tag { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase; color: var(--teal-dark); background: rgba(70,158,146,0.1); border-radius: 999px; padding: 3px 9px; flex-shrink: 0; }
-        .row-qty { font-size: 0.75rem; color: #94a3b8; flex-shrink: 0; }
+        .row-check { width: 18px; height: 18px; border-radius: 50%; background: rgba(70,158,146,0.1); color: var(--teal); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex-shrink: 0; }
+        .row-label { flex: 1; font-size: 0.875rem; color: #6B7280; }
+        .row-tag { font-size: 0.625rem; font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase; color: #9CA3AF; background: #F3F4F6; border-radius: 999px; padding: 2px 7px; flex-shrink: 0; }
+        .row-qty { font-size: 0.75rem; color: #CBD5E1; flex-shrink: 0; }
 
-        .kit-row.choice { cursor: pointer; border-radius: 10px; margin: 2px -8px; padding: 12px 8px; }
-        .kit-row.choice:hover { background: var(--grey-light); }
+        .kit-row.choice { cursor: pointer; border-radius: 10px; margin: 4px -10px; padding: 13px 12px; background: rgba(70,158,146,0.05); border: 1.5px solid rgba(70,158,146,0.2); transition: background 0.15s ease, border-color 0.15s ease; }
+        .kit-row.choice:hover { background: rgba(70,158,146,0.1); border-color: var(--teal); }
+        .kit-row.choice.answered { background: rgba(70,158,146,0.06); border-color: rgba(70,158,146,0.25); }
         .choice-icon { width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0; border: 2px solid var(--grey-border); display: flex; align-items: center; justify-content: center; color: var(--grey-text); font-size: 13px; }
         .kit-row.choice.answered .choice-icon { background: var(--teal); border-color: var(--teal); color: white; font-size: 12px; font-weight: 700; }
         .choice-body { flex: 1; min-width: 0; }
-        .choice-label { font-size: 0.9375rem; font-weight: 500; color: var(--black); }
+        .choice-label { font-size: 0.9375rem; font-weight: 600; color: var(--black); }
         .choice-value { font-size: 0.8125rem; color: var(--grey-text); margin-top: 2px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
         .choice-value .mini-swatch { width: 12px; height: 12px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.12); display: inline-block; flex-shrink: 0; }
-        .choice-cta { font-size: 0.875rem; font-weight: 600; color: var(--teal); flex-shrink: 0; }
-        .kit-row.choice.answered .choice-cta { color: var(--grey-text); font-weight: 500; }
+        .choice-cta { font-size: 0.8125rem; font-weight: 600; color: white; background: var(--teal); border-radius: 20px; padding: 5px 12px; white-space: nowrap; flex-shrink: 0; }
+        .kit-row.choice.answered .choice-cta { color: var(--grey-text); background: transparent; padding: 5px 0; }
         .cascade-note { font-size: 0.75rem; color: var(--grey-text); padding: 4px 0 8px; line-height: 1.4; }
 
         .hidden-rows { display: none; }
@@ -239,7 +242,7 @@
         .color-swatch-item.selected .color-swatch { border: 3px solid var(--teal); box-shadow: 0 0 0 2px rgba(70,158,146,0.2); }
         .color-swatch-label { font-size: 0.75rem; color: var(--grey-text); text-align: center; max-width: 56px; }
 
-        .pref-section-label { font-size: 0.8125rem; font-weight: 600; color: var(--grey-text); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+        .pref-section-label { font-size: 0.8125rem; font-weight: 600; color: #374151; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
         .pref-section-label.spaced { margin-top: 20px; }
 
         .gender-pills { display: flex; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
@@ -279,11 +282,41 @@
         .pref-popup-btn:disabled { opacity: 0.5; cursor: not-allowed; }
         .popup-note { font-size: 0.75rem; color: var(--grey-text); text-align: center; margin-top: 10px; line-height: 1.4; }
 
+        /* ===== CELEBRATION MODAL ===== */
+        .celebration-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 2000; padding: 24px;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .celebration-overlay.visible { opacity: 1; visibility: visible; }
+        .celebration-modal {
+            background: var(--white); border-radius: 24px; padding: 40px 32px 32px;
+            max-width: 420px; width: 100%; text-align: center;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+            transform: scale(0.92) translateY(16px);
+            transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+        .celebration-overlay.visible .celebration-modal { transform: scale(1) translateY(0); }
+        .celebration-confetti { font-size: 3rem; margin-bottom: 16px; display: block; }
+        .celebration-title {
+            font-family: 'Playfair Display', serif; font-size: 1.625rem; font-weight: 700;
+            color: var(--black); margin-bottom: 10px; line-height: 1.2;
+        }
+        .celebration-body { font-size: 1rem; color: var(--grey-text); line-height: 1.6; margin-bottom: 28px; }
+        .celebration-btn {
+            width: 100%; padding: 14px 24px; background: var(--teal); color: var(--white);
+            border: none; border-radius: 12px; font-family: inherit; font-size: 1rem;
+            font-weight: 600; cursor: pointer; transition: background 0.2s ease;
+        }
+        .celebration-btn:hover { background: var(--teal-dark); }
+
         @media (max-width: 640px) {
             .title { font-size: 2rem; }
             .form-card { padding: 24px 20px; }
-            .progress-bar { flex-direction: column; gap: 16px; }
-            .step-arrow { transform: rotate(90deg); }
+            .step-label { font-size: 0.5625rem; }
+            .step-arrow { font-size: 0.75rem; }
             .review-item { grid-template-columns: 1fr; gap: 4px; }
             .button-group { flex-direction: column; }
             .btn { width: 100%; }
@@ -391,15 +424,21 @@
             <button type="button" id="continueToKitBtn" class="btn btn-primary" disabled style="margin-top:24px;">Continue to Kit Selection</button>
         </div>
 
-        <!-- SECTION 1: Personal Information -->
-        <div class="form-section" data-section="1">
-            <h2 class="section-title">Personal Information</h2>
+        <!-- SECTION 2: Shipping Information (formerly Section 1) -->
+        <div class="form-section" data-section="2">
+            <h2 class="section-title">Shipping Information</h2>
             <p class="section-description">Please use your full legal name and the mailing address where you want to receive your kit.</p>
 
-            <div style="margin-bottom:24px; padding:16px 18px; background:#f0fdfa; border-radius:10px; border:1px solid #99f6e4;">
-                <p style="margin:0; color:#0f766e; font-size:0.875rem; line-height:1.5;">
-                    <strong>Good news:</strong> After move-in, we'd love to see and hear how your first days went. If you're willing to share a few photos and a short video, we'll send you a $50 gift card as a thank-you. No obligation. We'll reach out when the time comes.
-                </p>
+            <div style="margin-bottom:24px; border-radius:14px; overflow:hidden; border:1px solid rgba(70,158,146,0.25); box-shadow:0 2px 12px rgba(70,158,146,0.1);">
+                <div style="background:var(--teal); padding:14px 20px; display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.5rem;">🎁</span>
+                    <span style="font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:600; color:#ffffff;">Good news</span>
+                </div>
+                <div style="background:#f0fdfa; padding:16px 20px;">
+                    <p style="margin:0; color:#0f766e; font-size:0.9375rem; line-height:1.6;">
+                        After move-in, we'd love to see and hear how your first days went. If you're willing to share a few photos and a short video, we'll send you a $50 gift card as a thank-you. No obligation. We'll reach out when the time comes.
+                    </p>
+                </div>
             </div>
 
             <div class="form-group">
@@ -466,52 +505,65 @@
 
             <div class="helper-text" style="margin-top:-16px; margin-bottom:24px;">Use your state's two-letter abbreviation, e.g., CA, NY</div>
 
+            <!-- Inline ZIP suggestion (shown instead of confirm dialog) -->
+            <div id="zip-suggestion" style="display:none; margin:-8px 0 20px; padding:12px 16px; background:#f0fdfa; border:1px solid #99f6e4; border-radius:10px; font-size:0.875rem; color:#0f766e; line-height:1.5;">
+                <strong id="zip-suggestion-text"></strong>
+                <div style="margin-top:8px; display:flex; gap:8px;">
+                    <button type="button" onclick="acceptZipSuggestion()" style="padding:5px 12px; background:var(--teal); color:white; border:none; border-radius:6px; font-size:0.8125rem; font-weight:600; cursor:pointer;">Update</button>
+                    <button type="button" onclick="dismissZipSuggestion()" style="padding:5px 12px; background:transparent; color:var(--teal); border:1px solid var(--teal); border-radius:6px; font-size:0.8125rem; font-weight:600; cursor:pointer;">Keep mine</button>
+                </div>
+            </div>
+
             <div class="button-group">
-                <div></div>
-                <button type="button" class="btn btn-primary" onclick="nextSection()">Continue to Kit Selection</button>
+                <button type="button" class="btn btn-secondary" onclick="prevSection()">Back</button>
+                <button type="button" class="btn btn-primary" onclick="nextSection()">Continue to Review</button>
             </div>
         </div>
 
-        <!-- SECTION 2: Kit Customization -->
-        <div class="form-section" data-section="2">
+        <!-- SECTION 1: Kit Customization (formerly Section 2) -->
+        <div class="form-section" data-section="1">
 
             <div class="kit-greeting" id="kitGreeting"></div>
             <p class="kit-intro">We've chosen some great products for you. A few would benefit from your personal preference. Tap to make it yours.</p>
 
-            <p class="kit-intro">We've chosen products for you based on what every student needs for a strong start. We're mostly done. You just have a few choices to make: colors, sizes, and a few personal care preferences.</p>
             <div class="cat-list" id="catList"></div>
 
             <div class="kit-footer-progress" id="footerProgress"></div>
             <div class="button-group">
-                <button type="button" class="btn btn-secondary" onclick="prevSection()">Back</button>
+                <div></div>
                 <button type="button" class="btn btn-primary" id="kitContinueBtn" disabled onclick="nextSection()">Make your choices to continue</button>
             </div>
         </div>
 
-        <!-- SECTION 3: Review -->
+        <!-- SECTION 3: Visual Kit Review -->
         <div class="form-section" data-section="3">
-            <h2 class="section-title">Review Your Information</h2>
-            <p class="section-description">Please review your information before submitting. Click Edit to go back and change anything.</p>
 
-            <div class="review-block">
-                <div class="review-header">
-                    <h3 class="review-title">Personal Information</h3>
-                    <a href="#" class="edit-link" onclick="goToSection(1); return false;">Edit</a>
+            <div id="review-school-card" style="border-radius:16px; overflow:hidden; margin-bottom:16px; box-shadow:0 8px 30px rgba(0,0,0,0.12);">
+                <div style="background:var(--school-primary); padding:28px 24px 22px; text-align:center; position:relative;">
+                    <div id="rv-eyebrow" style="font-family:'Playfair Display',serif; font-size:0.95rem; font-weight:600; color:rgba(255,255,255,0.8); margin-bottom:6px;"></div>
+                    <div style="font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; color:#fff; line-height:1.2; margin-bottom:10px;" id="rv-headline">Your Campus Ready Kit</div>
+                    <div style="width:40px; height:2px; background:rgba(255,255,255,0.4); margin:0 auto 10px;"></div>
+                    <div id="rv-name" style="font-size:0.9375rem; color:rgba(255,255,255,0.9);"></div>
                 </div>
-                <div id="review-personal"></div>
+                <div style="background:#f8fffe; padding:12px 20px; border-top:1px solid rgba(70,158,146,0.15);">
+                    <div style="display:flex; align-items:center; justify-content:space-between;">
+                        <span style="font-size:0.875rem; color:var(--grey-text);" id="rv-item-count"></span>
+                        <a href="#" class="edit-link" onclick="goToSection(2); return false;" style="font-size:0.875rem;">Edit choices</a>
+                    </div>
+                </div>
             </div>
 
-            <div class="review-block">
-                <div class="review-header">
-                    <h3 class="review-title">Kit Preferences</h3>
-                    <a href="#" class="edit-link" onclick="goToSection(2); return false;">Edit</a>
-                </div>
-                <div id="review-products"></div>
+            <div id="review-kit-list"></div>
+
+            <div style="margin-top:20px; padding:16px 18px; background:var(--grey-light); border-radius:10px; margin-bottom:8px;">
+                <div style="font-size:0.8125rem; font-weight:600; color:var(--grey-text); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:10px;">Shipping to</div>
+                <div style="font-size:0.9375rem; color:var(--black);" id="rv-address"></div>
+                <a href="#" class="edit-link" onclick="goToSection(1); return false;" style="font-size:0.8125rem; display:inline-block; margin-top:8px;">Edit address</a>
             </div>
 
-            <div class="button-group">
-                <button type="button" class="btn btn-secondary" onclick="prevSection()">Back to Edit</button>
-                <button type="button" class="btn btn-primary" onclick="submitForm()">Submit Your Kit Preferences</button>
+            <div class="button-group" style="margin-top:24px;">
+                <button type="button" class="btn btn-secondary" onclick="prevSection()">Back</button>
+                <button type="button" class="btn btn-primary" onclick="submitForm()">Submit My Kit →</button>
             </div>
         </div>
 
@@ -538,6 +590,16 @@
     </div>
 
 </div><!-- end .container -->
+
+<!-- Celebration Modal (after document upload) -->
+<div class="celebration-overlay" id="celebrationOverlay">
+    <div class="celebration-modal">
+        <span class="celebration-confetti">🎉</span>
+        <div class="celebration-title">You're all set.</div>
+        <p class="celebration-body">Your documents are in. Now for the fun part. Let's customize your kit.</p>
+        <button class="celebration-btn" id="celebrationContinueBtn">Let's go →</button>
+    </div>
+</div>
 
 <!-- Popup Overlay (outside container so it covers full viewport) -->
 <div class="pref-popup-overlay" id="popupOverlay">
@@ -573,18 +635,31 @@ function goToSection(sectionNum) {
     currentSection = sectionNum;
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    if (sectionNum === 2) {
+    // Section 3 has its own school-branded header — hide the global card there
+    const schoolHeaderEl = document.getElementById('schoolHeader');
+    if (schoolHeaderEl) {
+        schoolHeaderEl.style.display = sectionNum === 3 ? 'none' : (schoolRecord ? 'block' : 'none');
+    }
+
+    if (sectionNum === 1) {
         renderCategories();
         updateProgress();
         applySchoolTheme();
-        updateHeader('Customize Your Kit', "We're going shopping! Tap the categories below to make your selections.");
+        updateHeader('Customize Your Kit', '');
+    }
+    if (sectionNum === 2) {
+        updateHeader('Shipping Information', '');
+        // Prefill name and email from verified student data
+        const nameField  = document.getElementById('student_name');
+        const emailField = document.getElementById('email');
+        let prefilled = false;
+        if (nameField && studentData && studentData.studentName && !nameField.value) { nameField.value  = studentData.studentName; prefilled = true; }
+        if (emailField && studentData && studentData.email && !emailField.value)     { emailField.value = studentData.email;        prefilled = true; }
+        if (prefilled) document.getElementById('prefill-notice').style.display = 'block';
     }
     if (sectionNum === 3) {
         populateReview();
-        updateHeader('Review and Submit', 'Please check your entries and your choices.');
-    }
-    if (sectionNum === 1) {
-        updateHeader('Customize Your Kit', "We're going shopping for you and we just need a little more information. Your responses will guide us to choose items that match your style.");
+        updateHeader('Review and Submit', '');
     }
 }
 
@@ -598,7 +673,8 @@ function prevSection() {
 }
 
 async function validateSection(sectionNum) {
-    if (sectionNum === 2) {
+    // Section 1 = Kit Customization — check all choice groups answered
+    if (sectionNum === 1) {
         const allAnswered = CHOICE_GROUPS.every(g => answered[g]);
         if (!allAnswered) {
             const missing = CHOICE_GROUPS.find(g => !answered[g]);
@@ -612,6 +688,7 @@ async function validateSection(sectionNum) {
         return true;
     }
 
+    // Section 2 = Shipping Information — check address fields
     const section = document.querySelector(`[data-section="${sectionNum}"]`);
     const inputs = section.querySelectorAll('input[required]');
 
@@ -628,7 +705,7 @@ async function validateSection(sectionNum) {
         }
     }
 
-    if (sectionNum === 1) {
+    if (sectionNum === 2) {
         const emailInput = document.getElementById('email');
         const emailError = document.getElementById('email-live-feedback');
         const state = document.getElementById('state');
@@ -669,15 +746,16 @@ async function validateSection(sectionNum) {
             zipError.classList.remove('show');
         }
 
+        // Soft ZIP/city/state check — show inline note, never block
         const city = document.getElementById('city');
         const zipMatches = await window.doesZipMatchCityState(zip.value, city.value, state.value);
         if (!zipMatches) {
-            // Soft warning only — don't block the student; address will be validated at fulfillment
-            const proceed = confirm(
-                'We weren\'t able to confirm that ZIP code ' + zip.value + ' matches ' + city.value + ', ' + state.value + '.\n\n' +
-                'If your address is correct, click OK to continue. If you made a typo, click Cancel and fix it first.'
-            );
-            if (!proceed) return false;
+            const suggEl = document.getElementById('zip-suggestion');
+            if (suggEl) {
+                document.getElementById('zip-suggestion-text').textContent =
+                    `Heads up: ZIP ${zip.value} doesn't match the city/state you entered. Please double-check before submitting.`;
+                suggEl.style.display = 'block';
+            }
         }
         zip.classList.remove('invalid');
         city.classList.remove('invalid');
@@ -754,7 +832,7 @@ const CHOICE_DEFS = {
     beddingFirmness: { label: 'Pillow firmness', group: 'bedding' },
     towelColor:      { label: 'Towel color', group: 'bath' },
     slides:          { label: 'Slides — size & color', group: 'bath' },
-    personalCare:    { label: 'A few quick questions about you', group: 'personal' }
+    personalCare:    { label: 'Tell us your preferences', group: 'personal' }
 };
 
 // ============================================================
@@ -855,8 +933,9 @@ function renderCategories() {
             choiceRows += `<div class="cascade-note">Your answers apply to every personal care item above.</div>`;
         }
 
+        const totalCount = cat.included.length + cat.choices.length;
         const metaText = hasChoices
-            ? `<span class="needs">Choices to make</span> · ${cat.included.length} included`
+            ? `${totalCount} item${totalCount !== 1 ? 's' : ''} · <span class="needs">Tap to customize</span>`
             : `${cat.included.length} item${cat.included.length !== 1 ? 's' : ''} included`;
 
         return `
@@ -977,13 +1056,17 @@ function openBeddingColors() {
 }
 
 function openFirmness() {
-    const opts = ['Soft', 'Medium', 'Firm'];
+    const opts = [
+        { value: 'Soft',   emoji: '☁️', sub: 'Sink right in' },
+        { value: 'Medium', emoji: '⚖️', sub: 'Balanced support' },
+        { value: 'Firm',   emoji: '🪨', sub: 'Solid support' }
+    ];
     openPopup({
         style: schoolRecord ? schoolRecord.name : 'BEDDING',
         title: 'Pillow firmness',
         copy: 'How do you like your pillow?',
         contentHTML: `<div class="card-stack" id="firmnessStack">` +
-            opts.map(o => `<div class="preference-card ${sel.beddingFirmness === o ? 'selected' : ''}" data-value="${o}" onclick="pickCard(this,'firmnessStack')"><span class="pc-title">${o}</span></div>`).join('') +
+            opts.map(o => `<div class="preference-card ${sel.beddingFirmness === o.value ? 'selected' : ''}" data-value="${o.value}" onclick="pickCard(this,'firmnessStack')" style="flex-direction:row; align-items:center; gap:14px;"><span style="font-size:1.5rem; flex-shrink:0;">${o.emoji}</span><div><div class="pc-title">${o.value}</div><div class="pc-sub">${o.sub}</div></div></div>`).join('') +
             `</div>`,
         validate: () => !!document.querySelector('#firmnessStack .preference-card.selected')
     });
@@ -1042,9 +1125,6 @@ function openPersonalCare() {
             ${GENDERS.map(g => `<button class="gender-pill ${sel.pcGender === g.value ? 'selected' : ''}" data-value="${g.value}" onclick="pickGender(this)">${g.label}</button>`).join('')}
         </div>
         <div class="pref-section-label spaced">Scent preference</div>
-        <div class="unscented-row ${sel.pcUnscented ? 'selected' : ''}" id="unscentedRow" onclick="toggleUnscented()">
-            <span class="unscented-label">Unscented</span><span class="unscented-check">✓</span>
-        </div>
         <div class="scent-grid ${sel.pcUnscented ? 'dimmed' : ''}" id="scentGrid">
             ${SCENTS.map(s => `
                 <div class="scent-pill ${sel.pcScent === s.key ? 'selected' : ''}" data-scent="${s.key}" onclick="pickScent(this)">
@@ -1053,6 +1133,9 @@ function openPersonalCare() {
                     <span class="scent-name">${s.name}</span>
                     <span class="scent-sub">${s.sub}</span>
                 </div>`).join('')}
+        </div>
+        <div class="unscented-row ${sel.pcUnscented ? 'selected' : ''}" id="unscentedRow" onclick="toggleUnscented()" style="margin-top:8px;">
+            <span class="unscented-label">Unscented</span><span class="unscented-check">✓</span>
         </div>
         <div class="pref-section-label spaced">Deodorant or antiperspirant?</div>
         <div class="card-stack spaced-top" id="deodorantStack">
@@ -1216,77 +1299,135 @@ function updateProgress() {
 }
 
 // ============================================================
+// PRODUCT IMAGES
+// Placeholder until crf_product_images.json is ready.
+// Keys match product names used in reviewProductRow() calls below.
+// ============================================================
+const PLACEHOLDER_IMG = 'https://placehold.co/80x80/F3F4F6/9CA3AF?text=Photo';
+const PRODUCT_IMAGES = {};  // populate with real URLs when images are ready
+
+function getProductImg(key) {
+    return PRODUCT_IMAGES[key] || PLACEHOLDER_IMG;
+}
+
+function reviewProductRow(imgSrc, name, detail, brand) {
+    return `
+        <div style="display:flex; align-items:center; gap:12px; padding:12px 0; border-top:1px solid var(--grey-light);">
+            <div style="width:56px; height:56px; border-radius:8px; overflow:hidden; flex-shrink:0; background:var(--grey-light); border:1px solid var(--grey-border);">
+                <img src="${imgSrc}" alt="${name}" style="width:100%; height:100%; object-fit:cover;" onerror="this.parentElement.style.background='#f3f4f6'; this.style.display='none';">
+            </div>
+            <div style="flex:1; min-width:0;">
+                <div style="font-size:0.9375rem; font-weight:500; color:var(--black); line-height:1.3;">${name}</div>
+                ${detail ? `<div style="font-size:0.8125rem; color:var(--teal-dark); margin-top:2px; font-weight:500;">${detail}</div>` : ''}
+                ${brand ? `<div style="font-size:0.75rem; color:var(--grey-text); margin-top:1px;">${brand}</div>` : ''}
+            </div>
+        </div>`;
+}
+
+let _reviewSectionIdx = 0;
+function reviewCategorySection(title, emoji, rows, startOpen) {
+    const id = 'rvsec-' + (_reviewSectionIdx++);
+    const open = startOpen ? '' : 'display:none;';
+    const chevronRotate = startOpen ? 'transform:rotate(90deg);' : '';
+    return `
+        <div style="background:var(--white); border:1px solid var(--grey-border); border-radius:14px; overflow:hidden; margin-bottom:10px;">
+            <div onclick="(function(el){var b=el.parentElement.querySelector('.rv-body');var c=el.querySelector('.rv-chev');var o=b.style.display!=='none';b.style.display=o?'none':'block';c.style.transform=o?'':'rotate(90deg)';})(this)"
+                 style="display:flex; align-items:center; gap:10px; padding:14px 18px; background:var(--grey-light); cursor:pointer; user-select:none;">
+                <span style="font-size:18px;">${emoji}</span>
+                <span style="font-size:0.9375rem; font-weight:600; color:var(--black); flex:1;">${title}</span>
+                <span class="rv-chev" style="color:var(--grey-text); font-size:14px; transition:transform 0.2s ease; ${chevronRotate}">›</span>
+            </div>
+            <div class="rv-body" style="${open}padding:0 18px 4px;">
+                ${rows}
+            </div>
+        </div>`;
+}
+
+// ============================================================
 // REVIEW
 // ============================================================
 function populateReview() {
     const form = document.getElementById('kitForm');
     const formData = new FormData(form);
 
-    const personalHTML = `
-        <div class="review-item">
-            <div class="review-label">Name:</div>
-            <div class="review-value">${formData.get('student_name') || ''}</div>
-        </div>
-        <div class="review-item">
-            <div class="review-label">Email:</div>
-            <div class="review-value">${formData.get('email') || ''}</div>
-        </div>
-        <div class="review-item">
-            <div class="review-label">Shipping:</div>
-            <div class="review-value">${formData.get('shipping_preference') || ''}</div>
-        </div>
-        <div class="review-item">
-            <div class="review-label">Address:</div>
-            <div class="review-value">
-                ${formData.get('street_address') || ''}<br>
-                ${formData.get('street_address_2') ? formData.get('street_address_2') + '<br>' : ''}
-                ${formData.get('city') || ''}, ${formData.get('state') || ''} ${formData.get('zip') || ''}
-            </div>
-        </div>`;
-    document.getElementById('review-personal').innerHTML = personalHTML;
+    // School-branded header
+    const schoolName  = schoolRecord ? schoolRecord.name : (studentData?.collegeName || 'your school');
+    const mascot      = schoolRecord?.mascot || '';
+    const eyebrow     = schoolRecord?.secondary_phrase || '';
+    const firstName   = studentData?.studentName ? studentData.studentName.split(' ')[0] : '';
 
-    const sheetC   = KIT_COLORS.find(c => c.key === sel.sheetColor);
-    const coverC   = KIT_COLORS.find(c => c.key === sel.comforterCoverColor);
-    const towelC   = KIT_COLORS.find(c => c.key === sel.towelColor);
-    const slidesC  = KIT_COLORS.find(c => c.key === sel.slidesColor);
-    const sizeLabel = SLIDES_SIZES.find(s => s.value === sel.slidesSize)?.label;
-    const scentLabel = sel.pcUnscented ? 'Unscented' : SCENTS.find(s => s.key === sel.pcScent)?.name;
+    const eyebrowEl = document.getElementById('rv-eyebrow');
+    if (eyebrow) {
+        eyebrowEl.textContent = eyebrow;
+        eyebrowEl.style.display = 'block';
+    } else {
+        eyebrowEl.style.display = 'none';
+    }
+    document.getElementById('rv-headline').textContent =
+        `${firstName ? firstName + "'s" : 'Your'} Campus Ready Kit`;
+    document.getElementById('rv-name').textContent =
+        mascot ? `Go ${mascot}!` : schoolName;
+
+    // Resolve color/preference objects
+    const sheetC      = KIT_COLORS.find(c => c.key === sel.sheetColor);
+    const coverC      = KIT_COLORS.find(c => c.key === sel.comforterCoverColor);
+    const towelC      = KIT_COLORS.find(c => c.key === sel.towelColor);
+    const slidesC     = KIT_COLORS.find(c => c.key === sel.slidesColor);
+    const sizeLabel   = SLIDES_SIZES.find(s => s.value === sel.slidesSize)?.label;
+    const scentLabel  = sel.pcUnscented ? 'Unscented' : SCENTS.find(s => s.key === sel.pcScent)?.name;
     const genderLabel = GENDERS.find(g => g.value === sel.pcGender)?.label;
 
-    const productsHTML = `
-        <div class="review-item">
-            <div class="review-label">Sheet color:</div>
-            <div class="review-value">${sheetC?.name || ''}</div>
-        </div>
-        <div class="review-item">
-            <div class="review-label">Comforter cover color:</div>
-            <div class="review-value">${coverC?.name || ''}</div>
-        </div>
-        <div class="review-item">
-            <div class="review-label">Pillow firmness:</div>
-            <div class="review-value">${sel.beddingFirmness || ''}</div>
-        </div>
-        <div class="review-item">
-            <div class="review-label">Towel color:</div>
-            <div class="review-value">${towelC?.name || ''}</div>
-        </div>
-        <div class="review-item">
-            <div class="review-label">Slides:</div>
-            <div class="review-value">Size ${sizeLabel || ''} · ${slidesC?.name || ''}</div>
-        </div>
-        <div class="review-item">
-            <div class="review-label">Gender preference:</div>
-            <div class="review-value">${genderLabel || ''}</div>
-        </div>
-        <div class="review-item">
-            <div class="review-label">Scent:</div>
-            <div class="review-value">${scentLabel || ''}</div>
-        </div>
-        <div class="review-item">
-            <div class="review-label">Deodorant type:</div>
-            <div class="review-value">${sel.deodorant || ''}</div>
-        </div>`;
-    document.getElementById('review-products').innerHTML = productsHTML;
+    // Item count
+    const totalItems  = CATEGORIES.reduce((a, c) => a + c.included.length, 0) + 5;
+    document.getElementById('rv-item-count').textContent = `${totalItems} items included`;
+
+    // Bedding
+    const slidesDetail = [genderLabel, sizeLabel ? `Size ${sizeLabel}` : '', slidesC?.name || ''].filter(Boolean).join(' · ');
+    const beddingRows =
+        reviewProductRow(getProductImg('Sheet Set'),        '450 Thread Count Sheet Set',   sheetC?.name || '',          'Lane Linen') +
+        reviewProductRow(getProductImg('Duvet Cover'),      '100% Cotton Duvet Cover',      coverC?.name || '',          'California Design Den') +
+        reviewProductRow(getProductImg('Comforter'),        'Down Alternative Comforter',   sel.beddingFirmness ? sel.beddingFirmness + ' pillow' : null, 'ViscoSoft') +
+        reviewProductRow(getProductImg('Mattress Protector'), 'Mattress Protector',         null,                        'Included') +
+        reviewProductRow(getProductImg('Pillow Protectors'), 'Pillow Protectors',           '×2',                        'Included');
+
+    // Bath
+    const bathRows =
+        reviewProductRow(getProductImg('Towel Set'),        'Bath Towel Set',               towelC?.name || '',          'Included') +
+        reviewProductRow(getProductImg('Slides'),           'Slides',                       slidesDetail,                'Included') +
+        reviewProductRow(getProductImg('Shower Caddy'),     'Shower Caddy',                 null,                        'Included') +
+        reviewProductRow(getProductImg('Toiletry Bag'),     'Toiletry Bag',                 null,                        'Included');
+
+    // Personal Care
+    const pcRows =
+        reviewProductRow(getProductImg('Shampoo'),          'Shampoo & Conditioner',        [genderLabel, scentLabel].filter(Boolean).join(' · '), 'Included') +
+        reviewProductRow(getProductImg('Body Wash'),        'Body Wash',                    scentLabel || null,          'Included') +
+        reviewProductRow(getProductImg('Deodorant'),        sel.deodorant || 'Deodorant',   genderLabel || null,         'Included') +
+        reviewProductRow(getProductImg('Shaving Cream'),    'Shaving Cream & Razor',        genderLabel || null,         'Included') +
+        reviewProductRow(getProductImg('Toothbrush'),       'Toothbrush & Toothpaste',      null,                        'Included') +
+        reviewProductRow(getProductImg('Dental Floss'),     'Dental Floss',                 null,                        'Included');
+
+    function simpleSection(title, emoji, items) {
+        return reviewCategorySection(title, emoji,
+            items.map(n => reviewProductRow(getProductImg(n), n, null, 'Included')).join(''), false);
+    }
+
+    _reviewSectionIdx = 0;
+    document.getElementById('review-kit-list').innerHTML =
+        reviewCategorySection('Bedding',       '🛏️', beddingRows, true)  +
+        reviewCategorySection('Bath',          '🛁',  bathRows,    true)  +
+        reviewCategorySection('Personal Care', '🧴',  pcRows,      false) +
+        simpleSection('Laundry',  '🧺', ['Laundry Pods', 'Dryer Sheets', 'Stain Remover']) +
+        simpleSection('Cleaning', '✨', ['Disinfecting Wipes', 'Bathroom Cleaner', 'All-Purpose Cleaner', 'Microfiber Cloths', 'Trash Bin', 'Paper Towels']) +
+        simpleSection('Desk',     '🖥️', ['Desk Lamp', 'Desktop Organizer', 'Sticky Notes', 'Whiteboard', 'Power Strip', 'Command Strips']) +
+        simpleSection('Storage',  '📦', ['Storage Bins', 'Under-Bed Storage', 'Hangers', 'Pants Hangers', 'Closet Organizer', 'Drawer Organizer']);
+
+    // Shipping address
+    const addr2 = formData.get('street_address_2');
+    document.getElementById('rv-address').innerHTML =
+        `${formData.get('student_name') || ''}<br>
+         ${formData.get('street_address') || ''}<br>
+         ${addr2 ? addr2 + '<br>' : ''}
+         ${formData.get('city') || ''}, ${formData.get('state') || ''} ${formData.get('zip') || ''}`;
 }
 
 // ============================================================
@@ -1400,15 +1541,26 @@ document.getElementById('zip').addEventListener('blur', async function() {
             applyZipLookup(data);
         } else if (!valuesMatch) {
             zipLookupData = data;
-            const ok = confirm(
-                `We found this location for ZIP code ${zip}:\n\n${data.city}, ${data.state}\n\n` +
-                `Your current address shows:\n${currentCity}, ${currentState}\n\n` +
-                `Would you like to update to the ZIP code's location?`
-            );
-            if (ok) applyZipLookup(data);
+            // Show inline suggestion instead of browser dialog
+            const suggEl = document.getElementById('zip-suggestion');
+            if (suggEl) {
+                document.getElementById('zip-suggestion-text').textContent =
+                    `ZIP ${zip} is usually ${data.city}, ${data.state}. Want to update your city and state?`;
+                suggEl.style.display = 'block';
+            }
         }
     }
 });
+
+function acceptZipSuggestion() {
+    if (zipLookupData) applyZipLookup(zipLookupData);
+    dismissZipSuggestion();
+}
+function dismissZipSuggestion() {
+    const el = document.getElementById('zip-suggestion');
+    if (el) el.style.display = 'none';
+    zipLookupData = null;
+}
 
 const zipInput = document.getElementById('zip');
 const zipLiveFeedback = document.getElementById('zip-live-feedback');
@@ -1452,6 +1604,16 @@ emailInputEl.addEventListener('blur', function() {
 let studentData = null;
 
 document.addEventListener('DOMContentLoaded', function() {
+
+    // Celebration modal — continue to kit after document upload
+    document.getElementById('celebrationContinueBtn').addEventListener('click', function() {
+        document.getElementById('celebrationOverlay').classList.remove('visible');
+        document.getElementById('documentUpload').style.display = 'none';
+        document.getElementById('step-2').classList.add('complete');
+        document.getElementById('step-3').classList.add('active');
+        goToSection(1);  // Go to Kit Customization
+    });
+
     document.getElementById('verifyEmailBtn').addEventListener('click', async function() {
         const emailInput = document.getElementById('email_verify');
         const email = emailInput.value.trim();
@@ -1515,28 +1677,16 @@ function handleStudentStatus(data) {
     if (data.collegeUnitId) loadSchoolData(data.collegeUnitId);
 
     if (housingStatus === 'Approved' && acceptanceStatus === 'Approved') {
+        // Go straight to Kit Customization (section 1)
+        renderCategories();
+        updateProgress();
+        applySchoolTheme();
         document.querySelector('[data-section="1"]').classList.add('active');
-        updateHeader('Customize Your Kit', "We're going shopping for you and we just need a little more information. Your responses will guide us to choose items that match your style.");
-        setTimeout(() => {
-            const nameField = document.getElementById('student_name');
-            const emailField = document.getElementById('email');
-            let prefilled = false;
-            if (nameField && data.studentName) {
-                nameField.value = data.studentName;
-                prefilled = true;
-            }
-            if (emailField && data.email) {
-                emailField.value = data.email;
-                prefilled = true;
-            }
-            if (prefilled) {
-                document.getElementById('prefill-notice').style.display = 'block';
-            }
-        }, 100);
+        updateHeader('Customize Your Kit', '');
 
     } else if (housingStatus === 'Rejected' || acceptanceStatus === 'Rejected') {
         document.getElementById('documentUpload').style.display = 'block';
-        updateHeader('College & Housing Verification', 'Almost there. Before we finalize your selections, please upload two quick documents. We\'ll need these by July 15th.');
+        updateHeader('College & Housing Verification', 'Before we finalize your selections, please upload two quick documents. We\'ll need these by July 15th.');
 
     } else if (housingStatus === 'Uploaded' || acceptanceStatus === 'Uploaded') {
         document.getElementById('documentUpload').style.display = 'block';
@@ -1544,7 +1694,7 @@ function handleStudentStatus(data) {
 
     } else {
         document.getElementById('documentUpload').style.display = 'block';
-        updateHeader('College & Housing Verification', 'Almost there. Before we finalize your selections, please upload two quick documents. We\'ll need these by July 15th.');
+        updateHeader('College & Housing Verification', 'Before we finalize your selections, please upload two quick documents. We\'ll need these by July 15th.');
     }
 
     document.getElementById('step-1').classList.add('complete');
@@ -1666,44 +1816,10 @@ async function uploadDocuments() {
                 document.getElementById('acceptance_progress').style.display = 'none';
                 document.getElementById('housing_success').style.display = 'block';
                 document.getElementById('acceptance_success').style.display = 'block';
-
-                const celebrationMsg = document.createElement('div');
-                celebrationMsg.style.cssText = 'margin-top:20px; padding:16px; background:#FEF3E7; border:2px solid #DD693A; border-radius:8px; color:#8B4513; font-weight:500; text-align:center;';
-                celebrationMsg.textContent = "Perfect! Now the fun starts. Let's customize your kit.";
-                document.getElementById('documentUpload').appendChild(celebrationMsg);
-
                 document.getElementById('continueToKitBtn').style.display = 'none';
 
-                const continueButton = document.createElement('button');
-                continueButton.type = 'button';
-                continueButton.className = 'btn btn-primary';
-                continueButton.textContent = 'Continue to Personalize Your Kit';
-                continueButton.style.cssText = 'margin-top:20px;';
-                continueButton.onclick = function() {
-                    document.getElementById('documentUpload').style.display = 'none';
-                    document.querySelector('[data-section="1"]').classList.add('active');
-                    updateHeader('Customize Your Kit', "We're going shopping for you and we just need a little more information. Your responses will guide us to choose items that match your style.");
-                    setTimeout(() => {
-                        const nameField = document.getElementById('student_name');
-                        const emailField = document.getElementById('email');
-                        let prefilled = false;
-                        if (nameField && studentData && studentData.studentName) {
-                            nameField.value = studentData.studentName;
-                            prefilled = true;
-                        }
-                        if (emailField && studentData && studentData.email) {
-                            emailField.value = studentData.email;
-                            prefilled = true;
-                        }
-                        if (prefilled) {
-                            document.getElementById('prefill-notice').style.display = 'block';
-                        }
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }, 100);
-                    document.getElementById('step-2').classList.add('complete');
-                    document.getElementById('step-3').classList.add('active');
-                };
-                document.getElementById('documentUpload').appendChild(continueButton);
+                // Show celebration modal
+                document.getElementById('celebrationOverlay').classList.add('visible');
             }, 300);
         } else {
             throw new Error(data.message || 'Upload failed');
