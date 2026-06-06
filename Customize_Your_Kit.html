@@ -197,7 +197,7 @@
         .row-qty { font-size: 0.75rem; color: #CBD5E1; flex-shrink: 0; }
 
         .kit-row.choice { cursor: pointer; border-radius: 10px; margin: 4px -10px; padding: 13px 12px; background: rgba(70,158,146,0.05); border: 1.5px solid rgba(70,158,146,0.2); transition: background 0.15s ease, border-color 0.15s ease; }
-        .kit-row.choice:hover { background: rgba(70,158,146,0.10); border-color: rgba(70,158,146,0.35); }
+        .kit-row.choice:hover { background: rgba(70,158,146,0.1); border-color: var(--teal); }
         .kit-row.choice.answered { background: rgba(70,158,146,0.06); border-color: rgba(70,158,146,0.25); }
         .choice-icon { width: 22px; height: 22px; border-radius: 6px; flex-shrink: 0; border: 2px solid var(--grey-border); display: flex; align-items: center; justify-content: center; color: var(--grey-text); font-size: 13px; }
         .kit-row.choice.answered .choice-icon { background: var(--teal); border-color: var(--teal); color: white; font-size: 12px; font-weight: 700; }
@@ -311,31 +311,6 @@
             font-weight: 600; cursor: pointer; transition: background 0.2s ease;
         }
         .celebration-btn:hover { background: var(--teal-dark); }
-
-        /* ===== REVIEW SCREEN ===== */
-        .rv-school-card {
-            background: var(--school-primary); border-radius: 16px;
-            padding: 24px 28px; text-align: center; position: relative; overflow: hidden;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.12); margin-bottom: 8px;
-        }
-        .rv-school-card::after {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.10) 0%, transparent 55%);
-            pointer-events: none;
-        }
-        .rv-eyebrow {
-            font-family: 'Playfair Display', serif; font-weight: 600; font-size: 0.9rem;
-            color: var(--school-text); opacity: 0.85; margin-bottom: 6px;
-            position: relative; display: none;
-        }
-        .rv-headline {
-            font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.375rem;
-            line-height: 1.2; color: var(--school-text); position: relative;
-        }
-        .rv-subline {
-            font-size: 0.9rem; opacity: 0.8; margin-top: 4px;
-            color: var(--school-text); position: relative;
-        }
 
         @media (max-width: 640px) {
             .title { font-size: 2rem; }
@@ -454,10 +429,16 @@
             <h2 class="section-title">Personal Information</h2>
             <p class="section-description">Please use your full legal name and the mailing address where you want to receive your kit.</p>
 
-            <div style="margin-bottom:24px; padding:16px 18px; background:#f0fdfa; border-radius:10px; border:1px solid #99f6e4;">
-                <p style="margin:0; color:#0f766e; font-size:0.875rem; line-height:1.5;">
-                    <strong>Good news:</strong> After move-in, we'd love to see and hear how your first days went. If you're willing to share a few photos and a short video, we'll send you a $50 gift card as a thank-you. No obligation. We'll reach out when the time comes.
-                </p>
+            <div style="margin-bottom:24px; border-radius:14px; overflow:hidden; border:1px solid rgba(70,158,146,0.25); box-shadow:0 2px 12px rgba(70,158,146,0.1);">
+                <div style="background:var(--teal); padding:14px 20px; display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1.5rem;">🎁</span>
+                    <span style="font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:600; color:#ffffff;">Good news</span>
+                </div>
+                <div style="background:#f0fdfa; padding:16px 20px;">
+                    <p style="margin:0; color:#0f766e; font-size:0.9375rem; line-height:1.6;">
+                        After move-in, we'd love to see and hear how your first days went. If you're willing to share a few photos and a short video, we'll send you a $50 gift card as a thank-you. No obligation. We'll reach out when the time comes.
+                    </p>
+                </div>
             </div>
 
             <div class="form-group">
@@ -546,35 +527,33 @@
             </div>
         </div>
 
-        <!-- SECTION 3: Review -->
+        <!-- SECTION 3: Visual Kit Review -->
         <div class="form-section" data-section="3">
 
-            <!-- School-branded kit header -->
-            <div class="rv-school-card">
-                <div class="rv-eyebrow" id="rv-eyebrow"></div>
-                <div class="rv-headline" id="rv-headline">Your Campus Ready Kit</div>
-                <div class="rv-subline" id="rv-subline"></div>
+            <div id="review-school-card" style="border-radius:16px; overflow:hidden; margin-bottom:16px; box-shadow:0 8px 30px rgba(0,0,0,0.12);">
+                <div style="background:var(--school-primary); padding:28px 24px 22px; text-align:center; position:relative;">
+                    <div id="rv-eyebrow" style="font-family:'Playfair Display',serif; font-size:0.95rem; font-weight:600; color:rgba(255,255,255,0.8); margin-bottom:6px;"></div>
+                    <div style="font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; color:#fff; line-height:1.2; margin-bottom:10px;" id="rv-headline">Your Campus Ready Kit</div>
+                    <div style="width:40px; height:2px; background:rgba(255,255,255,0.4); margin:0 auto 10px;"></div>
+                    <div id="rv-name" style="font-size:0.9375rem; color:rgba(255,255,255,0.9);"></div>
+                </div>
+                <div style="background:#f8fffe; padding:12px 20px; border-top:1px solid rgba(70,158,146,0.15);">
+                    <div style="display:flex; align-items:center; justify-content:space-between;">
+                        <span style="font-size:0.875rem; color:var(--grey-text);" id="rv-item-count"></span>
+                        <a href="#" class="edit-link" onclick="goToSection(2); return false;" style="font-size:0.875rem;">Edit choices</a>
+                    </div>
+                </div>
             </div>
 
-            <!-- Item count + edit choices -->
-            <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0 16px;">
-                <span id="rv-item-count" style="font-size:0.875rem; color:var(--grey-text);"></span>
-                <a href="#" class="edit-link" onclick="goToSection(2); return false;">Edit choices</a>
-            </div>
-
-            <!-- Expandable product category list -->
             <div id="review-kit-list"></div>
 
-            <!-- Shipping to -->
-            <div class="review-block" style="margin-top:12px;">
-                <div class="review-header">
-                    <span style="font-size:0.75rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:var(--grey-text);">Shipping to</span>
-                    <a href="#" class="edit-link" onclick="goToSection(1); return false;">Edit address</a>
-                </div>
-                <div id="rv-address" style="font-size:0.9375rem; color:var(--black); line-height:1.7;"></div>
+            <div style="margin-top:20px; padding:16px 18px; background:var(--grey-light); border-radius:10px; margin-bottom:8px;">
+                <div style="font-size:0.8125rem; font-weight:600; color:var(--grey-text); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:10px;">Shipping to</div>
+                <div style="font-size:0.9375rem; color:var(--black);" id="rv-address"></div>
+                <a href="#" class="edit-link" onclick="goToSection(1); return false;" style="font-size:0.8125rem; display:inline-block; margin-top:8px;">Edit address</a>
             </div>
 
-            <div class="button-group">
+            <div class="button-group" style="margin-top:24px;">
                 <button type="button" class="btn btn-secondary" onclick="prevSection()">Back</button>
                 <button type="button" class="btn btn-primary" onclick="submitForm()">Submit My Kit →</button>
             </div>
@@ -594,16 +573,6 @@
         </p>
     </div>
 
-    <!-- Celebration Modal -->
-    <div class="celebration-overlay" id="celebrationOverlay">
-        <div class="celebration-modal">
-            <span class="celebration-confetti">🎉</span>
-            <div class="celebration-title">You're all set.</div>
-            <p class="celebration-body">Your documents are in. Now for the fun part. Let's customize your kit.</p>
-            <button class="celebration-btn" id="celebrationContinueBtn">Let's go →</button>
-        </div>
-    </div>
-
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-content">
@@ -613,6 +582,16 @@
     </div>
 
 </div><!-- end .container -->
+
+<!-- Celebration Modal (after document upload) -->
+<div class="celebration-overlay" id="celebrationOverlay">
+    <div class="celebration-modal">
+        <span class="celebration-confetti">🎉</span>
+        <div class="celebration-title">You're all set.</div>
+        <p class="celebration-body">Your documents are in. Now for the fun part. Let's customize your kit.</p>
+        <button class="celebration-btn" id="celebrationContinueBtn">Let's go →</button>
+    </div>
+</div>
 
 <!-- Popup Overlay (outside container so it covers full viewport) -->
 <div class="pref-popup-overlay" id="popupOverlay">
@@ -1367,7 +1346,7 @@ function populateReview() {
     }
     document.getElementById('rv-headline').textContent =
         `${firstName ? firstName + "'s" : 'Your'} Campus Ready Kit`;
-    document.getElementById('rv-subline').textContent =
+    document.getElementById('rv-name').textContent =
         mascot ? `Go ${mascot}!` : schoolName;
 
     // Resolve color/preference objects
