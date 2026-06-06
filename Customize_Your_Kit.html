@@ -182,8 +182,7 @@
         .cat-title { font-size: 1rem; font-weight: 600; color: var(--black); }
         .cat-meta { font-size: 0.8125rem; color: var(--grey-text); margin-top: 2px; }
         .cat-meta .needs { color: #DD693A; font-weight: 600; }
-        .cat-chevron { color: var(--grey-border); font-size: 18px; transition: transform 0.2s ease; flex-shrink: 0; }
-        .cat-card.open .cat-chevron { transform: rotate(90deg); }
+        .cat-chevron { flex-shrink: 0; white-space: nowrap; }
         .cat-status-dot { width: 22px; height: 22px; border-radius: 50%; background: var(--teal); color: white; display: none; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; margin-right: 4px; }
         .cat-card.complete .cat-status-dot { display: flex; }
         .cat-body { display: none; padding: 0 18px 12px; }
@@ -434,7 +433,7 @@
 
         <!-- SECTION 2: Shipping Information (formerly Section 1) -->
         <div class="form-section" data-section="2">
-            <h2 class="section-title">Shipping Information</h2>
+            <h2 class="section-title">Where should we send your kit?</h2>
             <p class="section-description">Please use your full legal name and the mailing address where you want to receive your kit.</p>
 
             <div style="margin-bottom:24px; border-radius:14px; overflow:hidden; border:1px solid rgba(70,158,146,0.25); box-shadow:0 2px 12px rgba(70,158,146,0.1);">
@@ -639,10 +638,10 @@ function goToSection(sectionNum) {
     currentSection = sectionNum;
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Section 3 has its own school-branded header — hide the global card there
+    // Global school card shows on kit screen (section 1) only — hidden everywhere else
     const schoolHeaderEl = document.getElementById('schoolHeader');
     if (schoolHeaderEl) {
-        schoolHeaderEl.style.display = sectionNum === 3 ? 'none' : (schoolRecord ? 'block' : 'none');
+        schoolHeaderEl.style.display = 'none';  // applySchoolTheme() re-shows it for section 1
     }
 
     if (sectionNum === 1) {
@@ -880,10 +879,18 @@ function applySchoolTheme() {
     document.documentElement.style.setProperty('--school-text', textColor);
 
     const displayName = schoolRecord.name || 'your school';
-    document.getElementById('schoolHeader').style.display = 'block';
 
-    if (schoolRecord.secondary_phrase) {
-        document.getElementById('scEyebrow').textContent = schoolRecord.secondary_phrase;
+    // Only show the global school card on the kit customization screen (section 1)
+    const section1 = document.querySelector('[data-section="1"]');
+    if (section1 && section1.classList.contains('active')) {
+        document.getElementById('schoolHeader').style.display = 'block';
+    }
+
+    // Eyebrow: "Go [FirstName]!" — a personal cheer
+    const firstName = studentData?.studentName ? studentData.studentName.split(' ')[0] : '';
+    if (firstName) {
+        document.getElementById('scEyebrow').textContent = `Go ${firstName}!`;
+        document.getElementById('scEyebrow').style.display = '';
     } else {
         document.getElementById('scEyebrow').style.display = 'none';
     }
@@ -951,7 +958,7 @@ function renderCategories() {
                         <div class="cat-meta" id="meta-${cat.id}">${metaText}</div>
                     </div>
                     <span class="cat-status-dot">✓</span>
-                    <span class="cat-chevron">›</span>
+                    <span class="cat-chevron" style="background:var(--teal);color:#fff;padding:4px 10px;border-radius:20px;font-size:0.6875rem;font-weight:600;letter-spacing:0.02em;">Tap to view</span>
                 </div>
                 <div class="cat-body">
                     ${choiceRows}
@@ -975,7 +982,21 @@ function choiceRowHTML(key) {
         </div>`;
 }
 
-function toggleCat(id) { document.getElementById('cat-' + id).classList.toggle('open'); }
+function toggleCat(id) {
+    const card = document.getElementById('cat-' + id);
+    card.classList.toggle('open');
+    const chev = card.querySelector('.cat-chevron');
+    const isOpen = card.classList.contains('open');
+    if (isOpen) {
+        chev.textContent = '›';
+        Object.assign(chev.style, { background:'transparent', color:'var(--grey-border)',
+            padding:'0', borderRadius:'0', fontSize:'18px', fontWeight:'400', letterSpacing:'0' });
+    } else {
+        chev.textContent = 'Tap to view';
+        Object.assign(chev.style, { background:'var(--teal)', color:'#fff',
+            padding:'4px 10px', borderRadius:'20px', fontSize:'0.6875rem', fontWeight:'600', letterSpacing:'0.02em' });
+    }
+}
 function toggleMore(id, btn) {
     const rows = document.querySelectorAll('.extra-' + id);
     const shown = rows[0]?.classList.contains('shown');
@@ -1490,17 +1511,13 @@ function populateReview() {
     const eyebrow     = schoolRecord?.secondary_phrase || '';
     const firstName   = studentData?.studentName ? studentData.studentName.split(' ')[0] : '';
 
+    // Review card: "You're good to go to" → [School Name]
     const eyebrowEl = document.getElementById('rv-eyebrow');
-    if (eyebrow) {
-        eyebrowEl.textContent = eyebrow;
-        eyebrowEl.style.display = 'block';
-    } else {
-        eyebrowEl.style.display = 'none';
-    }
-    document.getElementById('rv-headline').textContent =
-        `${firstName ? firstName + "'s" : 'Your'} Campus Ready Kit`;
-    document.getElementById('rv-name').textContent =
-        mascot ? `Go ${mascot}!` : schoolName;
+    eyebrowEl.textContent = 'You\'re good to go to';
+    eyebrowEl.style.display = 'block';
+    document.getElementById('rv-headline').textContent = schoolName;
+    document.getElementById('rv-name').textContent = '';
+    document.getElementById('rv-name').style.display = 'none';
 
     // Resolve color/preference objects
     const sheetC      = KIT_COLORS.find(c => c.key === sel.sheetColor);
