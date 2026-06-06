@@ -192,7 +192,7 @@
         .kit-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--grey-light); }
         .kit-row:first-child { border-top: none; }
         .row-check { width: 18px; height: 18px; border-radius: 50%; background: rgba(70,158,146,0.1); color: var(--teal); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex-shrink: 0; }
-        .row-label { flex: 1; font-size: 0.875rem; color: #9CA3AF; }
+        .row-label { flex: 1; font-size: 0.875rem; color: #6B7280; }
         .row-tag { font-size: 0.625rem; font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase; color: #9CA3AF; background: #F3F4F6; border-radius: 999px; padding: 2px 7px; flex-shrink: 0; }
         .row-qty { font-size: 0.75rem; color: #CBD5E1; flex-shrink: 0; }
 
@@ -242,7 +242,7 @@
         .color-swatch-item.selected .color-swatch { border: 3px solid var(--teal); box-shadow: 0 0 0 2px rgba(70,158,146,0.2); }
         .color-swatch-label { font-size: 0.75rem; color: var(--grey-text); text-align: center; max-width: 56px; }
 
-        .pref-section-label { font-size: 0.8125rem; font-weight: 600; color: var(--grey-text); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+        .pref-section-label { font-size: 0.8125rem; font-weight: 600; color: #374151; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
         .pref-section-label.spaced { margin-top: 20px; }
 
         .gender-pills { display: flex; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
@@ -315,8 +315,8 @@
         @media (max-width: 640px) {
             .title { font-size: 2rem; }
             .form-card { padding: 24px 20px; }
-            .progress-bar { flex-direction: column; gap: 16px; }
-            .step-arrow { transform: rotate(90deg); }
+            .step-label { font-size: 0.5625rem; }
+            .step-arrow { font-size: 0.75rem; }
             .review-item { grid-template-columns: 1fr; gap: 4px; }
             .button-group { flex-direction: column; }
             .btn { width: 100%; }
@@ -424,9 +424,9 @@
             <button type="button" id="continueToKitBtn" class="btn btn-primary" disabled style="margin-top:24px;">Continue to Kit Selection</button>
         </div>
 
-        <!-- SECTION 1: Personal Information -->
-        <div class="form-section" data-section="1">
-            <h2 class="section-title">Personal Information</h2>
+        <!-- SECTION 2: Shipping Information (formerly Section 1) -->
+        <div class="form-section" data-section="2">
+            <h2 class="section-title">Shipping Information</h2>
             <p class="section-description">Please use your full legal name and the mailing address where you want to receive your kit.</p>
 
             <div style="margin-bottom:24px; border-radius:14px; overflow:hidden; border:1px solid rgba(70,158,146,0.25); box-shadow:0 2px 12px rgba(70,158,146,0.1);">
@@ -505,24 +505,32 @@
 
             <div class="helper-text" style="margin-top:-16px; margin-bottom:24px;">Use your state's two-letter abbreviation, e.g., CA, NY</div>
 
+            <!-- Inline ZIP suggestion (shown instead of confirm dialog) -->
+            <div id="zip-suggestion" style="display:none; margin:-8px 0 20px; padding:12px 16px; background:#f0fdfa; border:1px solid #99f6e4; border-radius:10px; font-size:0.875rem; color:#0f766e; line-height:1.5;">
+                <strong id="zip-suggestion-text"></strong>
+                <div style="margin-top:8px; display:flex; gap:8px;">
+                    <button type="button" onclick="acceptZipSuggestion()" style="padding:5px 12px; background:var(--teal); color:white; border:none; border-radius:6px; font-size:0.8125rem; font-weight:600; cursor:pointer;">Update</button>
+                    <button type="button" onclick="dismissZipSuggestion()" style="padding:5px 12px; background:transparent; color:var(--teal); border:1px solid var(--teal); border-radius:6px; font-size:0.8125rem; font-weight:600; cursor:pointer;">Keep mine</button>
+                </div>
+            </div>
+
             <div class="button-group">
-                <div></div>
-                <button type="button" class="btn btn-primary" onclick="nextSection()">Continue to Kit Selection</button>
+                <button type="button" class="btn btn-secondary" onclick="prevSection()">Back</button>
+                <button type="button" class="btn btn-primary" onclick="nextSection()">Continue to Review</button>
             </div>
         </div>
 
-        <!-- SECTION 2: Kit Customization -->
-        <div class="form-section" data-section="2">
+        <!-- SECTION 1: Kit Customization (formerly Section 2) -->
+        <div class="form-section" data-section="1">
 
             <div class="kit-greeting" id="kitGreeting"></div>
             <p class="kit-intro">We've chosen some great products for you. A few would benefit from your personal preference. Tap to make it yours.</p>
 
-            <p class="kit-intro">We've chosen products for you based on what every student needs for a strong start. We're mostly done. You just have a few choices to make: colors, sizes, and a few personal care preferences.</p>
             <div class="cat-list" id="catList"></div>
 
             <div class="kit-footer-progress" id="footerProgress"></div>
             <div class="button-group">
-                <button type="button" class="btn btn-secondary" onclick="prevSection()">Back</button>
+                <div></div>
                 <button type="button" class="btn btn-primary" id="kitContinueBtn" disabled onclick="nextSection()">Make your choices to continue</button>
             </div>
         </div>
@@ -633,18 +641,25 @@ function goToSection(sectionNum) {
         schoolHeaderEl.style.display = sectionNum === 3 ? 'none' : (schoolRecord ? 'block' : 'none');
     }
 
-    if (sectionNum === 2) {
+    if (sectionNum === 1) {
         renderCategories();
         updateProgress();
         applySchoolTheme();
-        updateHeader('Customize Your Kit', "We're going shopping! Tap the categories below to make your selections.");
+        updateHeader('Customize Your Kit', '');
+    }
+    if (sectionNum === 2) {
+        updateHeader('Shipping Information', '');
+        // Prefill name and email from verified student data
+        const nameField  = document.getElementById('student_name');
+        const emailField = document.getElementById('email');
+        let prefilled = false;
+        if (nameField && studentData && studentData.studentName && !nameField.value) { nameField.value  = studentData.studentName; prefilled = true; }
+        if (emailField && studentData && studentData.email && !emailField.value)     { emailField.value = studentData.email;        prefilled = true; }
+        if (prefilled) document.getElementById('prefill-notice').style.display = 'block';
     }
     if (sectionNum === 3) {
         populateReview();
-        updateHeader('Review and Submit', 'Please check your entries and your choices.');
-    }
-    if (sectionNum === 1) {
-        updateHeader('Customize Your Kit', "We're going shopping for you and we just need a little more information. Your responses will guide us to choose items that match your style.");
+        updateHeader('Review and Submit', '');
     }
 }
 
@@ -658,7 +673,8 @@ function prevSection() {
 }
 
 async function validateSection(sectionNum) {
-    if (sectionNum === 2) {
+    // Section 1 = Kit Customization — check all choice groups answered
+    if (sectionNum === 1) {
         const allAnswered = CHOICE_GROUPS.every(g => answered[g]);
         if (!allAnswered) {
             const missing = CHOICE_GROUPS.find(g => !answered[g]);
@@ -672,6 +688,7 @@ async function validateSection(sectionNum) {
         return true;
     }
 
+    // Section 2 = Shipping Information — check address fields
     const section = document.querySelector(`[data-section="${sectionNum}"]`);
     const inputs = section.querySelectorAll('input[required]');
 
@@ -688,7 +705,7 @@ async function validateSection(sectionNum) {
         }
     }
 
-    if (sectionNum === 1) {
+    if (sectionNum === 2) {
         const emailInput = document.getElementById('email');
         const emailError = document.getElementById('email-live-feedback');
         const state = document.getElementById('state');
@@ -729,15 +746,16 @@ async function validateSection(sectionNum) {
             zipError.classList.remove('show');
         }
 
+        // Soft ZIP/city/state check — show inline note, never block
         const city = document.getElementById('city');
         const zipMatches = await window.doesZipMatchCityState(zip.value, city.value, state.value);
         if (!zipMatches) {
-            // Soft warning only — don't block the student; address will be validated at fulfillment
-            const proceed = confirm(
-                'We weren\'t able to confirm that ZIP code ' + zip.value + ' matches ' + city.value + ', ' + state.value + '.\n\n' +
-                'If your address is correct, click OK to continue. If you made a typo, click Cancel and fix it first.'
-            );
-            if (!proceed) return false;
+            const suggEl = document.getElementById('zip-suggestion');
+            if (suggEl) {
+                document.getElementById('zip-suggestion-text').textContent =
+                    `Heads up: ZIP ${zip.value} doesn't match the city/state you entered. Please double-check before submitting.`;
+                suggEl.style.display = 'block';
+            }
         }
         zip.classList.remove('invalid');
         city.classList.remove('invalid');
@@ -814,7 +832,7 @@ const CHOICE_DEFS = {
     beddingFirmness: { label: 'Pillow firmness', group: 'bedding' },
     towelColor:      { label: 'Towel color', group: 'bath' },
     slides:          { label: 'Slides — size & color', group: 'bath' },
-    personalCare:    { label: 'A few quick questions about you', group: 'personal' }
+    personalCare:    { label: 'Tell us your preferences', group: 'personal' }
 };
 
 // ============================================================
@@ -916,7 +934,7 @@ function renderCategories() {
         }
 
         const metaText = hasChoices
-            ? `<span class="needs">Tap to customize</span> · ${cat.included.length} included`
+            ? `${cat.included.length} included · <span class="needs">Tap to customize</span>`
             : `${cat.included.length} item${cat.included.length !== 1 ? 's' : ''} included`;
 
         return `
@@ -1106,9 +1124,6 @@ function openPersonalCare() {
             ${GENDERS.map(g => `<button class="gender-pill ${sel.pcGender === g.value ? 'selected' : ''}" data-value="${g.value}" onclick="pickGender(this)">${g.label}</button>`).join('')}
         </div>
         <div class="pref-section-label spaced">Scent preference</div>
-        <div class="unscented-row ${sel.pcUnscented ? 'selected' : ''}" id="unscentedRow" onclick="toggleUnscented()">
-            <span class="unscented-label">Unscented</span><span class="unscented-check">✓</span>
-        </div>
         <div class="scent-grid ${sel.pcUnscented ? 'dimmed' : ''}" id="scentGrid">
             ${SCENTS.map(s => `
                 <div class="scent-pill ${sel.pcScent === s.key ? 'selected' : ''}" data-scent="${s.key}" onclick="pickScent(this)">
@@ -1117,6 +1132,9 @@ function openPersonalCare() {
                     <span class="scent-name">${s.name}</span>
                     <span class="scent-sub">${s.sub}</span>
                 </div>`).join('')}
+        </div>
+        <div class="unscented-row ${sel.pcUnscented ? 'selected' : ''}" id="unscentedRow" onclick="toggleUnscented()" style="margin-top:8px;">
+            <span class="unscented-label">Unscented</span><span class="unscented-check">✓</span>
         </div>
         <div class="pref-section-label spaced">Deodorant or antiperspirant?</div>
         <div class="card-stack spaced-top" id="deodorantStack">
@@ -1522,15 +1540,26 @@ document.getElementById('zip').addEventListener('blur', async function() {
             applyZipLookup(data);
         } else if (!valuesMatch) {
             zipLookupData = data;
-            const ok = confirm(
-                `We found this location for ZIP code ${zip}:\n\n${data.city}, ${data.state}\n\n` +
-                `Your current address shows:\n${currentCity}, ${currentState}\n\n` +
-                `Would you like to update to the ZIP code's location?`
-            );
-            if (ok) applyZipLookup(data);
+            // Show inline suggestion instead of browser dialog
+            const suggEl = document.getElementById('zip-suggestion');
+            if (suggEl) {
+                document.getElementById('zip-suggestion-text').textContent =
+                    `ZIP ${zip} is usually ${data.city}, ${data.state}. Want to update your city and state?`;
+                suggEl.style.display = 'block';
+            }
         }
     }
 });
+
+function acceptZipSuggestion() {
+    if (zipLookupData) applyZipLookup(zipLookupData);
+    dismissZipSuggestion();
+}
+function dismissZipSuggestion() {
+    const el = document.getElementById('zip-suggestion');
+    if (el) el.style.display = 'none';
+    zipLookupData = null;
+}
 
 const zipInput = document.getElementById('zip');
 const zipLiveFeedback = document.getElementById('zip-live-feedback');
@@ -1579,19 +1608,9 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('celebrationContinueBtn').addEventListener('click', function() {
         document.getElementById('celebrationOverlay').classList.remove('visible');
         document.getElementById('documentUpload').style.display = 'none';
-        document.querySelector('[data-section="1"]').classList.add('active');
-        updateHeader('Customize Your Kit', "We're going shopping for you and we just need a little more information. Your responses will guide us to choose items that match your style.");
-        setTimeout(() => {
-            const nameField  = document.getElementById('student_name');
-            const emailField = document.getElementById('email');
-            let prefilled = false;
-            if (nameField && studentData && studentData.studentName) { nameField.value  = studentData.studentName; prefilled = true; }
-            if (emailField && studentData && studentData.email)       { emailField.value = studentData.email;        prefilled = true; }
-            if (prefilled) document.getElementById('prefill-notice').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }, 100);
         document.getElementById('step-2').classList.add('complete');
         document.getElementById('step-3').classList.add('active');
+        goToSection(1);  // Go to Kit Customization
     });
 
     document.getElementById('verifyEmailBtn').addEventListener('click', async function() {
@@ -1657,28 +1676,16 @@ function handleStudentStatus(data) {
     if (data.collegeUnitId) loadSchoolData(data.collegeUnitId);
 
     if (housingStatus === 'Approved' && acceptanceStatus === 'Approved') {
+        // Go straight to Kit Customization (section 1)
+        renderCategories();
+        updateProgress();
+        applySchoolTheme();
         document.querySelector('[data-section="1"]').classList.add('active');
-        updateHeader('Customize Your Kit', "We're going shopping for you and we just need a little more information. Your responses will guide us to choose items that match your style.");
-        setTimeout(() => {
-            const nameField = document.getElementById('student_name');
-            const emailField = document.getElementById('email');
-            let prefilled = false;
-            if (nameField && data.studentName) {
-                nameField.value = data.studentName;
-                prefilled = true;
-            }
-            if (emailField && data.email) {
-                emailField.value = data.email;
-                prefilled = true;
-            }
-            if (prefilled) {
-                document.getElementById('prefill-notice').style.display = 'block';
-            }
-        }, 100);
+        updateHeader('Customize Your Kit', '');
 
     } else if (housingStatus === 'Rejected' || acceptanceStatus === 'Rejected') {
         document.getElementById('documentUpload').style.display = 'block';
-        updateHeader('College & Housing Verification', 'Almost there. Before we finalize your selections, please upload two quick documents. We\'ll need these by July 15th.');
+        updateHeader('College & Housing Verification', 'Before we finalize your selections, please upload two quick documents. We\'ll need these by July 15th.');
 
     } else if (housingStatus === 'Uploaded' || acceptanceStatus === 'Uploaded') {
         document.getElementById('documentUpload').style.display = 'block';
@@ -1686,7 +1693,7 @@ function handleStudentStatus(data) {
 
     } else {
         document.getElementById('documentUpload').style.display = 'block';
-        updateHeader('College & Housing Verification', 'Almost there. Before we finalize your selections, please upload two quick documents. We\'ll need these by July 15th.');
+        updateHeader('College & Housing Verification', 'Before we finalize your selections, please upload two quick documents. We\'ll need these by July 15th.');
     }
 
     document.getElementById('step-1').classList.add('complete');
