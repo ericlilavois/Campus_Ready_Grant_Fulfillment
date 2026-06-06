@@ -594,6 +594,20 @@
 
 </div><!-- end .container -->
 
+<!-- In-app Checklist Viewer -->
+<div id="checklistOverlay" style="display:none; position:fixed; inset:0; z-index:3000; flex-direction:column; background:white;">
+    <div style="background:var(--school-primary); padding:14px 20px; display:flex; align-items:center; gap:12px; flex-shrink:0;">
+        <button onclick="closeChecklist()" style="background:rgba(255,255,255,0.2); border:none; color:white; padding:8px 18px; border-radius:20px; font-family:inherit; font-size:0.875rem; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:6px; white-space:nowrap;">← Back to your kit</button>
+        <span id="checklistTitle" style="color:white; font-size:0.875rem; opacity:0.9; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"></span>
+    </div>
+    <iframe id="checklistFrame" style="flex:1; border:none; width:100%;" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation"></iframe>
+    <div id="checklistFallback" style="display:none; flex:1; text-align:center; padding:48px 24px; flex-direction:column; align-items:center; justify-content:center;">
+        <p style="font-size:1rem; color:var(--grey-text); margin-bottom:8px;">This school's page can't be shown here directly.</p>
+        <p style="font-size:0.875rem; color:var(--grey-text); margin-bottom:24px;">Open it in a new tab — we'll be right here when you come back.</p>
+        <a id="checklistFallbackLink" href="#" target="_blank" rel="noopener" style="display:inline-block; background:var(--teal); color:white; padding:12px 28px; border-radius:10px; text-decoration:none; font-weight:600; font-size:1rem;">Open packing list →</a>
+    </div>
+</div>
+
 <!-- Celebration Modal (after document upload) -->
 <div class="celebration-overlay" id="celebrationOverlay">
     <div class="celebration-modal">
@@ -636,7 +650,7 @@ function goToSection(sectionNum) {
     // Navigating between form sections 1-3 does not change step indicators.
 
     currentSection = sectionNum;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo(0, 0); document.body.scrollTop = 0; document.documentElement.scrollTop = 0;
 
     // Global school card shows on kit screen (section 1) only — hidden everywhere else
     const schoolHeaderEl = document.getElementById('schoolHeader');
@@ -853,6 +867,40 @@ let activeGroup = null;
 let schoolRecord = null;
 
 // ============================================================
+// IN-APP CHECKLIST VIEWER
+// ============================================================
+function openChecklist(url, schoolName) {
+    const overlay  = document.getElementById('checklistOverlay');
+    const frame    = document.getElementById('checklistFrame');
+    const fallback = document.getElementById('checklistFallback');
+    document.getElementById('checklistTitle').textContent = schoolName + '\'s official packing list';
+    document.getElementById('checklistFallbackLink').href = url;
+    frame.style.display = 'block';
+    fallback.style.display = 'none';
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    frame.src = url;
+    // After a delay, check if the iframe loaded meaningful content.
+    // If not (blocked by X-Frame-Options), show the fallback.
+    setTimeout(() => {
+        try {
+            if (!frame.contentDocument || !frame.contentDocument.body ||
+                frame.contentDocument.body.innerHTML.trim() === '') {
+                frame.style.display = 'none';
+                fallback.style.display = 'flex';
+            }
+        } catch(e) {
+            // Cross-origin access blocked — frame loaded externally, which is fine
+        }
+    }, 2500);
+}
+function closeChecklist() {
+    document.getElementById('checklistOverlay').style.display = 'none';
+    document.body.style.overflow = '';
+    document.getElementById('checklistFrame').src = '';
+}
+
+// ============================================================
 // SCHOOL THEMING
 // ============================================================
 async function loadSchoolData(unitid) {
@@ -904,7 +952,9 @@ function applySchoolTheme() {
 
     const link = document.getElementById('checklistLink');
     if (schoolRecord.checklist_url) {
-        link.href = schoolRecord.checklist_url;
+        const url = schoolRecord.checklist_url;
+        link.href = 'javascript:void(0)';
+        link.onclick = () => openChecklist(url, displayName);
         document.getElementById('checklistLinkText').textContent = `See ${displayName}'s official packing list →`;
         link.style.display = 'flex';
     }
@@ -1447,6 +1497,102 @@ function getProductImg(key, a, b) {
     return PRODUCT_IMAGES[key] || PLACEHOLDER_IMG;
 }
 
+// ============================================================
+// PRODUCT BRANDS
+// Same key structure as PRODUCT_IMAGES for consistency.
+// ============================================================
+const PRODUCT_BRANDS = {
+    // Bedding
+    'Sheet Set':               'Lane Linen',
+    'Duvet Cover':             'California Design Den',
+    'Comforter':               'ViscoSoft',
+    'Mattress Protector':      'Amazon Basics',
+    'Pillow Protectors':       'Amazon Basics',
+    'Pillow|Soft':             'Beckham Hotel Collection',
+    'Pillow|Medium':           'Utopia Bedding',
+    'Pillow|Firm':             'Love Attitude',
+
+    // Towels (brand varies by color)
+    'Towel Set|White':         'Lane Linen',
+    'Towel Set|Gray':          'Lane Linen',
+    'Towel Set|Pink':          'Lane Linen',
+    'Towel Set|Mint':          'Lane Linen',
+    'Towel Set|Navy':          'Cotton Paradise',
+    'Towel Set|Cream':         'Cotton Paradise',
+
+    // Bath
+    'Shower Caddy':            'Byune',
+    'Toiletry Bag':            'Maliton',
+    'Slides':                  'Bronax',
+
+    // Shampoo & Conditioner (brand varies by scent)
+    'Shampoo & Conditioner|Unscented':     'CeraVe',
+    'Shampoo & Conditioner|Fresh & Clean': 'Native',
+    'Shampoo & Conditioner|Soft & Floral': 'Native',
+    'Shampoo & Conditioner|Cool & Herbal': 'Native',
+    'Shampoo & Conditioner|Wood & Amber':  'Native',
+
+    // Body Wash (brand varies by gender)
+    'Body Wash|Women':         'EOS',
+    'Body Wash|Men':           'Method',
+    'Body Wash|Unisex':        'Native',
+
+    // Deodorant / Antiperspirant (brand varies by gender)
+    'Deodorant|Women':         'Native',
+    'Deodorant|Men':           'Dove',
+    'Deodorant|Unisex':        'Vanicream',
+    'Antiperspirant|Women':    'Vanicream',
+    'Antiperspirant|Men':      'Dove',
+    'Antiperspirant|Unisex':   'Vanicream',
+
+    // Shaving Cream & Razor (brand varies by gender)
+    'Shaving Cream|Women':     'Billie',
+    'Shaving Cream|Men':       'VaniCream',
+    'Shaving Cream|Unisex':    'Cremo',
+    'Razor Handle|Women':      'Billie',
+    'Razor Handle|Men':        "Harry's",
+    'Razor Handle|Unisex':     'Dollar Shave Club',
+
+    // Grooming
+    'Toothbrush':              'Curaprox',
+    'Dental Floss':            'Oral-B',
+
+    // Laundry
+    'Laundry Pods':            'Tide',
+    'Dryer Sheets':            'Amazon Basics',
+    'Stain Remover':           'Miss Mouths',
+
+    // Cleaning
+    'Disinfecting Wipes':      'Clorox',
+    'Bathroom Cleaner':        'Scrubbing Bubbles',
+    'All-Purpose Cleaner':     'Lysol',
+    'Microfiber Cloths':       'Aidea',
+    'Trash Bin':               'iDesign',
+    'Paper Towels':            'Amazon Basics',
+
+    // Desk
+    'Desk Lamp':               'White Drown',
+    'Desktop Organizer':       'Blue Ginkgo',
+    'Sticky Notes':            'Post-it',
+    'Whiteboard':              'VUSIGN',
+    'Power Strip':             'Amazon Basics',
+    'Command Strips':          '3M',
+
+    // Storage
+    'Storage Bins':            'Iris',
+    'Under-Bed Storage':       'Iris',
+    'Hangers':                 'Amazon Basics',
+    'Pants Hangers':           'Amazon Basics',
+    'Closet Organizer':        'Simple Houseware',
+    'Drawer Organizer':        'Amazon Basics',
+};
+
+function getBrand(key, a, b) {
+    if (a && b && PRODUCT_BRANDS[key + '|' + a + '|' + b]) return PRODUCT_BRANDS[key + '|' + a + '|' + b];
+    if (a && PRODUCT_BRANDS[key + '|' + a]) return PRODUCT_BRANDS[key + '|' + a];
+    return PRODUCT_BRANDS[key] || '';
+}
+
 function reviewProductRow(imgSrc, name, detail, brand) {
     return `
         <div style="display:flex; align-items:center; gap:12px; padding:12px 0; border-top:1px solid var(--grey-light);">
@@ -1535,34 +1681,34 @@ function populateReview() {
     // Bedding
     const slidesDetail = [genderLabel, sizeLabel ? `Size ${sizeLabel}` : '', slidesC?.name || ''].filter(Boolean).join(' · ');
     const beddingRows =
-        reviewProductRow(getProductImg('Sheet Set',   sheetC?.name),  '450 Thread Count Sheet Set',  sheetC?.name || '',          'Lane Linen') +
-        reviewProductRow(getProductImg('Duvet Cover', coverC?.name),  '100% Cotton Duvet Cover',     coverC?.name || '',          'California Design Den') +
-        reviewProductRow(getProductImg('Comforter'),                   'Down Alternative Comforter',  null,                        'ViscoSoft') +
-        reviewProductRow(getProductImg('Pillow', sel.beddingFirmness),'Standard Pillow',             sel.beddingFirmness || null, 'Included') +
-        reviewProductRow(getProductImg('Mattress Protector'),          'Mattress Protector',          null,                        'Included') +
-        reviewProductRow(getProductImg('Pillow Protectors'),           'Pillow Protectors',           '×2',                        'Included');
+        reviewProductRow(getProductImg('Sheet Set',   sheetC?.name),  '450 Thread Count Sheet Set',  sheetC?.name || '',          getBrand('Sheet Set')) +
+        reviewProductRow(getProductImg('Duvet Cover', coverC?.name),  '100% Cotton Duvet Cover',     coverC?.name || '',          getBrand('Duvet Cover')) +
+        reviewProductRow(getProductImg('Comforter'),                   'Down Alternative Comforter',  null,                        getBrand('Comforter')) +
+        reviewProductRow(getProductImg('Pillow', sel.beddingFirmness),'Standard Pillow',             sel.beddingFirmness || null, getBrand('Pillow', sel.beddingFirmness)) +
+        reviewProductRow(getProductImg('Mattress Protector'),          'Mattress Protector',          null,                        getBrand('Mattress Protector')) +
+        reviewProductRow(getProductImg('Pillow Protectors'),           'Pillow Protectors',           '×2',                        getBrand('Pillow Protectors'));
 
     // Bath
     const bathRows =
-        reviewProductRow(getProductImg('Towel Set', towelC?.name), 'Bath Towel Set',               towelC?.name || '',          'Included') +
-        reviewProductRow(getProductImg('Slides', slidesC?.name),     'Slides',                       slidesDetail,                'Included') +
-        reviewProductRow(getProductImg('Shower Caddy'),             'Shower Caddy',                 null,                        'Included') +
-        reviewProductRow(getProductImg('Toiletry Bag'),             'Toiletry Bag',                 null,                        'Included');
+        reviewProductRow(getProductImg('Towel Set', towelC?.name), 'Bath Towel Set',           towelC?.name || '',   getBrand('Towel Set', towelC?.name)) +
+        reviewProductRow(getProductImg('Slides', slidesC?.name),   'Slides',                   slidesDetail,         getBrand('Slides')) +
+        reviewProductRow(getProductImg('Shower Caddy'),             'Shower Caddy',             null,                 getBrand('Shower Caddy')) +
+        reviewProductRow(getProductImg('Toiletry Bag'),             'Toiletry Bag',             null,                 getBrand('Toiletry Bag'));
 
     // Personal Care — images keyed by scent (shampoo) or gender (everything else)
     const scentForImg   = sel.pcUnscented ? 'Unscented' : SCENTS.find(s => s.key === sel.pcScent)?.catalogValue;
     const deodorantType = sel.deodorant || 'Deodorant'; // 'Deodorant' or 'Antiperspirant'
     const pcRows =
-        reviewProductRow(getProductImg('Shampoo & Conditioner', scentForImg), 'Shampoo & Conditioner', [genderLabel, scentLabel].filter(Boolean).join(' · '), 'Included') +
-        reviewProductRow(getProductImg('Body Wash', sel.pcGender),            'Body Wash',              scentLabel || null,          'Included') +
-        reviewProductRow(getProductImg(deodorantType, sel.pcGender),          deodorantType,            genderLabel || null,         'Included') +
-        reviewProductRow(getProductImg('Shaving Cream', sel.pcGender),        'Shaving Cream & Razor',  genderLabel || null,         'Included') +
-        reviewProductRow(getProductImg('Toothbrush'),                         'Toothbrush & Toothpaste',null,                        'Included') +
-        reviewProductRow(getProductImg('Dental Floss'),                       'Dental Floss',           null,                        'Included');
+        reviewProductRow(getProductImg('Shampoo & Conditioner', scentForImg), 'Shampoo & Conditioner', [genderLabel, scentLabel].filter(Boolean).join(' · '), getBrand('Shampoo & Conditioner', scentForImg)) +
+        reviewProductRow(getProductImg('Body Wash', sel.pcGender),            'Body Wash',              scentLabel || null,          getBrand('Body Wash', sel.pcGender)) +
+        reviewProductRow(getProductImg(deodorantType, sel.pcGender),          deodorantType,            genderLabel || null,         getBrand(deodorantType, sel.pcGender)) +
+        reviewProductRow(getProductImg('Shaving Cream', sel.pcGender),        'Shaving Cream & Razor',  genderLabel || null,         getBrand('Shaving Cream', sel.pcGender)) +
+        reviewProductRow(getProductImg('Toothbrush'),                         'Toothbrush & Toothpaste',null,                        getBrand('Toothbrush')) +
+        reviewProductRow(getProductImg('Dental Floss'),                       'Dental Floss',           null,                        getBrand('Dental Floss'));
 
     function simpleSection(title, emoji, items) {
         return reviewCategorySection(title, emoji,
-            items.map(n => reviewProductRow(getProductImg(n), n, null, 'Included')).join(''), false);
+            items.map(n => reviewProductRow(getProductImg(n), n, null, getBrand(n))).join(''), false);
     }
 
     _reviewSectionIdx = 0;
@@ -1651,7 +1797,7 @@ function showSuccessPage() {
         document.getElementById('loadingOverlay').classList.remove('show');
         document.getElementById('kitForm').style.display = 'none';
         document.getElementById('successScreen').classList.add('show');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo(0, 0); document.body.scrollTop = 0; document.documentElement.scrollTop = 0;
     }, 50);
 }
 
