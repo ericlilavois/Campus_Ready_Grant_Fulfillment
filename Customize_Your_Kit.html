@@ -1341,8 +1341,15 @@ const PRODUCT_IMAGES = {
 
     // ── BATH ────────────────────────────────────────────────
     'Shower Caddy':  'https://m.media-amazon.com/images/I/71GURerjSaL._AC_SL1500_.jpg',
-    // 'Toiletry Bag' — pending Accessories CSV
-    // 'Slides'       — pending Accessories CSV
+    'Toiletry Bag':  'https://m.media-amazon.com/images/I/71AADKHbkgL._AC_SL1500_.jpg',
+
+    // ── SLIDES (color-specific; same image across all sizes and genders) ──
+    'Slides|White': 'https://m.media-amazon.com/images/I/51Sng4ocDrL._AC_SX695_.jpg',
+    'Slides|Gray':  'https://m.media-amazon.com/images/I/71K2qkOFQyL._AC_SX695_.jpg',
+    'Slides|Navy':  'https://m.media-amazon.com/images/I/71EWQ9I5s1L._AC_SX695_.jpg',
+    'Slides|Cream': 'https://m.media-amazon.com/images/I/61i-dRRb1oL._AC_SX695_.jpg',
+    'Slides|Pink':  'https://m.media-amazon.com/images/I/61erhf4rQVL._AC_SX695_.jpg',
+    'Slides|Mint':  'https://m.media-amazon.com/images/I/71Gl+xLPD5L._AC_SX695_.jpg',
 
     // ── PERSONAL CARE ───────────────────────────────────────
     // Shampoo, Body Wash, Deodorant, Shaving Cream, Toothbrush — pending
@@ -1468,7 +1475,7 @@ function populateReview() {
     // Bath
     const bathRows =
         reviewProductRow(getProductImg('Towel Set', towelC?.name), 'Bath Towel Set',               towelC?.name || '',          'Included') +
-        reviewProductRow(getProductImg('Slides'),                   'Slides',                       slidesDetail,                'Included') +
+        reviewProductRow(getProductImg('Slides', slidesC?.name),     'Slides',                       slidesDetail,                'Included') +
         reviewProductRow(getProductImg('Shower Caddy'),             'Shower Caddy',                 null,                        'Included') +
         reviewProductRow(getProductImg('Toiletry Bag'),             'Toiletry Bag',                 null,                        'Included');
 
