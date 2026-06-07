@@ -1905,6 +1905,49 @@ let studentData = null;
 
 document.addEventListener('DOMContentLoaded', function() {
 
+    // ── Personalized link auto-verify (?id=CR_XXXX) ──────────────
+    // If the URL contains ?id= the student came from their personal email link.
+    // Skip email entry entirely and verify them automatically.
+    (function() {
+        const params = new URLSearchParams(window.location.search);
+        const appId  = params.get('id');
+        if (!appId) return;
+
+        // Hide email screen, show checking state
+        document.getElementById('emailValidation').style.display = 'none';
+        const checkingDiv = document.createElement('div');
+        checkingDiv.style.cssText = 'text-align:center;padding:40px 20px;color:var(--teal);font-weight:500;';
+        checkingDiv.textContent = 'Getting your kit ready…';
+        document.getElementById('kitForm').prepend(checkingDiv);
+
+        fetch('https://grant-fulfillment-proxy.vercel.app/api/proxy', {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ action: 'checkStudentStatusById', applicationId: appId })
+        })
+        .then(r => r.json())
+        .then(result => {
+            checkingDiv.remove();
+            const status = result.data || result;
+            if (status.status === 'found') {
+                // Personalize the hero title with the student's first name
+                if (status.studentName) {
+                    const first = status.studentName.split(' ')[0];
+                    document.getElementById('pageTitle').textContent = `Welcome, ${first}.`;
+                }
+                studentData = status;
+                handleStudentStatus(status);
+            } else {
+                // ID not recognized — fall back to email entry
+                document.getElementById('emailValidation').style.display = 'block';
+            }
+        })
+        .catch(() => {
+            checkingDiv.remove();
+            document.getElementById('emailValidation').style.display = 'block';
+        });
+    })();
+
     // Celebration modal — continue to kit after document upload
     document.getElementById('celebrationContinueBtn').addEventListener('click', function() {
         document.getElementById('celebrationOverlay').classList.remove('visible');
