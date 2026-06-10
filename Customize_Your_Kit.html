@@ -144,7 +144,7 @@
             pointer-events: none;
         }
         .sc-eyebrow {
-            font-family: 'Playfair Display', serif; font-weight: 600; font-size: 1.1rem;
+            font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.625rem;
             color: var(--school-text); opacity: 0.95; margin-bottom: 8px; position: relative;
         }
         .sc-headline {
@@ -942,7 +942,7 @@ function applySchoolTheme() {
     } else {
         document.getElementById('scEyebrow').style.display = 'none';
     }
-    document.getElementById('scHeadline').textContent = `Let's set you up for ${displayName}`;
+    document.getElementById('scHeadline').innerHTML = `<span style="display:block;font-family:'Inter',sans-serif;font-weight:500;font-size:1.4rem;">Let's set you up for</span><span style="display:block;font-family:'Playfair Display',serif;font-weight:700;font-size:1.625rem;">${displayName}</span>`;
     if (schoolRecord.slogan) {
         document.getElementById('scRally').textContent = schoolRecord.slogan;
     } else {
@@ -997,7 +997,7 @@ function renderCategories() {
         const totalCount = cat.included.length + cat.choices.length;
         const metaText = hasChoices
             ? `${totalCount} item${totalCount !== 1 ? 's' : ''} · <span class="needs">Tap to customize</span>`
-            : `${cat.included.length} item${cat.included.length !== 1 ? 's' : ''} included`;
+            : `${totalCount} item${totalCount !== 1 ? 's' : ''}`;
 
         return `
             <div class="cat-card" id="cat-${cat.id}" data-has-choices="${hasChoices}">
@@ -1355,7 +1355,7 @@ function updateGroupAnswered(group) {
     const cat = CATEGORIES.find(c => c.id === group);
     if (answered[group]) {
         document.getElementById('meta-' + group).innerHTML =
-            `<span style="color:var(--teal);font-weight:600;">Set</span> · ${cat.included.length} included`;
+            `<span style="color:var(--teal);font-weight:600;">Set</span> · ${cat.included.length + cat.choices.length} items`;
     }
 }
 
