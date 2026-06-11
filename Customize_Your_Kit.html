@@ -2309,7 +2309,7 @@ async function uploadDocuments() {
         document.getElementById('housing_progress_text').textContent = messages[messageIndex];
         document.getElementById('acceptance_progress_text').textContent = messages[messageIndex];
         messageIndex = (messageIndex + 1) % messages.length;
-    }, 1200);
+    }, 3000);
 
     let progress = 0;
     const animateProgress = setInterval(() => {
