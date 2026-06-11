@@ -2156,10 +2156,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         btn.disabled = true;
+        checkingDiv.style.display = 'block';
         checkingDiv.classList.remove('msg-fade');
         void checkingDiv.offsetWidth;
         checkingDiv.classList.add('msg-fade');
-        checkingDiv.style.display = 'block';
 
         try {
             const response = await fetch('https://grant-fulfillment-proxy.vercel.app/api/proxy', {
