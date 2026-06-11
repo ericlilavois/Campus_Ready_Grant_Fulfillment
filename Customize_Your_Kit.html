@@ -1540,15 +1540,32 @@ const PRODUCT_IMAGES = {
     'Antiperspirant|Men':   'https://m.media-amazon.com/images/I/71-krfs03hL._SL1500_.jpg', // Dove Men's
     'Antiperspirant|Unisex':'https://m.media-amazon.com/images/I/61XoNO89w7L._SL1500_.jpg', // Vanicream
 
-    // ── SHAVING CREAM (gender-specific) ─────────────────────
-    'Shaving Cream|Women':  'https://m.media-amazon.com/images/I/61QjCZz+-dL._SL1500_.jpg', // Billie Women's
-    'Shaving Cream|Men':    'https://m.media-amazon.com/images/I/61dhc56as4L._SL1500_.jpg', // VaniCream Men's
-    'Shaving Cream|Unisex': 'https://m.media-amazon.com/images/I/61d-l41z6xL._SL1500_.jpg', // Cremo Unisex
+    // ── SHAVING CREAM (gender + scent) ──────────────────────
+    'Shaving Cream|Men|Unscented':        'https://m.media-amazon.com/images/I/61dhc56as4L._SL1500_.jpg', // VaniCream
+    'Shaving Cream|Men|Fresh & Clean':    'https://m.media-amazon.com/images/I/51eJxd9vfKL._SL1500_.jpg', // Cremo
+    'Shaving Cream|Men|Soft & Floral':    'https://m.media-amazon.com/images/I/51oZB-d3SqL._SL1500_.jpg', // Cremo
+    'Shaving Cream|Men|Cool & Herbal':    'https://m.media-amazon.com/images/I/51T4BthaDWL._SL1500_.jpg', // Cremo
+    'Shaving Cream|Men|Wood & Amber':     'https://m.media-amazon.com/images/I/618nWBdeIhL._SL1500_.jpg', // Cremo
+    'Shaving Cream|Women|Unscented':      'https://m.media-amazon.com/images/I/61QjCZz+-dL._SL1500_.jpg', // Billie
+    'Shaving Cream|Women|Fresh & Clean':  'https://m.media-amazon.com/images/I/717rznRUqvL._SL1500_.jpg', // EOS
+    'Shaving Cream|Women|Soft & Floral':  'https://m.media-amazon.com/images/I/61bB6tqqHoL._SL1500_.jpg', // EOS
+    'Shaving Cream|Women|Cool & Herbal':  'https://m.media-amazon.com/images/I/61EJqiTNlpL._SL1500_.jpg', // Kiss My Face
+    'Shaving Cream|Women|Wood & Amber':   'https://m.media-amazon.com/images/I/61d-l41z6xL._SL1500_.jpg', // Cremo
+    'Shaving Cream|Unisex|Unscented':     'https://m.media-amazon.com/images/I/61dhc56as4L._SL1500_.jpg', // VaniCream
+    'Shaving Cream|Unisex|Fresh & Clean': 'https://m.media-amazon.com/images/I/51eJxd9vfKL._SL1500_.jpg', // Cremo
+    'Shaving Cream|Unisex|Soft & Floral': 'https://m.media-amazon.com/images/I/51oZB-d3SqL._SL1500_.jpg', // Cremo
+    'Shaving Cream|Unisex|Cool & Herbal': 'https://m.media-amazon.com/images/I/51T4BthaDWL._SL1500_.jpg', // Cremo
+    'Shaving Cream|Unisex|Wood & Amber':  'https://m.media-amazon.com/images/I/618nWBdeIhL._SL1500_.jpg', // Cremo
 
-    // ── RAZOR (gender-specific) ──────────────────────────────
+    // ── RAZOR HANDLE (gender-specific) ──────────────────────
     'Razor Handle|Women':   'https://m.media-amazon.com/images/I/615WLv5hD5L._SL1500_.jpg', // Billie
     'Razor Handle|Men':     'https://m.media-amazon.com/images/I/71Q8+TBhTzL._SL1500_.jpg', // Harry's
     'Razor Handle|Unisex':  'https://m.media-amazon.com/images/I/81RoJEgK5UL._SL1500_.jpg', // Dollar Shave Club
+
+    // ── RAZOR REFILLS (gender-specific) ─────────────────────
+    'Razor Refills|Women':  'https://m.media-amazon.com/images/I/61T6DIPk2TL._SL1500_.jpg', // Billie
+    'Razor Refills|Men':    'https://m.media-amazon.com/images/I/71-sjaK14UL._SL1500_.jpg', // Harry's
+    'Razor Refills|Unisex': 'https://m.media-amazon.com/images/I/81+Jrud-jKL._SL1500_.jpg', // Dollar Shave Club
 
     // ── TOOTHBRUSH / DENTAL ─────────────────────────────────
     'Toothbrush':  'https://m.media-amazon.com/images/I/71K9jutKeCL._AC_SL1500_.jpg', // Curaprox
@@ -1639,13 +1656,29 @@ const PRODUCT_BRANDS = {
     'Antiperspirant|Men':      'Dove',
     'Antiperspirant|Unisex':   'Vanicream',
 
-    // Shaving Cream & Razor (brand varies by gender)
-    'Shaving Cream|Women':     'Billie',
-    'Shaving Cream|Men':       'VaniCream',
-    'Shaving Cream|Unisex':    'Cremo',
+    // Shaving Cream (brand varies by gender + scent)
+    'Shaving Cream|Men|Unscented':        'VaniCream',
+    'Shaving Cream|Men|Fresh & Clean':    'Cremo',
+    'Shaving Cream|Men|Soft & Floral':    'Cremo',
+    'Shaving Cream|Men|Cool & Herbal':    'Cremo',
+    'Shaving Cream|Men|Wood & Amber':     'Cremo',
+    'Shaving Cream|Women|Unscented':      'Billie',
+    'Shaving Cream|Women|Fresh & Clean':  'EOS',
+    'Shaving Cream|Women|Soft & Floral':  'EOS',
+    'Shaving Cream|Women|Cool & Herbal':  'Kiss My Face',
+    'Shaving Cream|Women|Wood & Amber':   'Cremo',
+    'Shaving Cream|Unisex|Unscented':     'VaniCream',
+    'Shaving Cream|Unisex|Fresh & Clean': 'Cremo',
+    'Shaving Cream|Unisex|Soft & Floral': 'Cremo',
+    'Shaving Cream|Unisex|Cool & Herbal': 'Cremo',
+    'Shaving Cream|Unisex|Wood & Amber':  'Cremo',
+    // Razor (brand varies by gender)
     'Razor Handle|Women':      'Billie',
     'Razor Handle|Men':        "Harry's",
     'Razor Handle|Unisex':     'Dollar Shave Club',
+    'Razor Refills|Women':     'Billie',
+    'Razor Refills|Men':       "Harry's",
+    'Razor Refills|Unisex':    'Dollar Shave Club',
 
     // Grooming
     'Toothbrush':              'Curaprox',
@@ -1793,12 +1826,14 @@ function populateReview() {
     const scentForImg   = sel.pcUnscented ? 'Unscented' : SCENTS.find(s => s.key === sel.pcScent)?.catalogValue;
     const deodorantType = sel.deodorant || 'Deodorant'; // 'Deodorant' or 'Antiperspirant'
     const pcRows =
-        reviewProductRow(getProductImg('Shampoo & Conditioner', scentForImg), 'Shampoo & Conditioner', [genderLabel, scentLabel].filter(Boolean).join(' · '), getBrand('Shampoo & Conditioner', scentForImg)) +
-        reviewProductRow(getProductImg('Body Wash', sel.pcGender),            'Body Wash',              scentLabel || null,          getBrand('Body Wash', sel.pcGender)) +
-        reviewProductRow(getProductImg(deodorantType, sel.pcGender),          deodorantType,            genderLabel || null,         getBrand(deodorantType, sel.pcGender)) +
-        reviewProductRow(getProductImg('Shaving Cream', sel.pcGender),        'Shaving Cream & Razor',  genderLabel || null,         getBrand('Shaving Cream', sel.pcGender)) +
-        reviewProductRow(getProductImg('Toothbrush'),                         'Toothbrush & Toothpaste',null,                        getBrand('Toothbrush')) +
-        reviewProductRow(getProductImg('Dental Floss'),                       'Dental Floss',           null,                        getBrand('Dental Floss'));
+        reviewProductRow(getProductImg('Shampoo & Conditioner', scentForImg),              'Shampoo & Conditioner',  [genderLabel, scentLabel].filter(Boolean).join(' · '), getBrand('Shampoo & Conditioner', scentForImg)) +
+        reviewProductRow(getProductImg('Body Wash', sel.pcGender),                         'Body Wash',              scentLabel || null,   getBrand('Body Wash', sel.pcGender)) +
+        reviewProductRow(getProductImg(deodorantType, sel.pcGender),                       deodorantType,            genderLabel || null,  getBrand(deodorantType, sel.pcGender)) +
+        reviewProductRow(getProductImg('Shaving Cream', sel.pcGender, scentForImg),        'Shaving Cream',          [genderLabel, scentLabel].filter(Boolean).join(' · '), getBrand('Shaving Cream', sel.pcGender, scentForImg)) +
+        reviewProductRow(getProductImg('Razor Handle', sel.pcGender),                      'Razor Handle',           genderLabel || null,  getBrand('Razor Handle', sel.pcGender)) +
+        reviewProductRow(getProductImg('Razor Refills', sel.pcGender),                     'Razor Refills',          genderLabel || null,  getBrand('Razor Refills', sel.pcGender)) +
+        reviewProductRow(getProductImg('Toothbrush'),                                      'Toothbrush & Toothpaste',null,                 getBrand('Toothbrush')) +
+        reviewProductRow(getProductImg('Dental Floss'),                                    'Dental Floss',           null,                 getBrand('Dental Floss'));
 
     function simpleSection(title, emoji, items) {
         return reviewCategorySection(title, emoji,
