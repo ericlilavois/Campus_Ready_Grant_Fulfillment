@@ -1011,9 +1011,7 @@ function renderCategories() {
         const seeMore = cat.included.length > VISIBLE
             ? `<button type="button" class="see-more" onclick="toggleMore('${cat.id}',this)">See all ${cat.included.length} included →</button>` : '';
 
-        let choiceRows = cat.choices.map(key =>
-            key === 'personalCare' ? personalCareInlineHTML() : choiceRowHTML(key)
-        ).join('');
+        let choiceRows = cat.choices.map(key => choiceRowHTML(key)).join('');
         if (cat.id === 'personal') {
             choiceRows += `<div class="cascade-note">Your answers apply to every personal care item above.</div>`;
         }
@@ -1057,6 +1055,12 @@ function choiceRowHTML(key) {
 }
 
 function toggleCat(id) {
+    if (id === 'personal') {
+        activeChoiceKey = 'personalCare';
+        activeGroup = 'personal';
+        openPersonalCare();
+        return;
+    }
     const card = document.getElementById('cat-' + id);
     card.classList.toggle('open');
     const chev = card.querySelector('.cat-chevron');
