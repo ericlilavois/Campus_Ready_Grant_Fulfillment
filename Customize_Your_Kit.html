@@ -157,6 +157,9 @@
             color: var(--school-text); opacity: 0.9; position: relative;
         }
 
+        @keyframes msgFadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+        .msg-fade { animation: msgFadeIn 0.4s ease forwards; }
+
         .confetti-container { position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 2100; }
         .confetti-particle  { position: absolute; pointer-events: none; }
         .youre-in-overlay {
@@ -344,7 +347,7 @@
     <div class="header">
         <img src="logo-image-1200x630.png" alt="Campus Ready Foundation" class="logo">
         <h1 class="title" id="pageTitle">Let's make sure it's you.</h1>
-        <p class="subtitle" id="pageSubtitle"></p>
+        <p class="subtitle" id="pageSubtitle">We just need a moment to confirm your info.</p>
     </div>
 
     <div class="progress-container">
@@ -395,7 +398,7 @@
 
         <!-- EMAIL VALIDATION SECTION -->
         <div id="emailValidation" class="form-section active">
-            <h2 class="section-title">Verify Your Email</h2>
+            <h2 class="section-title">Confirm Your Email</h2>
             <p class="section-description">Enter the email address you used in your Campus Ready grant application. This helps us personalize your kit and track your progress.</p>
             <div class="form-group">
                 <label for="email_verify" class="required">Email Address</label>
@@ -597,7 +600,7 @@
     <!-- Success Screen -->
     <div class="success-screen" id="successScreen">
         <div class="success-icon">
-            <img src="prepare-badge.jpg" alt="Prepare to Be Prepared" style="width:100%; max-width:200px; height:auto;">
+            <img src="prepare-badge.jpg" alt="Prepare to Be Prepared" style="width:100%; height:auto;">
         </div>
         <h2 class="success-title">You're Done!</h2>
         <p class="success-message">
@@ -2305,11 +2308,24 @@ async function uploadDocuments() {
         'Confidence. Dignity. A Strong Start.'
     ];
     let messageIndex = 0;
-    const rotateMessages = setInterval(() => {
-        document.getElementById('housing_progress_text').textContent = messages[messageIndex];
-        document.getElementById('acceptance_progress_text').textContent = messages[messageIndex];
-        messageIndex = (messageIndex + 1) % messages.length;
-    }, 3000);
+    function swapMessage() {
+        const els = [
+            document.getElementById('housing_progress_text'),
+            document.getElementById('acceptance_progress_text')
+        ];
+        els.forEach(el => { el.style.transition = 'opacity 0.3s'; el.style.opacity = '0'; });
+        setTimeout(() => {
+            messageIndex = (messageIndex + 1) % messages.length;
+            els.forEach(el => {
+                el.textContent = messages[messageIndex];
+                el.classList.remove('msg-fade');
+                void el.offsetWidth; // force reflow
+                el.classList.add('msg-fade');
+                el.style.opacity = '1';
+            });
+        }, 300);
+    }
+    const rotateMessages = setInterval(swapMessage, 3000);
 
     let progress = 0;
     const animateProgress = setInterval(() => {
