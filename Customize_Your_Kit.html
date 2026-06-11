@@ -942,7 +942,7 @@ function applySchoolTheme() {
     } else {
         document.getElementById('scEyebrow').style.display = 'none';
     }
-    document.getElementById('scHeadline').innerHTML = `<span style="display:block;font-family:'Inter',sans-serif;font-weight:500;font-size:1.4rem;">Let's set you up for</span><span style="display:block;font-family:'Playfair Display',serif;font-weight:700;font-size:1.625rem;">${displayName}</span>`;
+    document.getElementById('scHeadline').innerHTML = `<span style="display:block;font-family:'Inter',sans-serif;font-weight:500;font-size:1rem;margin-bottom:6px;">Let's set you up for</span><span style="display:block;font-family:'Playfair Display',serif;font-weight:700;font-size:2rem;">${displayName}</span>`;
     if (schoolRecord.slogan) {
         document.getElementById('scRally').textContent = schoolRecord.slogan;
     } else {
@@ -1652,7 +1652,7 @@ function populateReview() {
     const formData = new FormData(form);
 
     // School-branded header
-    const schoolName  = schoolRecord ? schoolRecord.name : (studentData?.collegeName || 'your school');
+    const schoolName  = schoolRecord ? (schoolRecord.nickname || schoolRecord.name) : (studentData?.collegeName || 'your school');
     const mascot      = schoolRecord?.mascot || '';
     const eyebrow     = schoolRecord?.secondary_phrase || '';
     const firstName   = studentData?.studentName ? studentData.studentName.split(' ')[0] : '';
