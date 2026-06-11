@@ -2318,9 +2318,11 @@ async function uploadDocuments() {
         console.error('Upload error:', error);
         document.getElementById('housing_progress').style.display = 'none';
         document.getElementById('acceptance_progress').style.display = 'none';
-        document.getElementById('housing_error').innerHTML =
+        const uploadErrorMsg =
             'Hmm, something went wrong. Please try uploading again. If this keeps happening, email us at ' +
             '<a href="mailto:hello@campusready.foundation" style="color:#469E92;text-decoration:underline;">hello@campusready.foundation</a>';
+        document.getElementById('housing_error').innerHTML = uploadErrorMsg;
+        document.getElementById('acceptance_error').innerHTML = uploadErrorMsg;
     }
 }
 </script>
