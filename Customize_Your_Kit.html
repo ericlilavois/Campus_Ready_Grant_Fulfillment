@@ -2013,7 +2013,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('emailValidation').style.display = 'none';
         const checkingDiv = document.createElement('div');
         checkingDiv.style.cssText = 'text-align:center;padding:40px 20px;color:var(--teal);font-weight:500;';
-        checkingDiv.textContent = 'Making sure it's you…';
+        checkingDiv.textContent = "Making sure it's you…";
         document.getElementById('kitForm').prepend(checkingDiv);
 
         fetch('https://grant-fulfillment-proxy.vercel.app/api/proxy', {
