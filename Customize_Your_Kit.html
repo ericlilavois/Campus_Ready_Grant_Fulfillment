@@ -667,42 +667,63 @@ function updateHeader(title, subtitle) {
     document.getElementById('pageSubtitle').innerHTML = subtitle;
 }
 
+function crossFade(hideEl, showEl, done) {
+    function reveal() {
+        if (!showEl) { if (done) done(); return; }
+        showEl.style.opacity   = '0';
+        showEl.style.transform = 'translateY(10px)';
+        showEl.style.display   = 'block';
+        showEl.classList.add('active');
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+            showEl.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+            showEl.style.opacity    = '1';
+            showEl.style.transform  = 'translateY(0)';
+            setTimeout(() => {
+                showEl.style.transition = '';
+                showEl.style.opacity    = '';
+                showEl.style.transform  = '';
+                showEl.style.display    = '';
+                if (done) done();
+            }, 450);
+        }));
+    }
+    if (!hideEl || getComputedStyle(hideEl).display === 'none') { reveal(); return; }
+    hideEl.style.transition = 'opacity 0.3s ease';
+    hideEl.style.opacity    = '0';
+    setTimeout(() => {
+        hideEl.style.display    = 'none';
+        hideEl.classList.remove('active');
+        hideEl.style.transition = '';
+        hideEl.style.opacity    = '';
+        reveal();
+    }, 300);
+}
+
 function goToSection(sectionNum) {
-    document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
-    document.querySelector(`[data-section="${sectionNum}"]`).classList.add('active');
+    const hideEl = document.querySelector('.form-section.active');
+    const showEl = document.querySelector(`[data-section="${sectionNum}"]`);
+    if (!showEl || showEl === hideEl) return;
 
-    // Progress steps are managed by flow transitions (handleStudentStatus, upload complete, showSuccessPage).
-    // Navigating between form sections 1-3 does not change step indicators.
-
-    currentSection = sectionNum;
     window.scrollTo(0, 0); document.body.scrollTop = 0; document.documentElement.scrollTop = 0;
+    document.getElementById('schoolHeader').style.display = 'none';
 
-    // Global school card shows on kit screen (section 1) only — hidden everywhere else
-    const schoolHeaderEl = document.getElementById('schoolHeader');
-    if (schoolHeaderEl) {
-        schoolHeaderEl.style.display = 'none';  // applySchoolTheme() re-shows it for section 1
-    }
-
-    if (sectionNum === 1) {
-        renderCategories();
-        updateProgress();
-        applySchoolTheme();
-        updateHeader('Customize Your Kit', '');
-    }
+    // Prepare content before it fades in
+    document.querySelectorAll('.form-section').forEach(s => { if (s !== hideEl) s.classList.remove('active'); });
+    if (sectionNum === 1) { renderCategories(); updateProgress(); }
     if (sectionNum === 2) {
-        updateHeader('Shipping Information', '');
-        // Prefill name and email from verified student data
         const nameField  = document.getElementById('student_name');
         const emailField = document.getElementById('email');
-        let prefilled = false;
-        if (nameField && studentData && studentData.studentName && !nameField.value) { nameField.value  = studentData.studentName; prefilled = true; }
-        if (emailField && studentData && studentData.email && !emailField.value)     { emailField.value = studentData.email;        prefilled = true; }
-        // prefill-notice removed
+        if (nameField  && studentData?.studentName && !nameField.value)  nameField.value  = studentData.studentName;
+        if (emailField && studentData?.email        && !emailField.value) emailField.value = studentData.email;
     }
-    if (sectionNum === 3) {
-        populateReview();
-        updateHeader('Review and Submit', '');
-    }
+    if (sectionNum === 3) { populateReview(); }
+
+    crossFade(hideEl, showEl, () => {
+        currentSection = sectionNum;
+        if (sectionNum === 1) { applySchoolTheme(); updateHeader('Customize Your Kit', ''); }
+        if (sectionNum === 2) { updateHeader('Shipping Information', ''); }
+        if (sectionNum === 3) { updateHeader('Review and Submit', ''); }
+    });
 }
 
 async function nextSection() {
@@ -1932,9 +1953,29 @@ function showSuccessPage() {
     document.getElementById('step-4').classList.add('active');
     setTimeout(() => {
         document.getElementById('loadingOverlay').classList.remove('show');
-        document.getElementById('kitForm').style.display = 'none';
-        document.getElementById('successScreen').classList.add('show');
-        window.scrollTo(0, 0); document.body.scrollTop = 0; document.documentElement.scrollTop = 0;
+        const formEl    = document.getElementById('kitForm');
+        const successEl = document.getElementById('successScreen');
+        formEl.style.transition = 'opacity 0.3s ease';
+        formEl.style.opacity    = '0';
+        setTimeout(() => {
+            formEl.style.display    = 'none';
+            formEl.style.transition = '';
+            formEl.style.opacity    = '';
+            successEl.style.opacity   = '0';
+            successEl.style.transform = 'translateY(10px)';
+            successEl.classList.add('show');
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                successEl.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                successEl.style.opacity    = '1';
+                successEl.style.transform  = 'translateY(0)';
+                setTimeout(() => {
+                    successEl.style.transition = '';
+                    successEl.style.opacity    = '';
+                    successEl.style.transform  = '';
+                }, 500);
+            }));
+            window.scrollTo(0, 0); document.body.scrollTop = 0; document.documentElement.scrollTop = 0;
+        }, 300);
     }, 50);
 }
 
@@ -2050,11 +2091,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const appId  = params.get('id');
         if (!appId) return;
 
-        // Hide email screen, show checking state
+        // Hide email screen, show animated checking state
         document.getElementById('emailValidation').style.display = 'none';
         const checkingDiv = document.createElement('div');
         checkingDiv.style.cssText = 'text-align:center;padding:40px 20px;color:var(--teal);font-weight:500;';
         checkingDiv.textContent = "Making sure it's you…";
+        checkingDiv.classList.add('msg-fade');
         document.getElementById('kitForm').prepend(checkingDiv);
 
         fetch('https://grant-fulfillment-proxy.vercel.app/api/proxy', {
@@ -2064,13 +2106,12 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(r => r.json())
         .then(result => {
-            checkingDiv.remove();
             const status = result.data || result;
             if (status.status === 'found') {
                 studentData = status;
-                handleStudentStatus(status);
+                setTimeout(() => { checkingDiv.remove(); handleStudentStatus(status); }, 700);
             } else {
-                // ID not recognized — fall back to email entry
+                checkingDiv.remove();
                 document.getElementById('emailValidation').style.display = 'block';
             }
         })
@@ -2083,10 +2124,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Celebration modal — continue to kit after document upload
     document.getElementById('celebrationContinueBtn').addEventListener('click', function() {
         document.getElementById('celebrationOverlay').classList.remove('visible');
-        document.getElementById('documentUpload').style.display = 'none';
         document.getElementById('step-2').classList.add('complete');
         document.getElementById('step-3').classList.add('active');
-        goToSection(1);  // Go to Kit Customization
+        renderCategories();
+        updateProgress();
+        crossFade(document.getElementById('documentUpload'), document.querySelector('[data-section="1"]'), () => {
+            currentSection = 1;
+            applySchoolTheme();
+            updateHeader('Customize Your Kit', '');
+            window.scrollTo(0, 0);
+        });
     });
 
     document.getElementById('verifyEmailBtn').addEventListener('click', async function() {
@@ -2109,6 +2156,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         btn.disabled = true;
+        checkingDiv.classList.remove('msg-fade');
+        void checkingDiv.offsetWidth;
+        checkingDiv.classList.add('msg-fade');
         checkingDiv.style.display = 'block';
 
         try {
@@ -2120,16 +2170,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const result = await response.json();
             const studentStatus = result.data || result;
 
-            checkingDiv.style.display = 'none';
-            btn.disabled = false;
-
             if (studentStatus.status === 'not_found') {
+                checkingDiv.style.display = 'none';
+                btn.disabled = false;
                 errorDiv.textContent = 'Email not found. Please check your email or contact hello@campusready.foundation';
                 errorDiv.style.display = 'block';
                 emailInput.classList.add('invalid');
             } else if (studentStatus.status === 'found') {
                 studentData = studentStatus;
-                handleStudentStatus(studentStatus);
+                setTimeout(() => handleStudentStatus(studentStatus), 700);
             }
         } catch (error) {
             console.error('Error verifying email:', error);
@@ -2198,38 +2247,31 @@ function handleStudentStatus(data) {
     const welcomeTitle = first ? `You're in, ${first}.` : "You're in!";
     const dueBadge = '<span style="display:inline-flex;align-items:center;background:#DD693A;color:white;font-size:0.75rem;font-weight:700;border-radius:20px;padding:2px 10px;margin-left:6px;vertical-align:middle;letter-spacing:0.02em;">Due July 15</span>';
 
-    document.getElementById('emailValidation').style.display = 'none';
-
-    // Begin loading school data in the background so it's ready when section 2 opens
     if (data.collegeUnitId) loadSchoolData(data.collegeUnitId);
 
-    if (housingStatus === 'Approved' && acceptanceStatus === 'Approved') {
-        renderCategories();
-        updateProgress();
-        document.querySelector('[data-section="1"]').classList.add('active');
-        applySchoolTheme();
-        updateHeader('Customize Your Kit', '');
-
-    } else if (housingStatus === 'Rejected' || acceptanceStatus === 'Rejected') {
-        document.getElementById('documentUpload').style.display = 'block';
-        updateHeader(welcomeTitle, `Now, before we finalize your selections, please upload two quick documents. ${dueBadge}`);
-
-    } else if (housingStatus === 'Uploaded' || acceptanceStatus === 'Uploaded') {
-        document.getElementById('documentUpload').style.display = 'block';
-        updateHeader(welcomeTitle, 'We have your documents and are reviewing them now. We\'ll email you once they\'re approved and your kit is ready to customize.');
-
-    } else {
-        document.getElementById('documentUpload').style.display = 'block';
-        updateHeader(welcomeTitle, `Now, before we finalize your selections, please upload two quick documents. ${dueBadge}`);
-    }
-
+    const emailEl = document.getElementById('emailValidation');
     document.getElementById('step-1').classList.add('complete');
+
     if (housingStatus === 'Approved' && acceptanceStatus === 'Approved') {
-        // Already approved — docs step is done, working on preferences now
         document.getElementById('step-2').classList.add('complete');
         document.getElementById('step-3').classList.add('active');
+        renderCategories();
+        updateProgress();
+        crossFade(emailEl, document.querySelector('[data-section="1"]'), () => {
+            currentSection = 1;
+            applySchoolTheme();
+            updateHeader('Customize Your Kit', '');
+            window.scrollTo(0, 0);
+        });
     } else {
         document.getElementById('step-2').classList.add('active');
+        const subtitle = (housingStatus === 'Uploaded' || acceptanceStatus === 'Uploaded')
+            ? 'We have your documents and are reviewing them now. We\'ll email you once they\'re approved and your kit is ready to customize.'
+            : `Now, before we finalize your selections, please upload two quick documents. ${dueBadge}`;
+        crossFade(emailEl, document.getElementById('documentUpload'), () => {
+            updateHeader(welcomeTitle, subtitle);
+            window.scrollTo(0, 0);
+        });
     }
 }
 
