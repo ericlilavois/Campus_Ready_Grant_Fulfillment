@@ -196,8 +196,8 @@
         .cat-emoji { width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0; background: var(--grey-light); display: flex; align-items: center; justify-content: center; font-size: 20px; }
         .cat-head-body { flex: 1; min-width: 0; }
         .cat-title { font-size: 1rem; font-weight: 600; color: var(--black); }
-        .cat-meta { font-size: 0.8125rem; color: var(--grey-text); margin-top: 2px; white-space: nowrap; }
-        .cat-meta .needs { color: #DD693A; font-weight: 600; }
+        .cat-meta { font-size: 0.8125rem; color: var(--grey-text); margin-top: 2px; }
+        .cat-meta .needs { color: #DD693A; font-weight: 600; display: block; }
         .cat-chevron { flex-shrink: 0; white-space: nowrap; }
         .cat-status-dot { width: 22px; height: 22px; border-radius: 50%; background: var(--teal); color: white; display: none; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; margin-right: 4px; }
         .cat-card.complete .cat-status-dot { display: flex; }
@@ -956,10 +956,13 @@ function applySchoolTheme() {
         document.getElementById('schoolHeader').style.display = 'block';
     }
 
-    // Eyebrow: "Go [FirstName]!" — a personal cheer
+    // Eyebrow: rally cry > mascot > first name
     const firstName = studentData?.studentName ? studentData.studentName.split(' ')[0] : '';
-    if (firstName) {
-        document.getElementById('scEyebrow').textContent = `Go ${firstName}!`;
+    const rallyText = schoolRecord?.secondary_phrase
+        || (schoolRecord?.mascot ? `Go ${schoolRecord.mascot}!` : '')
+        || (firstName ? `Go ${firstName}!` : '');
+    if (rallyText) {
+        document.getElementById('scEyebrow').textContent = rallyText;
         document.getElementById('scEyebrow').style.display = '';
     } else {
         document.getElementById('scEyebrow').style.display = 'none';
@@ -1018,7 +1021,7 @@ function renderCategories() {
 
         const totalCount = cat.included.length + cat.choices.length;
         const metaText = hasChoices
-            ? `${totalCount} item${totalCount !== 1 ? 's' : ''} · <span class="needs">Tap to customize</span>`
+            ? `${totalCount} item${totalCount !== 1 ? 's' : ''}<span class="needs">Tap to customize</span>`
             : `${totalCount} item${totalCount !== 1 ? 's' : ''}`;
 
         return `
@@ -2293,7 +2296,14 @@ async function uploadDocuments() {
     document.getElementById('housing_progress').style.display = 'block';
     document.getElementById('acceptance_progress').style.display = 'block';
 
-    const messages = ['Sending your documents...', 'Almost there...', 'Preparing to be prepared...'];
+    const messages = [
+        'Sending your documents...',
+        'Uploading securely...',
+        'Preparing to be prepared...',
+        'Almost done...',
+        'Ready to go...',
+        'Confidence. Dignity. A Strong Start.'
+    ];
     let messageIndex = 0;
     const rotateMessages = setInterval(() => {
         document.getElementById('housing_progress_text').textContent = messages[messageIndex];
