@@ -157,7 +157,7 @@
             color: var(--school-text); opacity: 0.9; position: relative;
         }
 
-        .confetti-container { position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 1002; }
+        .confetti-container { position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 2100; }
         .confetti-particle  { position: absolute; pointer-events: none; }
         .youre-in-overlay {
             position: fixed; inset: 0; z-index: 1001;
@@ -1055,7 +1055,7 @@ function choiceRowHTML(key) {
 }
 
 function toggleCat(id) {
-    if (id === 'personal') {
+    if (id === 'personal' && !groupComplete('personal')) {
         activeChoiceKey = 'personalCare';
         activeGroup = 'personal';
         openPersonalCare();
@@ -1314,7 +1314,12 @@ function pickGender(el) {
     refreshDoneBtn();
 }
 function pickScent(pill) {
-    if (document.getElementById('unscentedRow').classList.contains('selected')) return;
+    const unscentedRow = document.getElementById('unscentedRow');
+    const grid = document.getElementById('scentGrid');
+    if (unscentedRow.classList.contains('selected')) {
+        unscentedRow.classList.remove('selected');
+        grid.classList.remove('dimmed');
+    }
     document.querySelectorAll('#scentGrid .scent-pill').forEach(p => p.classList.remove('selected'));
     pill.classList.add('selected');
     refreshDoneBtn();
@@ -1400,6 +1405,18 @@ function commitPopup() {
     updateGroupAnswered(activeGroup);
     closePopup();
     updateProgress();
+    if (k === 'personalCare') {
+        const card = document.getElementById('cat-personal');
+        if (card && !card.classList.contains('open')) {
+            card.classList.add('open');
+            const chev = card.querySelector('.cat-chevron');
+            if (chev) {
+                chev.textContent = '›';
+                Object.assign(chev.style, { background:'transparent', color:'var(--grey-border)',
+                    padding:'0', borderRadius:'0', fontSize:'18px', fontWeight:'400', letterSpacing:'0' });
+            }
+        }
+    }
 }
 
 function swatchValueHTML(key) {
@@ -1838,6 +1855,8 @@ function submitForm() {
         slides_color:          KIT_COLORS.find(c => c.key === sel.slidesColor)?.name || '',
         college_name:          (studentData && studentData.collegeName)   || '',
         college_unit_id:       (studentData && studentData.collegeUnitId) || '',
+        school_color:          (schoolRecord && schoolRecord.primary_color_hex) || '#469E92',
+        school_nickname:       (schoolRecord && (schoolRecord.nickname || schoolRecord.name)) || '',
         timestamp:             new Date().toISOString()
     };
 
@@ -2146,14 +2165,11 @@ function handleStudentStatus(data) {
     if (data.collegeUnitId) loadSchoolData(data.collegeUnitId);
 
     if (housingStatus === 'Approved' && acceptanceStatus === 'Approved') {
-        const firstName = data.studentName ? data.studentName.split(' ')[0] : 'there';
-        celebrateThenReveal(firstName, () => {
-            renderCategories();
-            updateProgress();
-            document.querySelector('[data-section="1"]').classList.add('active');
-            applySchoolTheme();
-            updateHeader('Customize Your Kit', '');
-        });
+        renderCategories();
+        updateProgress();
+        document.querySelector('[data-section="1"]').classList.add('active');
+        applySchoolTheme();
+        updateHeader('Customize Your Kit', '');
 
     } else if (housingStatus === 'Rejected' || acceptanceStatus === 'Rejected') {
         document.getElementById('documentUpload').style.display = 'block';
@@ -2289,7 +2305,8 @@ async function uploadDocuments() {
                 document.getElementById('acceptance_success').style.display = 'block';
                 document.getElementById('continueToKitBtn').style.display = 'none';
 
-                // Show celebration modal
+                // Show celebration modal + confetti
+                fireConfetti();
                 document.getElementById('celebrationOverlay').classList.add('visible');
             }, 300);
         } else {
