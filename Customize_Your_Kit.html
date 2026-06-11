@@ -926,7 +926,7 @@ function applySchoolTheme() {
     document.documentElement.style.setProperty('--school-primary', primary);
     document.documentElement.style.setProperty('--school-text', textColor);
 
-    const displayName = schoolRecord.name || 'your school';
+    const displayName = schoolRecord.nickname || schoolRecord.name || 'your school';
 
     // Only show the global school card on the kit customization screen (section 1)
     const section1 = document.querySelector('[data-section="1"]');
