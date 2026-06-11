@@ -2095,8 +2095,8 @@ function handleStudentStatus(data) {
         celebrateThenReveal(firstName, () => {
             renderCategories();
             updateProgress();
-            applySchoolTheme();
             document.querySelector('[data-section="1"]').classList.add('active');
+            applySchoolTheme();
             updateHeader('Customize Your Kit', '');
         });
 
