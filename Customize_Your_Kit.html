@@ -403,7 +403,7 @@
                 <div id="email-verify-error" class="live-error"></div>
             </div>
             <button type="button" id="verifyEmailBtn" class="btn btn-primary">Verify My Email</button>
-            <div id="email-checking" style="display:none; margin-top:16px; color:var(--teal); font-weight:500;">Checking your status...</div>
+            <div id="email-checking" style="display:none; margin-top:16px; color:var(--teal); font-weight:500;">Making sure it's you…</div>
         </div>
 
         <!-- DOCUMENT UPLOAD SECTION -->
@@ -2013,7 +2013,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('emailValidation').style.display = 'none';
         const checkingDiv = document.createElement('div');
         checkingDiv.style.cssText = 'text-align:center;padding:40px 20px;color:var(--teal);font-weight:500;';
-        checkingDiv.textContent = 'Getting your kit ready…';
+        checkingDiv.textContent = 'Making sure it's you…';
         document.getElementById('kitForm').prepend(checkingDiv);
 
         fetch('https://grant-fulfillment-proxy.vercel.app/api/proxy', {
@@ -2026,11 +2026,6 @@ document.addEventListener('DOMContentLoaded', function() {
             checkingDiv.remove();
             const status = result.data || result;
             if (status.status === 'found') {
-                // Personalize the hero title with the student's first name
-                if (status.studentName) {
-                    const first = status.studentName.split(' ')[0];
-                    document.getElementById('pageTitle').textContent = `Welcome, ${first}.`;
-                }
                 studentData = status;
                 handleStudentStatus(status);
             } else {
@@ -2158,6 +2153,9 @@ function handleStudentStatus(data) {
     studentData = data;
     const housingStatus    = data.housingStatus    || 'Pending';
     const acceptanceStatus = data.acceptanceStatus || 'Pending';
+    const first = data.studentName ? data.studentName.split(' ')[0] : '';
+    const welcomeTitle = first ? `You're in, ${first}.` : "You're in!";
+    const dueBadge = '<span style="display:inline-flex;align-items:center;background:#DD693A;color:white;font-size:0.75rem;font-weight:700;border-radius:20px;padding:2px 10px;margin-left:6px;vertical-align:middle;letter-spacing:0.02em;">Due July 15</span>';
 
     document.getElementById('emailValidation').style.display = 'none';
 
@@ -2173,15 +2171,15 @@ function handleStudentStatus(data) {
 
     } else if (housingStatus === 'Rejected' || acceptanceStatus === 'Rejected') {
         document.getElementById('documentUpload').style.display = 'block';
-        updateHeader('College & Housing Verification', 'Before we finalize your selections, please upload two quick documents. <span style="display:inline-flex;align-items:center;background:#DD693A;color:white;font-size:0.75rem;font-weight:700;border-radius:20px;padding:2px 10px;margin-left:6px;vertical-align:middle;letter-spacing:0.02em;">Due July 15</span>');
+        updateHeader(welcomeTitle, `Now, before we finalize your selections, please upload two quick documents. ${dueBadge}`);
 
     } else if (housingStatus === 'Uploaded' || acceptanceStatus === 'Uploaded') {
         document.getElementById('documentUpload').style.display = 'block';
-        updateHeader('Documents Received', 'We have your documents and are reviewing them now. We\'ll email you once they\'re approved and your kit is ready to customize.');
+        updateHeader(welcomeTitle, 'We have your documents and are reviewing them now. We\'ll email you once they\'re approved and your kit is ready to customize.');
 
     } else {
         document.getElementById('documentUpload').style.display = 'block';
-        updateHeader('College & Housing Verification', 'Before we finalize your selections, please upload two quick documents. <span style="display:inline-flex;align-items:center;background:#DD693A;color:white;font-size:0.75rem;font-weight:700;border-radius:20px;padding:2px 10px;margin-left:6px;vertical-align:middle;letter-spacing:0.02em;">Due July 15</span>');
+        updateHeader(welcomeTitle, `Now, before we finalize your selections, please upload two quick documents. ${dueBadge}`);
     }
 
     document.getElementById('step-1').classList.add('complete');
