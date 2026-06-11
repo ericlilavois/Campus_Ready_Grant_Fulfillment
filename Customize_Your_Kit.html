@@ -107,9 +107,9 @@
         .review-label { font-weight: 500; color: var(--grey-text); }
         .review-value { color: var(--black); }
 
-        .success-screen { display: none; text-align: center; padding: 60px 20px; }
+        .success-screen { display: none; text-align: center; padding: 24px 20px; }
         .success-screen.show { display: block; }
-        .success-icon { width: 400px; max-width: 90%; margin: 0 auto 32px; }
+        .success-icon { width: 400px; max-width: 90%; margin: 0 auto 16px; }
         .success-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--teal); margin-bottom: 16px; }
         .success-message { font-size: 1.1rem; color: var(--grey-text); max-width: 600px; margin: 0 auto; line-height: 1.7; }
 
@@ -677,27 +677,30 @@ function updateHeader(title, subtitle) {
 
 function crossFade(hideEl, showEl, done) {
     const SPRING = 'cubic-bezier(0.16,1,0.3,1)';
+    const card = hideEl ? hideEl.parentElement : null;
+
     function reveal() {
         if (!showEl) { if (done) done(); return; }
-        showEl.style.opacity   = '0';
-        showEl.style.transform = 'translateY(8px)';
-        showEl.style.display   = 'block';
+        showEl.style.opacity = '0';
+        showEl.style.display = 'block';
         showEl.classList.add('active');
-        requestAnimationFrame(() => requestAnimationFrame(() => {
-            showEl.style.transition = `opacity 0.4s ${SPRING}, transform 0.4s ${SPRING}`;
-            showEl.style.opacity    = '1';
-            showEl.style.transform  = 'translateY(0)';
-            setTimeout(() => {
-                showEl.style.transition = '';
-                showEl.style.opacity    = '';
-                showEl.style.transform  = '';
-                showEl.style.display    = '';
-                if (done) done();
-            }, 400);
-        }));
+        void showEl.offsetHeight;
+        showEl.style.transition = `opacity 0.3s ${SPRING}`;
+        showEl.style.opacity = '1';
+        setTimeout(() => {
+            showEl.style.transition = '';
+            showEl.style.opacity    = '';
+            showEl.style.display    = '';
+            if (card) card.style.minHeight = '';
+            if (done) done();
+        }, 300);
     }
+
     if (!hideEl || getComputedStyle(hideEl).display === 'none') { reveal(); return; }
-    hideEl.style.transition = `opacity 0.2s ${SPRING}`;
+
+    if (card) card.style.minHeight = card.offsetHeight + 'px';
+
+    hideEl.style.transition = `opacity 0.15s ${SPRING}`;
     hideEl.style.opacity    = '0';
     setTimeout(() => {
         hideEl.style.display    = 'none';
