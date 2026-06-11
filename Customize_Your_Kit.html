@@ -2100,7 +2100,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const appId  = params.get('id');
         if (!appId) return;
 
-        updateHeader("Let’s personalize your kit.", "We’ll have everything ready in just a moment.");
+        updateHeader("Let's personalize your kit.", "We'll have everything ready in just a moment.");
         document.getElementById('emailValidation').style.display = 'none';
         const checkingDiv = document.createElement('div');
         checkingDiv.className = 'form-section active';
@@ -2121,14 +2121,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(() => { checkingDiv.remove(); handleStudentStatus(status); }, 700);
             } else {
                 checkingDiv.remove();
-                updateHeader("Let’s personalize your kit.", ‘Enter the email from your grant application to get started.’);
+                updateHeader("Let's personalize your kit.", 'Enter the email from your grant application to get started.');
                 document.getElementById('emailValidation').style.display = 'block';
             }
         })
         .catch(() => {
             checkingDiv.remove();
-            updateHeader("Let’s personalize your kit.", ‘Enter the email from your grant application to get started.’);
-            document.getElementById(‘emailValidation’).style.display = ‘block’;
+            updateHeader("Let's personalize your kit.", 'Enter the email from your grant application to get started.');
+            document.getElementById('emailValidation').style.display = 'block';
         });
     })();
 
