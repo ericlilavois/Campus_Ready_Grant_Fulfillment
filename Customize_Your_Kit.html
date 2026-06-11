@@ -1756,8 +1756,8 @@ function populateReview() {
     eyebrowEl.textContent = 'You\'re good to go to';
     eyebrowEl.style.display = 'block';
     document.getElementById('rv-headline').textContent = schoolName;
-    document.getElementById('rv-name').textContent = '';
-    document.getElementById('rv-name').style.display = 'none';
+    document.getElementById('rv-name').textContent = "Here's what you're getting for your dorm";
+    document.getElementById('rv-name').style.display = 'block';
 
     // Resolve color/preference objects
     const sheetC      = KIT_COLORS.find(c => c.key === sel.sheetColor);
