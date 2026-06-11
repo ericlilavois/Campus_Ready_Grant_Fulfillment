@@ -109,7 +109,7 @@
 
         .success-screen { display: none; text-align: center; padding: 60px 20px; }
         .success-screen.show { display: block; }
-        .success-icon { width: 200px; max-width: 90%; margin: 0 auto 32px; }
+        .success-icon { width: 400px; max-width: 90%; margin: 0 auto 32px; }
         .success-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--teal); margin-bottom: 16px; }
         .success-message { font-size: 1.1rem; color: var(--grey-text); max-width: 600px; margin: 0 auto; line-height: 1.7; }
 
@@ -565,7 +565,7 @@
 
             <div id="review-school-card" style="border-radius:16px; overflow:hidden; margin-bottom:16px; box-shadow:0 8px 30px rgba(0,0,0,0.12);">
                 <div style="background:var(--school-primary); padding:28px 24px 22px; text-align:center; position:relative;">
-                    <div id="rv-eyebrow" style="font-family:'Playfair Display',serif; font-size:0.95rem; font-weight:600; color:rgba(255,255,255,0.8); margin-bottom:6px;"></div>
+                    <div id="rv-eyebrow" style="font-family:'Playfair Display',serif; font-size:1.15rem; font-weight:600; color:rgba(255,255,255,0.8); margin-bottom:6px;"></div>
                     <div style="font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; color:#fff; line-height:1.2; margin-bottom:10px;" id="rv-headline">Your Campus Ready Kit</div>
                     <div style="width:40px; height:2px; background:rgba(255,255,255,0.4); margin:0 auto 10px;"></div>
                     <div id="rv-name" style="font-size:0.9375rem; color:rgba(255,255,255,0.9);"></div>
@@ -601,8 +601,8 @@
         </div>
         <h2 class="success-title">You're Done!</h2>
         <p class="success-message">
-            Now we'll get to work. Look for your packages in early August.<br><br>
-            <strong>Congratulations again. You've done something monumental by getting into school. We're proud of you!</strong>
+            We'll get to work. Look for your packages a couple of weeks before school starts.<br><br>
+            Congratulations again. You've done something monumental by getting into school.<br><strong>We're proud of you!</strong>
         </p>
     </div>
 
@@ -1787,9 +1787,9 @@ function populateReview() {
     const eyebrow     = schoolRecord?.secondary_phrase || '';
     const firstName   = studentData?.studentName ? studentData.studentName.split(' ')[0] : '';
 
-    // Review card: "You're good to go to" → [School Name]
+    // Review card: "[First], you're good to go to" → [School Name]
     const eyebrowEl = document.getElementById('rv-eyebrow');
-    eyebrowEl.textContent = 'You\'re good to go to';
+    eyebrowEl.textContent = firstName ? `${firstName}, you're good to go to` : "You're good to go to";
     eyebrowEl.style.display = 'block';
     document.getElementById('rv-headline').textContent = schoolName;
     document.getElementById('rv-name').textContent = "Here's what you're getting for your dorm";
