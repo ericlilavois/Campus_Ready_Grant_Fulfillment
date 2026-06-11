@@ -157,6 +157,22 @@
             color: var(--school-text); opacity: 0.9; position: relative;
         }
 
+        .confetti-container { position: fixed; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 1002; }
+        .confetti-particle  { position: absolute; pointer-events: none; }
+        .youre-in-overlay {
+            position: fixed; inset: 0; z-index: 1001;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.45);
+        }
+        .youre-in-card {
+            background: #fff; border-radius: 20px; padding: 40px 48px;
+            text-align: center; box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+        }
+        .youre-in-text {
+            font-family: 'Playfair Display', serif; font-weight: 700;
+            font-size: 2rem; color: var(--black); line-height: 1.2;
+        }
+
         .checklist-link {
             display: flex; align-items: center; justify-content: center; gap: 8px;
             margin-bottom: 16px; background: rgba(70,158,146,0.10); color: var(--teal-dark);
@@ -367,6 +383,12 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             <span id="checklistLinkText"></span>
         </a>
+    </div>
+
+    <div id="youreInOverlay" class="youre-in-overlay" style="display:none;">
+        <div class="youre-in-card">
+            <div class="youre-in-text" id="youreInText">You're in!</div>
+        </div>
     </div>
 
     <form id="kitForm" class="form-card">
@@ -1957,6 +1979,55 @@ document.addEventListener('DOMContentLoaded', function() {
         goToSection(1);  // Go to Kit Customization
     });
 
+    function fireConfetti() {
+        const colors = ['#469E92','#DAE244','#A3C6C0','#DD693A','#57068c','#f4a261','#e9c46a'];
+        const totalParticles = 60;
+        const container = document.createElement('div');
+        container.className = 'confetti-container';
+        document.body.appendChild(container);
+        const originX = window.innerWidth / 2;
+        const originY = window.innerHeight / 2;
+        for (let i = 0; i < totalParticles; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'confetti-particle';
+            const chosenColor = colors[Math.floor(Math.random() * colors.length)];
+            const isCircle = Math.random() > 0.5;
+            const size = isCircle ? (5 + Math.random() * 3) : (6 + Math.random() * 4);
+            particle.style.cssText = `width:${size}px;height:${size}px;border-radius:${isCircle ? '50%' : '2px'};background:${chosenColor};left:${originX}px;top:${originY}px;opacity:1;transform:translate(0,0) rotate(0deg);transition:none;`;
+            const angle = (Math.PI * 2 * i / totalParticles) + (Math.random() - 0.5) * 0.8;
+            const dist = Math.max(window.innerWidth, window.innerHeight) * (0.45 + Math.random() * 0.55);
+            const dx = Math.cos(angle) * dist;
+            const dy = Math.sin(angle) * dist - (60 + Math.random() * 40);
+            const rotation = Math.random() * 540;
+            const duration = 2200 + Math.random() * 800;
+            container.appendChild(particle);
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                particle.style.transition = `transform ${duration}ms cubic-bezier(0.15,0.6,0.35,1), opacity ${duration * 0.35}ms ease-in ${duration * 0.65}ms`;
+                particle.style.transform = `translate(${dx}px,${dy + 50}px) rotate(${rotation}deg)`;
+                particle.style.opacity = '0';
+                setTimeout(() => particle.remove(), duration + 100);
+            }));
+        }
+        setTimeout(() => container.remove(), 3500);
+    }
+
+    function celebrateThenReveal(firstName, onReveal) {
+        const overlay = document.getElementById('youreInOverlay');
+        document.getElementById('youreInText').textContent = `You're in, ${firstName}!`;
+        overlay.style.display = 'flex';
+        fireConfetti();
+        setTimeout(() => {
+            overlay.style.transition = 'opacity 0.4s ease';
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                overlay.style.opacity = '';
+                overlay.style.transition = '';
+                onReveal();
+            }, 400);
+        }, 1500);
+    }
+
     document.getElementById('verifyEmailBtn').addEventListener('click', async function() {
         const emailInput = document.getElementById('email_verify');
         const email = emailInput.value.trim();
@@ -2020,12 +2091,14 @@ function handleStudentStatus(data) {
     if (data.collegeUnitId) loadSchoolData(data.collegeUnitId);
 
     if (housingStatus === 'Approved' && acceptanceStatus === 'Approved') {
-        // Go straight to Kit Customization (section 1)
-        renderCategories();
-        updateProgress();
-        applySchoolTheme();
-        document.querySelector('[data-section="1"]').classList.add('active');
-        updateHeader('Customize Your Kit', '');
+        const firstName = data.studentName ? data.studentName.split(' ')[0] : 'there';
+        celebrateThenReveal(firstName, () => {
+            renderCategories();
+            updateProgress();
+            applySchoolTheme();
+            document.querySelector('[data-section="1"]').classList.add('active');
+            updateHeader('Customize Your Kit', '');
+        });
 
     } else if (housingStatus === 'Rejected' || acceptanceStatus === 'Rejected') {
         document.getElementById('documentUpload').style.display = 'block';
