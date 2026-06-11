@@ -1011,7 +1011,9 @@ function renderCategories() {
         const seeMore = cat.included.length > VISIBLE
             ? `<button type="button" class="see-more" onclick="toggleMore('${cat.id}',this)">See all ${cat.included.length} included →</button>` : '';
 
-        let choiceRows = cat.choices.map(key => choiceRowHTML(key)).join('');
+        let choiceRows = cat.choices.map(key =>
+            key === 'personalCare' ? personalCareInlineHTML() : choiceRowHTML(key)
+        ).join('');
         if (cat.id === 'personal') {
             choiceRows += `<div class="cascade-note">Your answers apply to every personal care item above.</div>`;
         }
@@ -1096,6 +1098,14 @@ function closePopup() { document.getElementById('popupOverlay').classList.remove
 function refreshDoneBtn() {
     const v = document.getElementById('popupOverlay')._validate;
     document.getElementById('popupDoneBtn').disabled = v ? !v() : true;
+    const inlineBtn = document.getElementById('pcInlineDoneBtn');
+    if (inlineBtn) {
+        const g  = !!document.querySelector('#genderPills .gender-pill.selected');
+        const sc = document.getElementById('unscentedRow')?.classList.contains('selected') ||
+                   !!document.querySelector('#scentGrid .scent-pill.selected');
+        const d  = !!document.querySelector('#deodorantStack .preference-card.selected');
+        inlineBtn.disabled = !(g && sc && d);
+    }
 }
 document.getElementById('popupOverlay').addEventListener('click', e => {
     if (e.target.id === 'popupOverlay') closePopup();
@@ -1213,6 +1223,47 @@ function pickSize(el) {
     document.querySelectorAll('#sizeGrid .size-card').forEach(s => s.classList.remove('selected'));
     el.classList.add('selected');
     refreshDoneBtn();
+}
+
+function personalCareInlineHTML() {
+    return `
+        <div style="padding:4px 0 8px;">
+            <div class="pref-section-label">Which products should we send you?</div>
+            <div class="gender-pills" id="genderPills">
+                ${GENDERS.map(g => `<button class="gender-pill ${sel.pcGender === g.value ? 'selected' : ''}" data-value="${g.value}" onclick="pickGender(this)">${g.label}</button>`).join('')}
+            </div>
+            <div class="pref-section-label spaced">Scent preference</div>
+            <div class="scent-grid ${sel.pcUnscented ? 'dimmed' : ''}" id="scentGrid">
+                ${SCENTS.map(s => `
+                    <div class="scent-pill ${sel.pcScent === s.key ? 'selected' : ''}" data-scent="${s.key}" onclick="pickScent(this)">
+                        <span class="scent-check">✓</span>
+                        <span class="scent-emoji">${s.emoji}</span>
+                        <span class="scent-name">${s.name}</span>
+                        <span class="scent-sub">${s.sub}</span>
+                    </div>`).join('')}
+            </div>
+            <div class="unscented-row ${sel.pcUnscented ? 'selected' : ''}" id="unscentedRow" onclick="toggleUnscented()" style="margin-top:8px;">
+                <span class="unscented-label">Unscented</span><span class="unscented-check">✓</span>
+            </div>
+            <div class="pref-section-label spaced">Deodorant or antiperspirant?</div>
+            <div class="card-stack spaced-top" id="deodorantStack">
+                <div class="preference-card ${sel.deodorant === 'Deodorant' ? 'selected' : ''}" data-value="Deodorant" onclick="pickCard(this,'deodorantStack')"><span class="pc-title">Deodorant</span></div>
+                <div class="preference-card ${sel.deodorant === 'Antiperspirant' ? 'selected' : ''}" data-value="Antiperspirant" onclick="pickCard(this,'deodorantStack')"><span class="pc-title">Antiperspirant</span></div>
+            </div>
+            <button class="pref-popup-btn" id="pcInlineDoneBtn" disabled onclick="commitPersonalCareInline()" style="margin-top:16px;">Save Preferences</button>
+        </div>`;
+}
+
+function commitPersonalCareInline() {
+    sel.pcGender    = document.querySelector('#genderPills .gender-pill.selected').dataset.value;
+    sel.pcUnscented = document.getElementById('unscentedRow').classList.contains('selected');
+    sel.pcScent     = sel.pcUnscented ? null : (document.querySelector('#scentGrid .scent-pill.selected')?.dataset.scent || null);
+    sel.deodorant   = document.querySelector('#deodorantStack .preference-card.selected').dataset.value;
+    const genderLabel = GENDERS.find(g => g.value === sel.pcGender)?.label;
+    const scentLabel  = sel.pcUnscented ? 'Unscented' : SCENTS.find(s => s.key === sel.pcScent)?.name;
+    setChoiceValue('personalCare', `${genderLabel} · ${scentLabel} · ${sel.deodorant}`);
+    updateGroupAnswered('personal');
+    updateProgress();
 }
 
 function openPersonalCare() {
