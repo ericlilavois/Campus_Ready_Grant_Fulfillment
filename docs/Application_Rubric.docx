@@ -1,0 +1,282 @@
+# **Campus Ready Foundation**
+
+## **Student Application Evaluation Rubric**
+
+### **Overview**
+
+This evaluation rubric ensures consistent, fair, and transparent
+assessment of student applications for Campus Ready Foundation support.
+The scoring system balances objective data analysis (70%) with
+thoughtful board assessment (30%) to identify students with the greatest
+need and potential for success.
+
+**Total Possible Score: 100 Points**
+
+## **Scoring Criteria**
+
++------------+-----------------------------------+-------+------------+
+| **         | **Description**                   | **Max | **         |
+| Criteria** |                                   | Poi   | Assessment |
+|            |                                   | nts** | Type**     |
++============+===================================+=======+============+
+| *          | Based on household income divided | 40    | Auto-      |
+| *Financial | by number of household members.   |       | Calculated |
+| Need**     | Lower income per person receives  |       |            |
+|            | a higher score through a ranking  |       |            |
+|            | system.                           |       |            |
++------------+-----------------------------------+-------+------------+
+| *          | Auto-scored based on checked      | 15    | Auto-      |
+| *Household | indicators: SNAP/WIC/free meals,  |       | Calculated |
+| Circu      | housing instability, no           |       |            |
+| mstances** | internet/computer, employment     |       |            |
+|            | factors, if student contributes   |       |            |
+|            | to household.                     |       |            |
+|            |                                   |       |            |
+|            | 1 point per indicator (max 5),    |       |            |
+|            | scaled to 15 points.              |       |            |
++------------+-----------------------------------+-------+------------+
+| **Distance | Calculated from home/college      | 15    | Auto-      |
+| & Travel   | addresses: 0-50 miles: 0-2        |       | Calculated |
+| Co         | points, 51-100 miles: 3-6 points, |       |            |
+| mplexity** | 101-200 miles: 7-12 points, 200+  |       |            |
+|            | miles: 13-15 points               |       |            |
++------------+-----------------------------------+-------+------------+
+| **Essay 1: | Board assessment: Articulates why | 15    | Board      |
+| Award      | Campus Ready support is           |       | Scored     |
+| Sign       | meaningful and necessary          |       |            |
+| ificance** |                                   |       |            |
++------------+-----------------------------------+-------+------------+
+| **Essay 2: | Board assessment: Demonstrates    | 15    | Board      |
+| Challenge  | hardship, initiative, and         |       | Scored     |
+| and        | commitment to college success     |       |            |
+| Re         |                                   |       |            |
+| silience** |                                   |       |            |
++------------+-----------------------------------+-------+------------+
+| *          | Verification of housing           | Pass  | Ve         |
+| *On-Campus | contract/confirmation required    | /Fail | rification |
+| Housing**  |                                   |       | Required   |
++------------+-----------------------------------+-------+------------+
+
+**Objective Assessment: 70 Points** \| **Subjective Assessment: 30
+Points**
+
+### **Financial Need (40 Points - Auto-Calculated)**
+
+#### **Detailed Scoring Guidelines**
+
+**Definition**: Measures ability to pay using Income Per Person
+(household income ÷ household members). We combine two views for
+fairness:
+
+1.  **Cohort points** (0--40) -- Where the applicant's Income Per Person
+    > falls within this year's pool (lower income earns more).
+
+2.  **Absolute points** (0--40) -- Applicant's Income Per Person
+    > relative to the HHS Federal Poverty Guideline per person for their
+    > household size (48 states + DC for CA).
+
+    -   Mapping: 100% of FPG → 40, 200% → 20, 300%+ → 0 (linear in
+        > between).
+
+3.  **Final Need Points** (0--40) = average of the two (rounded to whole
+    > points).
+
+-   Scoring rule: If either input is missing (Cohort or Absolute), the
+    > Final Need score is blank until data is present.
+
+-   Bands (for Board display): 32--40 = Critical, 24--31 = High, 12--23
+    > = Moderate, 0--11 = Lower.
+
+**Data sources**
+
+-   Income and household members come from the student application.
+
+-   FPG values are taken from the current HHS Poverty Guidelines (kept
+    > in the "FPG Current" tab and updated once per year).
+
+**Tie-breakers (used only when totals are tied)**
+
+1.  First-generation college student (yes → higher priority)
+
+2.  Pell-eligible or comparable indicator
+
+3.  Documented homelessness/foster-care history or verified special
+    > circumstances
+
+4.  Earlier application date (if needed)
+
+**Notes**
+
+-   Year 1 is California-only (uses 48-states FPG). When we go national,
+    > AK/HI use their own FPG tables.
+
+-   We show Income Per Person, Final Need Points, and Need Band to the
+    > Board; raw household income can remain hidden if you prefer.
+
+### 
+
+###  
+
+### **Household Circumstances (15 Points - Auto-Calculated)**
+
+  -----------------------------------------------------------------------
+  **Number of Indicators**              **Points Awarded**
+  ------------------------------------- ---------------------------------
+  1 indicator                           3 points
+
+  2 indicators                          6 points
+
+  3 indicators                          9 points
+
+  4 indicators                          12 points
+
+  5 indicators                          15 points
+  -----------------------------------------------------------------------
+
+**Indicators:**
+
+-   SNAP, WIC, or free/reduced school meals participation
+
+-   Housing instability or transitional housing situation
+
+-   No internet or computer access at home
+
+-   Parent(s)/Guardian(s) unemployed or underemployed
+
+-   Student contributes financially to household expenses
+
+### **Distance & Travel Complexity (15 Points - Auto-Calculated)**
+
+  -----------------------------------------------------------------------
+  **Distance Range**                  **Points Awarded**
+  ----------------------------------- -----------------------------------
+  0-50 miles                          0-2 points
+
+  51-100 miles                        3-6 points
+
+  101-200 miles                       7-12 points
+
+  200+ miles                          13-15 points
+  -----------------------------------------------------------------------
+
+Points assigned within range based on specific calculated distance
+between home and college addresses.
+
+### **Essay Scoring Guidelines (Board Assessment)**
+
+#### **Essay 1: Award Significance (15 Points)**
+
+  -----------------------------------------------------------------------
+  **Score Range** **Criteria**
+  --------------- -------------------------------------------------------
+  **13-15         Compelling, specific explanation of need and impact.
+  Points:**       Clear understanding of program benefits. Articulate
+  *Exceptional*   connection between support and success.
+
+  **10-12         Clear understanding with good supporting details. Solid
+  Points:**       explanation of need and anticipated impact.
+  *Strong*        Well-organized response.
+
+  **7-9 Points:** Basic explanation with some specificity. Demonstrates
+  *Adequate*      understanding of program. Acceptable but not compelling
+                  response.
+
+  **4-6 Points:** Vague or generic explanation. Limited understanding of
+  *Minimal*       program impact. Lacks specific details.
+
+  **1-3 Points:   Minimal or unclear response. Poor understanding of
+  Inadequate**    program. Insufficient detail or relevance.
+  -----------------------------------------------------------------------
+
+#### **Essay 2: Challenge and Resilience (15 Points)**
+
+  -----------------------------------------------------------------------
+  **Score Range** **Criteria**
+  --------------- -------------------------------------------------------
+  **13-15 Points: Demonstrates significant hardship overcome with clear
+  Exceptional**   resilience. Strong evidence of initiative and
+                  problem-solving. Compelling narrative of persistence.
+
+  **10-12 Points: Shows meaningful challenges with evidence of
+  Strong**        persistence. Good examples of resilience and
+                  adaptation. Clear commitment to educational goals.
+
+  **7-9 Points:   Some challenges described with basic resilience shown.
+  Adequate**      Adequate evidence of persistence. Demonstrates
+                  commitment to success.
+
+  **4-6 Points:   Minor challenges or unclear evidence of resilience.
+  Minimal**       Limited examples of persistence. Vague commitment
+                  statements.
+
+  **1-3 Points:   Minimal evidence of hardship or resilience. Lacks
+  Inadequate**    concrete examples. Insufficient demonstration of
+                  commitment.
+  -----------------------------------------------------------------------
+
+### **On-Campus Housing Verification (Pass/Fail - Required)**
+
+**Required Documentation (one of the following):**
+
+-   Housing contract or assignment confirmation
+
+-   College acceptance letter specifically mentioning housing
+
+-   Housing deposit receipt
+
+-   Official housing application approval
+
+**Process:** Applications failing housing verification are automatically
+disqualified regardless of scoring.
+
+## **Implementation Process**
+
+### **Board Scoring Workflow**
+
+1.  **Independent Assessment:** Each board member scores essays
+    > independently using provided guidelines
+
+2.  **Score Recording:** Individual scores entered into evaluation
+    > system
+
+3.  **Average Calculation:** System calculates average essay scores
+    > across all reviewers
+
+4.  **Final Compilation:** Objective (70 points) + Subjective (30
+    > points) = Total Score
+
+5.  **Ranking:** Applications ranked by total score for award decisions
+
+### **Quality Assurance**
+
+**Consistency Measures:**
+
+-   All reviewers use identical scoring guidelines
+
+-   Regular calibration discussions among board members
+
+-   Documentation of scoring rationale for audit purposes
+
+**Record Retention:**
+
+-   Individual score sheets maintained for each application
+
+-   Composite scoring summaries preserved
+
+-   Housing verification documentation filed
+
+-   All materials retained for audit and compliance purposes
+
+## **Benefits of This System**
+
+**Objectivity:** 70% of assessment based on factual, verifiable data
+reduces bias and ensures consistent evaluation standards.
+
+**Efficiency:** Automated calculation of objective criteria streamlines
+review process while maintaining thoroughness.
+
+**Transparency:** Clear criteria and standardized guidelines ensure
+equitable assessment and regulatory compliance.
+
+**Scalability:** System maintains effectiveness regardless of
+application volume or geographic expansion.
