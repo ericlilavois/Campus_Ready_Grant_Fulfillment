@@ -32,7 +32,7 @@ Campus Ready Foundation provides move-in support grants to first-generation, low
 | Database | Google Sheets (tabs listed below) |
 | Document storage | Google Drive folder ID: `1ccJ8lg40PTgMFIXdNoXyHU12ySgSnurf` |
 | GitHub repo | `ericlilavois/Campus_Ready_Grant_Fulfillment` |
-| Project files | `docs/` folder in this repo — auto-updated by Claude Code Stop hook |
+| Project files | `Grant_Fulfillment_Project_Files/` folder in this repo — auto-updated by Claude Code Stop hook |
 
 **Google Sheets tabs:**
 - `Grant_Recipients` — master list of approved students (columns: Application ID, Name, Email, Cohort Year, Housing Status, Acceptance Status, Items Selected, etc.)
@@ -97,7 +97,7 @@ Products are matched by three criteria in `Product_Logic`:
 The 2026 cohort is in progress. The kit form is live and accepting submissions. Documents are being reviewed. Shopping list has not yet been finalized for this cohort.
 
 **Infrastructure changes (June 14, 2026):**
-- All project files now live in this GitHub repo (`docs/`) — version-controlled and auto-updated
+- All project files now live in this GitHub repo (`Grant_Fulfillment_Project_Files/`) — version-controlled and auto-updated
 - Apps Script deployment via `push-scripts gf` — no more copy-paste to the editor
 - Claude Code sessions auto-update docs via Stop hook (doc-router)
 - claude.ai projects connected to GitHub — agents read files directly from repo
@@ -115,9 +115,9 @@ The 2026 cohort is in progress. The kit form is live and accepting submissions. 
 
 ## How to Orient a New Agent
 
-Tell any new agent: "Read `docs/CURRENT_STATUS.md` first, then `docs/DECISION_LOG.md` for key decisions, and `docs/Brand_Guidelines.md` for tone and design standards. The `docs/Application_Rubric.docx` is the rubric used to evaluate grant applications."
+Tell any new agent: "Read `Grant_Fulfillment_Project_Files/CURRENT_STATUS.md` first, then `Grant_Fulfillment_Project_Files/DECISION_LOG.md` for key decisions, and `Grant_Fulfillment_Project_Files/Brand_Guidelines.md` for tone and design standards. The `Grant_Fulfillment_Project_Files/Application_Rubric.docx` is the rubric used to evaluate grant applications."
 
-**GitHub integration:** This claude.ai project is synced from `ericlilavois/Campus_Ready_Grant_Fulfillment`. All files in `docs/` are available via `project_knowledge_search`. To prompt an agent to use them: "Check the GitHub repo for [filename]" or "Use project_knowledge_search to find [topic]."
+**GitHub integration:** This claude.ai project is synced from `ericlilavois/Campus_Ready_Grant_Fulfillment`. All files in `Grant_Fulfillment_Project_Files/` are available via `project_knowledge_search`. To prompt an agent to use them: "Check the GitHub repo for [filename]" or "Use project_knowledge_search to find [topic]."
 
 **Apps Script:** Grant Fulfillment scripts live in `apps-script/grant-fulfillment/modules/` in the `ericlilavois/Campus_Ready_GitHub` repo (not this repo). Deploy with `push-scripts gf` in Terminal — requires Campus Ready Foundation Google account.
 
