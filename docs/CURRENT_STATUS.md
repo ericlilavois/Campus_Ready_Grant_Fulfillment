@@ -27,10 +27,12 @@ Campus Ready Foundation provides move-in support grants to first-generation, low
 |-----------|-------------------|
 | Student form | `Customize_Your_Kit.html` (hosted on GitHub Pages) |
 | API proxy | Vercel (`grant-fulfillment-proxy`) — routes HTML form requests to Apps Script |
-| Apps Script | `Grant_Fulfillment_Script.gs` in `Campus_Ready_GitHub/apps-script/` |
+| Apps Script | `apps-script/grant-fulfillment/modules/*.gs` in `Campus_Ready_GitHub` repo |
+| Apps Script deploy | Run `push-scripts gf` in Terminal — requires Campus Ready Foundation Google account |
 | Database | Google Sheets (tabs listed below) |
 | Document storage | Google Drive folder ID: `1ccJ8lg40PTgMFIXdNoXyHU12ySgSnurf` |
 | GitHub repo | `ericlilavois/Campus_Ready_Grant_Fulfillment` |
+| Project files | `docs/` folder in this repo — auto-updated by Claude Code Stop hook |
 
 **Google Sheets tabs:**
 - `Grant_Recipients` — master list of approved students (columns: Application ID, Name, Email, Cohort Year, Housing Status, Acceptance Status, Items Selected, etc.)
@@ -90,11 +92,16 @@ Products are matched by three criteria in `Product_Logic`:
 
 ## Current Phase
 
-**Status as of June 14, 2026:** Active fulfillment season.
+**Status as of June 14, 2026:** Active fulfillment season. Infrastructure overhaul complete.
 
 The 2026 cohort is in progress. The kit form is live and accepting submissions. Documents are being reviewed. Shopping list has not yet been finalized for this cohort.
 
-*Note: Update this section after each session with current state.*
+**Infrastructure changes (June 14, 2026):**
+- All project files now live in this GitHub repo (`docs/`) — version-controlled and auto-updated
+- Apps Script deployment via `push-scripts gf` — no more copy-paste to the editor
+- Claude Code sessions auto-update docs via Stop hook (doc-router)
+- claude.ai projects connected to GitHub — agents read files directly from repo
+- Staging branch = HTML form changes only; everything else commits to main
 
 ---
 
@@ -109,6 +116,10 @@ The 2026 cohort is in progress. The kit form is live and accepting submissions. 
 ## How to Orient a New Agent
 
 Tell any new agent: "Read `docs/CURRENT_STATUS.md` first, then `docs/DECISION_LOG.md` for key decisions, and `docs/Brand_Guidelines.md` for tone and design standards. The `docs/Application_Rubric.docx` is the rubric used to evaluate grant applications."
+
+**GitHub integration:** This claude.ai project is synced from `ericlilavois/Campus_Ready_Grant_Fulfillment`. All files in `docs/` are available via `project_knowledge_search`. To prompt an agent to use them: "Check the GitHub repo for [filename]" or "Use project_knowledge_search to find [topic]."
+
+**Apps Script:** Grant Fulfillment scripts live in `apps-script/grant-fulfillment/modules/` in the `ericlilavois/Campus_Ready_GitHub` repo (not this repo). Deploy with `push-scripts gf` in Terminal — requires Campus Ready Foundation Google account.
 
 ---
 

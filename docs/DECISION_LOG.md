@@ -533,4 +533,38 @@ AND acceptance_status = "Approved"
 
 ---
 
+---
+
+## Infrastructure Decisions — June 14, 2026
+
+### DEC-024: Apps Script Modularization — Monolithic File Deleted
+
+**Context:** `Grant_Fulfillment_Script.gs` (3,893 lines) coexisted with a modular `modules/` directory. Both had overlapping function names, creating risk of conflicts on push.
+
+**Decision:** Deleted `Grant_Fulfillment_Script.gs`. The `modules/` directory is the live, canonical version (v2.4). Confirmed live script working before deletion.
+
+**Status:** Complete.
+
+---
+
+### DEC-025: Apps Script Deployment via clasp
+
+**Context:** Apps Script changes required manual copy-paste into the Google Apps Script editor — slow and error-prone.
+
+**Decision:** Installed clasp (v3.3.0). Set up `push-scripts` terminal command. Two Google accounts managed via credential files (`~/.clasprc-crf.json` for Campus Ready Foundation, `~/.clasprc-ds.json` for DormShopper). Run `push-scripts gf` to deploy Grant Fulfillment, `push-scripts app` for Application system.
+
+**Status:** Complete. All four Apps Script projects (GF, Application, DormShopper, STEM) wired up.
+
+---
+
+### DEC-026: Branch Strategy Clarified
+
+**Context:** Needed clarity on what goes to staging vs main.
+
+**Decision:** Staging branch is for app HTML only (`Customize_Your_Kit.html` and related form files). Project files, docs, and Apps Script files commit directly to main.
+
+**Status:** Active going forward.
+
+---
+
 End of Decision Log
