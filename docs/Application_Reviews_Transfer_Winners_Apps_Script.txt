@@ -1,0 +1,258 @@
+// ============================================
+// CAMPUS READY - GRANT FULFILLMENT TRANSFER
+// ============================================
+// Last updated: Nov 14, 2025
+// Purpose: Transfer approved recipients from Application_Reviews to Grant_Fulfillment_Database
+
+// CONFIGURATION - UPDATE THIS WITH YOUR ACTUAL FILE ID
+const GRANT_FULFILLMENT_DB_ID = '1jOOev4f8w6HzekRNRxMN6nwYfTCJ5dJKrqzK4zfcYVk'
+// To find your file ID: Open Grant_Fulfillment_Database, look at the URL
+// The ID is the long string between /d/ and /edit
+// Example: https://docs.google.com/spreadsheets/d/1abc123xyz456/edit
+// The ID is: 1abc123xyz456
+
+// ============================================
+// MENU CREATION
+// ============================================
+
+function onOpen() {
+  const ui = SpreadsheetApp.getUi();
+  ui.createMenu('Grant Fulfillment')
+    .addItem('Transfer Winners to Grant Fulfillment', 'transferWinnersToGrantFulfillment')
+    .addToUi();
+}
+
+// ============================================
+// MAIN TRANSFER FUNCTION
+// ============================================
+
+function transferWinnersToGrantFulfillment() {
+  const ui = SpreadsheetApp.getUi();
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getActiveSheet();
+  const sheetName = sheet.getName();
+  
+  // 1. Verify we're on a Final Review tab
+  if (!sheetName.includes('Final Review')) {
+    ui.alert(
+      'Wrong Sheet',
+      'Please run this from a Final Review tab (e.g., "2026 Final Review").\n\n' +
+      'Current sheet: ' + sheetName,
+      ui.ButtonSet.OK
+    );
+    return;
+  }
+  
+  // 2. Extract cohort year from tab name
+  const cohortYear = extractCohortYear(sheetName);
+  if (!cohortYear) {
+    ui.alert(
+      'Cannot Determine Cohort Year',
+      'Could not extract year from sheet name: ' + sheetName + '\n\n' +
+      'Sheet name should contain a 4-digit year (e.g., "2026 Final Review")',
+      ui.ButtonSet.OK
+    );
+    return;
+  }
+  
+  // 3. Get all data from current sheet
+  const lastRow = sheet.getLastRow();
+  if (lastRow < 2) {
+    ui.alert(
+      'No Data Found',
+      'This sheet appears to be empty. Please add approved recipients first.',
+      ui.ButtonSet.OK
+    );
+    return;
+  }
+  
+  // 4. Get column headers
+  const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+  const headerMap = {};
+  headers.forEach((header, index) => {
+    headerMap[header] = index;
+  });
+  
+  // 5. Verify required columns exist
+  const requiredColumns = ['Student Name', 'Application ID'];
+  const missingColumns = requiredColumns.filter(col => headerMap[col] === undefined);
+  
+  if (missingColumns.length > 0) {
+    ui.alert(
+      'Missing Required Columns',
+      'Cannot find these required columns:\n' + missingColumns.join('\n') + '\n\n' +
+      'Please ensure your sheet has "Student Name" and "Application ID" columns.',
+      ui.ButtonSet.OK
+    );
+    return;
+  }
+  
+  // Try to find email column (could be "Email Address" or just "Email")
+  let emailCol = headerMap['Email Address'];
+  if (emailCol === undefined) {
+    emailCol = headerMap['Email'];
+  }
+  
+  if (emailCol === undefined) {
+    ui.alert(
+      'Missing Email Column',
+      'Cannot find email column.\n\n' +
+      'Please ensure your sheet has either "Email Address" or "Email" column.',
+      ui.ButtonSet.OK
+    );
+    return;
+  }
+  
+  // 6. Check if "Transferred" column exists, if not, we'll track differently
+  const transferredCol = headerMap['Transferred'];
+  
+  // 7. Get all recipient data
+  const dataRange = sheet.getRange(2, 1, lastRow - 1, sheet.getLastColumn());
+  const data = dataRange.getValues();
+  
+  // 8. Filter for recipients that haven't been transferred yet
+  const newRecipients = [];
+  data.forEach((row, index) => {
+    const studentName = row[headerMap['Student Name']];
+    const applicationId = row[headerMap['Application ID']];
+    const email = row[emailCol];
+    
+    // Skip empty rows
+    if (!studentName || !applicationId || !email) {
+      return;
+    }
+    
+    // Check if already transferred (if column exists)
+    if (transferredCol !== undefined && row[transferredCol] === 'Yes') {
+      return; // Skip already transferred
+    }
+    
+    newRecipients.push({
+      applicationId: applicationId,
+      studentName: studentName,
+      email: email,
+      rowIndex: index + 2 // +2 because data starts at row 2
+    });
+  });
+  
+  if (newRecipients.length === 0) {
+    ui.alert(
+      'No New Recipients',
+      'All recipients in this sheet have already been transferred.\n\n' +
+      'If you need to add more recipients, add them to this sheet first.',
+      ui.ButtonSet.OK
+    );
+    return;
+  }
+  
+  // 9. Confirm with user
+  const confirmation = ui.alert(
+    'Transfer ' + newRecipients.length + ' Recipients?',
+    'You are about to transfer ' + newRecipients.length + ' approved recipients from the ' + 
+    cohortYear + ' cohort to Grant Fulfillment Database.\n\n' +
+    'These students will be able to access the kit customization form.\n\n' +
+    'Continue?',
+    ui.ButtonSet.YES_NO
+  );
+  
+  if (confirmation !== ui.Button.YES) {
+    return;
+  }
+  
+  // 10. Open Grant Fulfillment Database
+  let gfDatabase;
+  try {
+    gfDatabase = SpreadsheetApp.openById(GRANT_FULFILLMENT_DB_ID);
+  } catch (error) {
+    ui.alert(
+      'Cannot Access Grant Fulfillment Database',
+      'Error: ' + error.message + '\n\n' +
+      'Please verify:\n' +
+      '1. The GRANT_FULFILLMENT_DB_ID is correct in the script\n' +
+      '2. You have edit access to the Grant Fulfillment Database\n' +
+      '3. The file has not been deleted or moved',
+      ui.ButtonSet.OK
+    );
+    return;
+  }
+  
+  // 11. Get or create Grant_Recipients sheet
+  let grantRecipientsSheet = gfDatabase.getSheetByName('Grant_Recipients');
+  
+  if (!grantRecipientsSheet) {
+    ui.alert(
+      'Grant_Recipients Tab Not Found',
+      'The Grant_Recipients tab does not exist in the Grant Fulfillment Database.\n\n' +
+      'Please create it first following the setup instructions.',
+      ui.ButtonSet.OK
+    );
+    return;
+  }
+  
+  // 12. Prepare data for Grant_Recipients
+  const today = new Date();
+  const transferDate = Utilities.formatDate(today, Session.getScriptTimeZone(), 'yyyy-MM-dd');
+  
+  const rowsToAdd = newRecipients.map(recipient => [
+    recipient.applicationId,     // Application ID
+    recipient.studentName,        // Student Name
+    recipient.email,              // Email Address
+    cohortYear,                   // cohort_year
+    transferDate,                 // Transfer Date
+    'No',                         // Form Submitted
+    ''                            // Submission Timestamp (blank until submitted)
+  ]);
+  
+  // 13. Append to Grant_Recipients
+  try {
+    const startRow = grantRecipientsSheet.getLastRow() + 1;
+    grantRecipientsSheet.getRange(startRow, 1, rowsToAdd.length, 7).setValues(rowsToAdd);
+  } catch (error) {
+    ui.alert(
+      'Error Writing to Grant_Recipients',
+      'Error: ' + error.message + '\n\n' +
+      'The transfer was not completed. No data was changed.',
+      ui.ButtonSet.OK
+    );
+    return;
+  }
+  
+  // 14. Mark as transferred in Application_Reviews (if column exists)
+  if (transferredCol !== undefined) {
+    newRecipients.forEach(recipient => {
+      sheet.getRange(recipient.rowIndex, transferredCol + 1).setValue('Yes');
+    });
+  } else {
+    // If no Transferred column, add it
+    const lastCol = sheet.getLastColumn();
+    sheet.getRange(1, lastCol + 1).setValue('Transferred');
+    newRecipients.forEach(recipient => {
+      sheet.getRange(recipient.rowIndex, lastCol + 1).setValue('Yes');
+    });
+  }
+  
+  // 15. Success message
+  ui.alert(
+    'Transfer Complete!',
+    newRecipients.length + ' recipients successfully transferred to Grant Fulfillment Database.\n\n' +
+    'Cohort: ' + cohortYear + '\n' +
+    'Date: ' + transferDate + '\n\n' +
+    'These students can now access the kit customization form once they receive their notification email.',
+    ui.ButtonSet.OK
+  );
+  
+  Logger.log('Transfer complete: ' + newRecipients.length + ' recipients transferred for cohort ' + cohortYear);
+}
+
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+
+function extractCohortYear(sheetName) {
+  // Look for a 4-digit year in the sheet name
+  const yearMatch = sheetName.match(/\b(20\d{2})\b/);
+  if (yearMatch) {
+    return parseInt(yearMatch[1]);
+  }
+  return null;
+}
