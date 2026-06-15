@@ -92,16 +92,16 @@ Products are matched by three criteria in `Product_Logic`:
 
 ## Current Phase
 
-**Status as of June 14, 2026:** Active fulfillment season. Infrastructure overhaul complete.
+**Status as of June 15, 2026:** Orientation email ready to send. Guest support added.
 
-The 2026 cohort is in progress. The kit form is live and accepting submissions. Documents are being reviewed. Shopping list has not yet been finalized for this cohort.
+The 2026 cohort is in progress. Kit form is live. Documents are being reviewed. Shopping list not yet finalized. Orientation & Celebration event is July 15 at Napa Valley Community Foundation — invitation email is deployed and ready to send via Fulfillment Tools → Send Orientation Emails.
 
-**Infrastructure changes (June 14, 2026):**
-- All project files now live in this GitHub repo (`Grant_Fulfillment_Project_Files/`) — version-controlled and auto-updated
-- Apps Script deployment via `push-scripts gf` — no more copy-paste to the editor
-- Claude Code sessions auto-update docs via Stop hook (doc-router)
-- claude.ai projects connected to GitHub — agents read files directly from repo
-- Staging branch = HTML form changes only; everything else commits to main
+**June 15, 2026 changes:**
+- `Email_Orientation.gs` updated to pull from both `Grant_Recipients` and `Orientation_Guests` tab
+- `Orientation_Guests` tab added to Grant Fulfillment Google Sheet (Name / Email columns; 7 guests added)
+- `previewOrientationRecipients()` dry-run function added — runs from Apps Script editor, outputs full recipient list to Execution Log with no emails sent
+- Resolved `push-scripts gf` auth failure: stale `~/.clasprc-crf.json` fixed by re-running `clasp login` then `cp ~/.clasprc.json ~/.clasprc-crf.json`
+- All changes committed and pushed to `ericlilavois/Campus_Ready_GitHub` main
 
 ---
 
