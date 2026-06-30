@@ -2284,7 +2284,7 @@ function handleStudentStatus(data) {
     const acceptanceStatus = data.acceptanceStatus || 'Pending';
     const first = data.studentName ? data.studentName.split(' ')[0] : '';
     const welcomeTitle = first ? `You're in, ${first}.` : "You're in!";
-    const dueBadge = '';
+    const dueBadge = '<span style="display:inline-flex;align-items:center;background:#DD693A;color:white;font-size:0.75rem;font-weight:700;border-radius:20px;padding:2px 10px;margin-left:6px;vertical-align:middle;letter-spacing:0.02em;">Due July 15</span>';
 
     if (data.collegeUnitId) loadSchoolData(data.collegeUnitId);
 
