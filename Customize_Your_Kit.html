@@ -426,7 +426,7 @@
                     <span style="font-family:'Playfair Display',serif; font-size:1rem; font-weight:600; color:#ffffff;">No documents yet? No problem.</span>
                 </div>
                 <div style="background:#FEF3E7; padding:14px 18px;">
-                    <p style="margin:0; color:#8B4513; font-size:0.9rem; line-height:1.5;">Bookmark this page and come back when you have them. You have until <strong>July 15</strong> — we'll be here.</p>
+                    <p style="margin:0; color:#8B4513; font-size:0.9rem; line-height:1.5;"><strong>Already have your housing assignment? Upload it now.</strong> We need at least two weeks to process your kit, so the sooner we have your documents, the sooner everything ships. If your assignment hasn't arrived yet, don't worry. We'll be here when yours does.</p>
                 </div>
             </div>
             <div class="form-group">
@@ -2284,7 +2284,7 @@ function handleStudentStatus(data) {
     const acceptanceStatus = data.acceptanceStatus || 'Pending';
     const first = data.studentName ? data.studentName.split(' ')[0] : '';
     const welcomeTitle = first ? `You're in, ${first}.` : "You're in!";
-    const dueBadge = '<span style="display:inline-flex;align-items:center;background:#DD693A;color:white;font-size:0.75rem;font-weight:700;border-radius:20px;padding:2px 10px;margin-left:6px;vertical-align:middle;letter-spacing:0.02em;">Due July 15</span>';
+    const dueBadge = '';
 
     if (data.collegeUnitId) loadSchoolData(data.collegeUnitId);
 
