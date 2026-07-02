@@ -726,7 +726,13 @@ function goToSection(sectionNum) {
         const nameField  = document.getElementById('student_name');
         const emailField = document.getElementById('email');
         if (nameField  && studentData?.studentName && !nameField.value)  nameField.value  = studentData.studentName;
-        if (emailField && studentData?.email        && !emailField.value) emailField.value = studentData.email;
+        if (emailField && studentData?.email        && !emailField.value) {
+            emailField.value = studentData.email;
+            emailField.setAttribute('readonly', true);
+            emailField.style.background = '#f3f4f6';
+            emailField.style.cursor     = 'default';
+            emailField.style.color      = '#6B7280';
+        }
     }
     if (sectionNum === 3) { populateReview(); }
 
