@@ -139,6 +139,7 @@ See DEC-027 in DECISION_LOG.md for full detail on the Guest User model and open 
 | All students | "Here's what to expect from Ramp" email — deliberately held until travel confirmations land |
 
 ### Open Items Blocking Progress
+- **Amara Boerner & Melanie Avila — driving, not flying:** Travel Detail sheet and Ramp roster show both as "Flying" but both are actually driving. Travel Detail must be corrected. Amara asked about gas money and hotel (one night); confirm whether hotel was part of her original plan before committing. Melanie — gas card to be set up. Neither should receive a flight-restricted Ramp card. Treat same as Anastasia's gas card setup (separate Ramp Spend Program, fuel/gas MCC only).
 - **Daniel Sanchez & Sofia Alvarez (minors, attending, no on-site guardian):** No outreach until release/signature mechanism is resolved. No in-person path exists for them. Predates July 10 session, still unresolved.
 - **Gift card mechanism for non-attendees:** Eric to confirm e-gift card approach (physical cards only make sense for walk-ins on the 15th).
 - **Cole's BU shipping flag ("Ships to Dorm: No — BU"):** Something about Boston University was already a known problem before his email. Do not guess — confirm what this flag means before responding to him.
