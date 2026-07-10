@@ -1,6 +1,6 @@
 # Campus Ready Grant Fulfillment — Current Status
 
-**Last Updated:** June 14, 2026  
+**Last Updated:** July 10, 2026  
 **Script Version:** v2.4 (last updated Jun 7, 2026)  
 **Maintained by:** Eric Lilavois  
 
@@ -35,7 +35,7 @@ Campus Ready Foundation provides move-in support grants to first-generation, low
 | Project files | `Grant_Fulfillment_Project_Files/` folder in this repo — auto-updated by Claude Code Stop hook |
 
 **Google Sheets tabs:**
-- `Grant_Recipients` — master list of approved students (columns: Application ID, Name, Email, Cohort Year, Housing Status, Acceptance Status, Items Selected, etc.)
+- `Grant_Recipients` — master list of approved students (columns: Application ID, Name, Email, Cohort Year, Housing Status, Acceptance Status, Items Selected, etc.; col Z = Kit Email Sent, col AA = Kit Email Sent At — added July 10, 2026)
 - `Student_Selections` — raw kit customization submissions
 - `Product_Logic` — product catalog with matching criteria (built from PL_* source tabs)
 - `Resolver` — matched products per student (auto-populated on form submit)
@@ -49,7 +49,7 @@ Campus Ready Foundation provides move-in support grants to first-generation, low
 
 | Menu Item | Function | What It Does |
 |-----------|----------|--------------|
-| 1 — Send Kit Form Emails | `sendKitFormEmails()` | Sends personalized kit links to Grant_Recipients |
+| 1 — Send Kit Form Emails | `sendKitFormEmails()` | Sends personalized kit links to Grant_Recipients; skips rows where Kit Email Sent = Yes; stamps col Z + AA after each send |
 | 2 — Send Rejection Emails | `sendRejectionEmails()` | Emails students with rejected documents; shows confirmation dialog first |
 | 3 — Generate Shopping List | `generateShoppingList()` | Builds Shopping_List from Resolver (approved students only, current cohort) |
 | 4 — Send Testimonial Invites | `sendTestimonialInvites()` | Invites fulfilled students to provide testimonials |
@@ -58,6 +58,7 @@ Campus Ready Foundation provides move-in support grants to first-generation, low
 | Admin — Install Triggers | `installTriggers()` | Sets up edit trigger and daily 7am digest |
 
 **Key background functions:**
+- `resendKitFormEmailToOne(targetEmail)` — resends kit form email to a single student by email; bypasses the sent flag; use for support cases
 - `checkStudentStatus(email)` — validates student by email for the kit form
 - `checkStudentStatusById(applicationId)` — validates by Application ID (personalized links)
 - `uploadDocuments()` — receives document uploads from the form, saves to Drive, updates Grant_Recipients
@@ -124,9 +125,10 @@ See DEC-027 in DECISION_LOG.md for full detail on the Guest User model and open 
 ### Sent / Complete
 - July 15 event reminder → 24 attending students (apps, colors, photographer notice)
 - Document upload nudge → Lizbeth Pérez Solano (sent 7/9, no reply yet)
+- Kit form email resend → Valeria Alexa Hernandez Correa (sent 7/10, awaiting her confirmation of receipt)
+- Travel-confirmation texts → sent 7/10 to attending flight students; awaiting replies
 
 ### Drafted, Voice-Approved, Not Yet Confirmed Sent
-- 10 individual travel-confirmation texts — one per attending flight student, final approved template
 - Cole (Nicholas Avery Joy) individual reply — corrected to "You mentioned" (not "Yesterday")
 
 ### Not Yet Written — Needs Drafting

@@ -683,4 +683,20 @@ AND acceptance_status = "Approved"
 
 ---
 
+### DEC-033: Kit Email Sent Flag Added to Grant_Recipients
+**Date:** July 10, 2026
+**Status:** ✅ Implemented
+
+**Context:** Valeria Alexa Hernandez Correa (valeriahernandezcorrea96@gmail.com) reported never receiving her kit form email despite being in Grant_Recipients. The original `sendKitFormEmails()` had no "already sent" tracking — it would blast every student in the sheet every time it ran, with no record of prior sends.
+
+**Decision:** Add `Kit Email Sent` (col Z) and `Kit Email Sent At` (col AA) columns to Grant_Recipients. `sendKitFormEmails()` now skips any row where `Kit Email Sent = Yes` and stamps both columns after each successful send.
+
+**Resend path:** `resendKitFormEmailToOne(targetEmail)` bypasses the flag intentionally — use it when a student claims they never received the email. It also updates the flag after sending.
+
+**Backfill:** All 2026 cohort rows were manually set to `Yes` in col Z after the initial send was confirmed complete. Valeria's row was included in the backfill after her resend was confirmed sent on July 10, 2026.
+
+**Rationale:** Without a sent flag, a future accidental re-run would blast all students again. The flag also creates an audit trail for support cases like Valeria's.
+
+---
+
 End of Decision Log
