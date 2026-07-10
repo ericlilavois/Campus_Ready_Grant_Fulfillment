@@ -92,9 +92,20 @@ Products are matched by three criteria in `Product_Logic`:
 
 ## Current Phase
 
-**Status as of June 15, 2026:** Orientation email ready to send. Guest support added.
+**Status as of July 10, 2026:** Ramp guest user setup in progress. 14 draft users created. No invitations sent, no cards issued.
 
-The 2026 cohort is in progress. Kit form is live. Documents are being reviewed. Shopping list not yet finalized. Orientation & Celebration event is July 15 at Napa Valley Community Foundation — invitation email is deployed and ready to send via Fulfillment Tools → Send Orientation Emails.
+The 2026 cohort is in active fulfillment. Kit form is live. Orientation & Celebration event is July 15 at Napa Valley Community Foundation.
+
+**Ramp virtual card status (as of July 10, 2026):**
+- 14 students created as draft guest users in Ramp (Stage 1 complete)
+- Invitations not yet published (Stage 2 not started)
+- No student has accepted or set up a Ramp account (Stage 3 not started)
+- No cards have been issued (Stage 4 not started)
+- Marisol Navarro confirmed eligible but not yet added to Ramp — travel mode TBD
+- 4 students are minors (Gabrielle Pina, Amara Boerner, Arianna Deibert, Osvaldo Ramirez Hernandez) — authorization mechanism for minors unresolved before invitations can be sent
+- Anastasia Guerrier (gas card) needs a separate Ramp Spend Program with fuel/gas MCC restrictions — do not issue under the flight-restricted program
+
+See DEC-027 in DECISION_LOG.md for full detail on the Guest User model and open items.
 
 **June 15, 2026 changes:**
 - `Email_Orientation.gs` updated to pull from both `Grant_Recipients` and `Orientation_Guests` tab

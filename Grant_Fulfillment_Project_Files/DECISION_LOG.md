@@ -567,4 +567,49 @@ AND acceptance_status = "Approved"
 
 ---
 
+### DEC-027: Ramp Guest User Model for Student Virtual Cards
+**Date:** July 10, 2026
+**Status:** ⏳ In Progress — Stage 1 complete, Stages 2–4 not started
+
+**Context:** Ramp's card issuance model is built around employees. Grant recipients are external, non-employee individuals. Ramp support confirmed the correct model on July 10, 2026.
+
+**Decision:** Students are added as Guest Users (available on Ramp Plus), not employees. All current guest users are assigned to a "Student" department under a single shared manager. Card issuance runs in four distinct stages, each requiring a separate admin action:
+
+1. **Draft user created** — student exists in Ramp, cannot log in, no email sent.
+2. **Invite published** — admin publishes from People > Invites; triggers invitation email.
+3. **Student accepts** — student sets up their own Ramp account.
+4. **Admin issues virtual card** — only after acceptance, by explicit admin action. Guest users cannot request their own cards or funds, and cannot receive physical cards — virtual only.
+
+**Rationale:** The Guest User model is the correct fit for issuing one-time, restricted-purpose funds to non-employees. It keeps card issuance a deliberate, per-student decision rather than something that happens automatically at invite-acceptance. "Student has a Ramp identity" and "student can spend money" are two distinct, deliberate steps.
+
+**Current Roster (14 draft guest users, as of July 10, 2026):**
+
+| # | Name | Purpose | Minor? |
+|---|------|---------|--------|
+| 1 | Elizabeth Carmichael | Flight | |
+| 2 | Gabrielle Pina | Flight | Yes |
+| 3 | Jimena Reynaga-Castro | Flight | |
+| 4 | Lilian Barrientos Aceituno | Flight | |
+| 5 | Nicholas Avery Joy | Flight | |
+| 6 | Amara Boerner | Flight | Yes |
+| 7 | Arianna Deibert | Flight | Yes |
+| 8 | Michelle Villafana | Flight | |
+| 9 | Osvaldo Ramirez Hernandez | Flight | Yes |
+| 10 | Henry Ray | Flight | |
+| 11 | Journey Penterman | Flight | |
+| 12 | Melanie Avila | Flight | |
+| 13 | Reese Oo | Flight | |
+| 14 | Anastasia Guerrier | Gas card (driving to school) | |
+
+**Not yet in Ramp:** Marisol Navarro — previously marked ineligible, now confirmed eligible. Travel mode and card type not yet confirmed. Do not add to Ramp until confirmed.
+
+**Open Items:**
+- **Minors authorization unresolved.** Four students (Gabrielle Pina, Amara Boerner, Arianna Deibert, Osvaldo Ramirez Hernandez) are minors. Who accepts the invite and uses the card on their behalf needs a decision before invitations are published for these four.
+- **Per-student dollar amounts not independently verified.** Cross-country/short-haul ceilings ($200 / $135) come from the pro forma. Whether individual fare figures are live quotes, historical averages, or estimates has not been confirmed.
+- **Anastasia's gas card needs a separate Spend Program.** The existing Spend Program has airline-MCC restrictions. A second Spend Program with fuel/gas-station MCC restrictions is needed — do not issue her card under the flight-restricted program.
+
+**Status:** Stage 1 complete. No invitations sent. No cards issued.
+
+---
+
 End of Decision Log
