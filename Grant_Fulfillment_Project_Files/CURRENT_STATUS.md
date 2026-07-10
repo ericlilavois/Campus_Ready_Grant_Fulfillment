@@ -107,6 +107,9 @@ The 2026 cohort is in active fulfillment. Kit form is live. Orientation & Celebr
 
 See DEC-027 in DECISION_LOG.md for full detail on the Guest User model and open items.
 
+**Approved student-facing language for explaining virtual cards (from Ramp support):**
+> "A virtual card is a digital payment card that's connected to funds allocated to them by your organization's finance team. Rather than using a physical card, they'll receive a secure card number that can be used for approved purchases, such as their college travel expenses. The virtual card draws from the funds your organization has assigned to it and is subject to any spending limits or controls your team has configured."
+
 **June 15, 2026 changes:**
 - `Email_Orientation.gs` updated to pull from both `Grant_Recipients` and `Orientation_Guests` tab
 - `Orientation_Guests` tab added to Grant Fulfillment Google Sheet (Name / Email columns; 7 guests added)
