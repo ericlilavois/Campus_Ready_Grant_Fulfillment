@@ -612,4 +612,75 @@ AND acceptance_status = "Approved"
 
 ---
 
+---
+
+## Student Communications — July 2026
+
+### DEC-028: Six-Audience Segmentation for 2026 Cohort Comms
+**Date:** July 10, 2026
+**Status:** ✅ Active framework — use for all cohort communications
+
+**Decision:** The 35-student cohort is not one audience. All communications must be segmented across six distinct groups, each requiring different content, channel, and timing:
+
+1. **Attending, no travel involvement** — event info only
+2. **Attending, travel-involved** — event info + travel confirmation
+3. **Non-attending, no travel** — full orientation content replacement + any applicable program info
+4. **Non-attending, travel-involved** — full orientation replacement + travel confirmation question
+5. **Minors attending without an on-site guardian** — above as applicable, but no outreach until guardian/release mechanism is resolved (see Open Items)
+6. **Never RSVP'd** — status unknown; handle separately before segmenting further
+
+**Rationale:** Sending one message to all recipients either overloads students who need less, or shortchanges those who need more — particularly non-attendees who get nothing in person and need a full replacement for orientation content.
+
+**Important:** Re-verify RSVP data against Travel Detail before every send. The Yadira catch (text confirmation not reflected in RSVP sheet) proved the sheet is not reliably current.
+
+---
+
+### DEC-029: Travel-Confirmation Message Template
+**Date:** July 10, 2026
+**Status:** ✅ Approved — use for all individual travel outreach
+
+**Decision:** Travel-confirmation messages state the assumption as a fact and ask only whether that arrangement is being used — not whether the terms are negotiable.
+
+**Correct framing:** State the plan ("We have you flying from [airport] on [date]..."), then ask a contained yes/no question ("Does that still work, or has something changed?").
+
+**Incorrect framing:**
+- "Is this still the plan?" — implies a conversation that never happened
+- Open-ended questions about dates, companions, or preferences — invites scope negotiation the program isn't built to grant case by case
+
+**Why:** This approach was arrived at through several editing rounds. The right balance is responsive enough to catch real changes (like Cole's stale travel plan) without opening the door to requests for different dates or additional companions.
+
+**Worked example:** The Cole (Nicholas Avery Joy) reply is the canonical reference — note the correction from "Yesterday" to "You mentioned" since his email's actual send-time relative to "today" was unconfirmed.
+
+---
+
+### DEC-030: Codes Sent by Text Only — Never Email
+**Date:** July 10, 2026
+**Status:** ✅ Active rule
+
+**Decision:** Any redeemable code (Ramp card codes, gift card codes, etc.) goes to students by text only. Never by email.
+
+**Rationale:** A redeemable code sitting in an email inbox is a real security exposure — forwarded, screenshotted, or accessed on a shared device.
+
+---
+
+### DEC-031: Companion Policy — Uniform Terms
+**Date:** July 10, 2026
+**Status:** ✅ Active — apply uniformly regardless of when need surfaces
+
+**Decision:** One parent or guardian may accompany a student. One hotel night covered at the standard rate for that student's distance tier. This applies whether the need was stated on the application, raised in a text reply, or mentioned in an unprompted email.
+
+**Rationale:** Established in response to the Cole situation. Uniform application regardless of timing prevents case-by-case negotiation and gives a consistent answer to any similar request going forward.
+
+---
+
+### DEC-032: Travel Detail as Authoritative Data Source
+**Date:** July 10, 2026
+**Status:** ✅ Active rule
+
+**Decision:** Travel Detail sheet (not Grant_Recipients) is the authoritative source for travel mode, route, and companion status. Even so, Travel Detail should be treated as a starting assumption to confirm — not a fact to build on without verification.
+
+**Rationale:** Three data errors surfaced mid-session: Osvaldo's Travel Helper field didn't match the Ramp roster, Yadira's RSVP status didn't reflect her text confirmation, and Cole's travel plan was stale by the time outreach happened. Any comms plan built on unverified data propagates errors to real students.
+
+---
+
 End of Decision Log

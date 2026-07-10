@@ -119,11 +119,55 @@ See DEC-027 in DECISION_LOG.md for full detail on the Guest User model and open 
 
 ---
 
+## Student Communications Status (as of July 10, 2026)
+
+### Sent / Complete
+- July 15 event reminder → 24 attending students (apps, colors, photographer notice)
+- Document upload nudge → Lizbeth Pérez Solano (sent 7/9, no reply yet)
+
+### Drafted, Voice-Approved, Not Yet Confirmed Sent
+- 10 individual travel-confirmation texts — one per attending flight student, final approved template
+- Cole (Nicholas Avery Joy) individual reply — corrected to "You mentioned" (not "Yesterday")
+
+### Not Yet Written — Needs Drafting
+| Audience | What's Needed |
+|----------|---------------|
+| 5 non-attendees, no travel | Full orientation-replacement email (content plan settled, copy not written) |
+| 4 non-attendees, travel-involved | Same as above + travel-confirmation question per approved template |
+| All students | "Here's what to expect from Ramp" email — deliberately held until travel confirmations land |
+
+### Open Items Blocking Progress
+- **Daniel Sanchez & Sofia Alvarez (minors, attending, no on-site guardian):** No outreach until release/signature mechanism is resolved. No in-person path exists for them. Predates July 10 session, still unresolved.
+- **Gift card mechanism for non-attendees:** Eric to confirm e-gift card approach (physical cards only make sense for walk-ins on the 15th).
+- **Cole's BU shipping flag ("Ships to Dorm: No — BU"):** Something about Boston University was already a known problem before his email. Do not guess — confirm what this flag means before responding to him.
+- **Cole's product-photos question:** Unconfirmed whether kit customization flow already shows photos.
+- **Flight cost estimates:** Current $135/$200 caps are Claude-research estimates, not live quotes. Verify before Ramp card amounts are set.
+- **Ramp $5K credit limit:** Verify against real fares. Estimated $2–3K exposure looks fine on its face, but both inputs are still unverified.
+
+### Comms Framework (Reference)
+Six-audience segmentation and travel-confirmation template are documented in DECISION_LOG.md (DEC-028, DEC-029). Re-verify RSVP data against Travel Detail before every send — the Yadira catch proved the RSVP sheet alone is not reliable.
+
+---
+
 ## Known Issues / Pending Items
 
 - `START_HERE_New_Agent.md` and `SYSTEM_STATE.md` were lost when Claude project files were not yet version-controlled. This file (`CURRENT_STATUS.md`) replaces those as the agent entry point.
 - `TROUBLESHOOTING.md` also lost — should be recreated as issues are encountered and resolved.
 - Apps Script files are managed manually (copy-paste to Google Apps Script editor). Step 4 of the automation plan will replace this with direct API push.
+
+---
+
+## Notes for Next Year (2027 Cohort Planning)
+
+These are lessons from the 2026 cycle that should shape how the program is set up before outreach begins — not discovered mid-session.
+
+- **Lock audience segmentation before any outreach starts.** The six-audience breakdown (see DEC-028) was discovered during a drafting session. Next year, map who needs what before writing a single message.
+- **Lock companion policy before outreach starts.** The one-guardian / one-night / distance-tier-rate rule (DEC-031) was established reactively in response to Cole. Set it in advance and include it in planning documentation.
+- **Data audit before comms planning.** Three data errors surfaced during the July 10 session (Osvaldo's Travel Helper, Yadira's RSVP, Cole's stale travel plan). Run a reconciliation pass — Travel Detail vs. RSVP sheet vs. Ramp roster — before drafting begins. Any comms plan built on dirty data propagates errors to real students.
+- **Verify flight cost estimates with live fares before setting card amounts.** The $135/$200 caps were still unverified estimates as of July 10. This should be done before Ramp card limits are configured, not after.
+- **Resolve the minors mechanism before invite season.** The Daniel/Sofia situation (minors attending without an on-site guardian) was unresolved going into the event. This needs a decision — release form, designated point of contact, or similar — before any minor is invited or issued a card.
+- **Ramp limit increase conversation.** $5K credit limit looks adequate for 2026's estimated $2–3K exposure, but this assumption uses unverified fare inputs. Raise the limit discussion with Ramp before 2027 cohort numbers are set, not under deadline pressure.
+- **The travel-confirmation message template (DEC-029) is proven.** Use it as the starting point next year, not something to arrive at after several rounds of editing.
 
 ---
 
