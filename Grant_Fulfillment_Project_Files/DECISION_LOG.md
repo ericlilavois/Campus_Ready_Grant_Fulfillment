@@ -731,4 +731,74 @@ AND acceptance_status = "Approved"
 
 ---
 
+## Apps Script Infrastructure — July 11, 2026
+
+### DEC-036: Orientation_Reminder.gs Naming Conflict Resolved
+**Date:** July 11, 2026
+**Status:** ✅ Resolved
+
+**Context:** Running `testOrientationEmail()` from the Apps Script editor was sending the reminder email instead of the invitation with RSVP buttons. Root cause: `Orientation_Reminder.gs` had been manually copy-pasted into the Apps Script editor directly (not via clasp), giving it identical function names to `Email_Orientation.gs` — specifically `testOrientationEmail()` and `sendOrientationEmails()`. Apps Script's behavior with duplicate function names is unpredictable and was silently running the wrong function.
+
+A secondary issue: Menu.gs had the reminder menu items pointing to the wrong functions (the invitation functions), compounding the confusion.
+
+**Decision:** 
+1. Create `Orientation_Reminder.gs` in the clasp-managed folder (`Campus_Ready_GitHub/apps-script/grant-fulfillment/`) with all conflicting names resolved:
+   - `testOrientationEmail()` → `testOrientationReminderEmail()`
+   - `sendOrientationEmails()` → `sendOrientationReminderEmails()`
+   - `buildEmailHtml()` → `buildReminderEmailHtml()`
+2. Fix Menu.gs reminder entries to point to the renamed functions.
+3. Reorder menu so Test always appears before Send for every email group.
+
+**Rule going forward:** All Apps Script files must live in the clasp-managed folder. Never copy-paste directly into the Apps Script editor outside of clasp. Files pasted directly into the editor are invisible to clasp and will be overwritten or orphaned on the next push.
+
+---
+
+### DEC-037: Non-Attendee Emails Gated on Docs Approval
+**Date:** July 11, 2026
+**Status:** ✅ Implemented
+
+**Context:** Both non-attendee email scripts (`Email_NonAttendee_No_Travel.gs` and `Email_NonAttendee_Travel.gs`) originally used a hardcoded `docsApproved` flag per student. This required manual updates before each send and created risk of sending grant benefit information to students who had not yet qualified.
+
+**Decision:** Remove the hardcoded `docsApproved` flag from both rosters. Both scripts now read `Housing Status` and `Acceptance Status` directly from Grant_Recipients at send time. A student is only eligible to receive an email if both fields equal `Approved`. Students with `Pending` or `Uploaded` status are skipped automatically.
+
+**Effect for July 11 send:**
+- No-Travel email: Cristian, Diego, Fernanda sent. Alice Baxter and Xadani Ramirez Herrera skipped (docs pending).
+- Travel email: Gabrielle Pina, Lilian Barrientos Aceituno, Anastasia Guerrier sent. Arianna Deibert removed from roster entirely (confirmed attending July 15 event).
+
+**Re-run behavior:** If Alice or Xadani upload and get approved after July 11, re-running the send function will reach them automatically — no code changes needed.
+
+---
+
+### DEC-038: Non-Attendee Email Sent Tracking Column
+**Date:** July 11, 2026
+**Status:** ✅ Implemented
+
+**Decision:** Both non-attendee email scripts auto-create a `Non-Attendee Email Sent` column in Grant_Recipients on first run if it doesn't exist. After a successful send, the script writes `Yes` to that student's row. On any subsequent run, students marked `Yes` are skipped.
+
+**Rationale:** Mirrors the `Kit Email Sent` pattern (DEC-033). Prevents duplicate sends if the script is re-run for new doc approvals. Creates an audit trail of who was contacted and when.
+
+---
+
+## Student Communications — July 11, 2026 (continued)
+
+### DEC-039: File Renamed — Email_NonAttendee_Lyft → Email_NonAttendee_No_Travel
+**Date:** July 11, 2026
+**Status:** ✅ Implemented
+
+**Decision:** Renamed `Email_NonAttendee_Lyft.gs` to `Email_NonAttendee_No_Travel.gs` locally and in Apps Script editor. All internal function names updated from `Lyft` to `NoTravel` (`testNonAttendeeNoTravelEmails`, `sendNonAttendeeNoTravelEmails`). Menu.gs updated to match.
+
+**Rationale:** "Lyft" described one component of the email, not the audience. "No Travel" is the correct descriptor — this group has no flight or drive travel support, only a Lyft credit for local transport. Naming consistency with `Email_NonAttendee_Travel.gs` makes the system easier to navigate.
+
+---
+
+### DEC-040: Arianna Deibert — Confirmed Attending, Travel Text Sent
+**Date:** July 11, 2026
+**Status:** ✅ Resolved
+
+**Context:** Arianna's July 10 RSVP (attending) superseded her June 26 entry (not_attending), per DEC-035 rule. She was removed from the non-attendee travel email roster. She had not received a travel confirmation text with the other flight students on July 10.
+
+**Decision:** Sent Arianna a travel confirmation text on July 11 covering her SFO → SAN flight to San Diego State. She will receive Lyft/DoorDash info in person at the July 15 event. Her stale June 26 RSVP row to be deleted from RSVP_Responses.
+
+---
+
 End of Decision Log

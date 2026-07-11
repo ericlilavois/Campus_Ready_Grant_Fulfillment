@@ -111,6 +111,13 @@ See DEC-027 in DECISION_LOG.md for full detail on the Guest User model and open 
 **Approved student-facing language for explaining virtual cards (from Ramp support):**
 > "A virtual card is a digital payment card that's connected to funds allocated to them by your organization's finance team. Rather than using a physical card, they'll receive a secure card number that can be used for approved purchases, such as their college travel expenses. The virtual card draws from the funds your organization has assigned to it and is subject to any spending limits or controls your team has configured."
 
+**July 11, 2026 changes:**
+- `Orientation_Reminder.gs` moved into clasp-managed folder; conflicting function names resolved (`testOrientationReminderEmail`, `sendOrientationReminderEmails`)
+- `Menu.gs` fixed: reminder items now point to correct functions; Test appears before Send for every email group; No-Travel email entries added
+- `Email_NonAttendee_Lyft.gs` renamed to `Email_NonAttendee_No_Travel.gs`; all internal functions renamed from `Lyft` to `NoTravel`
+- Both non-attendee scripts refactored to read docs status from Grant_Recipients and track sends via `Non-Attendee Email Sent` column (auto-created on first run)
+- Arianna Deibert removed from non-attendee travel roster — confirmed attending July 15
+
 **June 15, 2026 changes:**
 - `Email_Orientation.gs` updated to pull from both `Grant_Recipients` and `Orientation_Guests` tab
 - `Orientation_Guests` tab added to Grant Fulfillment Google Sheet (Name / Email columns; 7 guests added)
@@ -120,57 +127,45 @@ See DEC-027 in DECISION_LOG.md for full detail on the Guest User model and open 
 
 ---
 
-## Student Communications Status (as of July 10, 2026)
+## Student Communications Status (as of July 11, 2026)
 
 ### Sent / Complete
 - July 15 event reminder → 24 attending students (apps, colors, photographer notice)
 - Document upload nudge → Lizbeth Pérez Solano (sent 7/9, no reply yet)
-- Kit form email resend → Valeria Alexa Hernandez Correa (sent 7/10, awaiting her confirmation of receipt)
-- Travel-confirmation texts → sent 7/10 to attending flight students; awaiting replies
+- Kit form email resend → Valeria Alexa Hernandez Correa (sent 7/10)
+- Travel-confirmation texts → sent 7/10 to attending flight students; Arianna Deibert text sent 7/11 (missed on 7/10 due to RSVP conflict)
 - Manual sheet backfill complete (July 11): Z1/AA1 headers added, Z2:Z37 set to Yes in Grant_Recipients
-
-### Built, Not Yet Sent
-- **Non-attendee Lyft email** (`Email_NonAttendee_Lyft.gs`) — 5 students (Alice Baxter, Cristian Fonseca Nunez, Diego Perez Herrera, Fernanda Contreras Alcaraz, Xadani Ramirez Herrera). docsApproved flag set per July 11 status. Awaiting Arianna RSVP clarification before confirming non-attendee roster is final.
-- **Non-attendee travel email** (`Email_NonAttendee_Travel.gs`) — 4 students (Arianna Deibert\*, Gabrielle Pina, Lilian Barrientos Aceituno, Anastasia Guerrier). **⚠️ Hold on Arianna** — RSVP data shows a duplicate entry dated July 10 with her now listed as `attending`. Confirm which is authoritative before sending.
-
-### Drafted, Voice-Approved, Not Yet Confirmed Sent
-- Cole (Nicholas Avery Joy) individual reply — corrected to "You mentioned" (not "Yesterday")
+- **Non-attendee No-Travel email** (`Email_NonAttendee_No_Travel.gs`) — sent July 11 to Cristian Fonseca Nunez, Diego Perez Herrera, Fernanda Contreras Alcaraz. Alice Baxter and Xadani Ramirez Herrera skipped — docs pending. Grant_Recipients `Non-Attendee Email Sent` column written.
+- **Non-attendee Travel email** (`Email_NonAttendee_Travel.gs`) — sent July 11 to Gabrielle Pina, Lilian Barrientos Aceituno, Anastasia Guerrier. Arianna Deibert removed — confirmed attending July 15. Grant_Recipients `Non-Attendee Email Sent` column written.
 
 ### Not Yet Sent
 | Audience | What's Needed | Status |
 |----------|---------------|--------|
-| 5 non-attendees, Lyft-only | Email_NonAttendee_Lyft.gs | Built — ready to send once Arianna situation clarified |
-| 4 non-attendees, travel-involved | Email_NonAttendee_Travel.gs | Built — hold on Arianna; 3 others ready |
-| All students | "Here's what to expect from Ramp" email | Deliberately held until travel confirmations land |
+| All students | "Here's what to expect from Ramp" email | Held until travel confirmations land |
+| Alice Baxter, Xadani Ramirez Herrera | Non-attendee No-Travel email | Blocked — docs pending. Re-run `sendNonAttendeeNoTravelEmails()` once docs approved — script will send automatically |
 
 ### Docs-Pending Students — Status as of July 11, 2026
 
-9 students have not yet uploaded both required documents (housing verification + college acceptance letter):
+| Student | RSVP | Impact |
+|---------|------|--------|
+| Alice Lilliane Baxter | Not attending | Non-attendee email held — re-run script when docs approved |
+| Andrea Elia Suarez | Attending w/guest | Handle at event |
+| Antonio Rivera | Attending w/guest | Handle at event |
+| Jimena Reynaga-Castro | Attending | Handle at event |
+| Lizbeth Pérez Solano | Unknown | Follow up — no RSVP on file |
+| Marisol Navarro | Attending w/guest | Handle at event; Lyft credit held until docs clear |
+| Osvaldo Jr. Ramirez Hernandez | Attending (minor) | Handle at event |
+| Wlises Ramirez Santos | Attending | Handle at event |
+| Xadani Irais Ramirez Herrera | Not attending | Non-attendee email held — re-run script when docs approved |
 
-| Student | RSVP | Impact on email timing |
-|---------|------|----------------------|
-| Alice Lilliane Baxter | Not attending | Gets Lyft email; gift card line = pending |
-| Andrea Elia Suarez | Attending w/guest | No pre-event email needed; handle at event |
-| Antonio Rivera | Attending w/guest | No pre-event email needed; handle at event |
-| Jimena Reynaga-Castro | Attending | No pre-event email needed; handle at event |
-| Lizbeth Pérez Solano | No RSVP on file (or Row 44 anomaly?) | Unknown — follow up |
-| Marisol Navarro | Attending w/guest | No pre-event email needed; gift card held until docs clear |
-| Osvaldo Jr. Ramirez Hernandez | Attending (minor) | No pre-event email needed; handle at event |
-| Wlises Ramirez Santos | Attending | No pre-event email needed; handle at event |
-| Xadani Irais Ramirez Herrera | Not attending | Gets Lyft email; gift card line = pending |
-
-**Note on Lizbeth:** Not in RSVP list by name. RSVP data contains a shifted row (Row 44) with timestamp 2026-07-10 and App ID CR_1778827182861_fh3e2c but no readable name/email. May be Lizbeth's late RSVP — verify against Grant_Recipients.
-
-### Open Items Blocking Progress
-- **Arianna Deibert RSVP conflict:** June 26 entry = not_attending; July 10 entry = attending (same App ID). Resolve before sending Email_NonAttendee_Travel.gs. If attending, she needs to be handled at the event and removed from the non-attendee email roster.
-- **Amara Boerner & Melanie Avila — driving, not flying:** Travel Detail sheet and Ramp roster show both as "Flying" but both are actually driving. Travel Detail must be corrected. Neither should receive a flight-restricted Ramp card. Set up under the same gas/hotel Spend Program as Anastasia.
-- **Daniel Sanchez & Sofia Alvarez (minors, attending, no on-site guardian):** No outreach until release/signature mechanism is resolved. Predates July 10 session, still unresolved.
-- **Gift card mechanism for non-attendees:** Confirm e-gift card approach (physical cards only make sense for walk-ins on the 15th).
-- **Cole's BU shipping flag ("Ships to Dorm: No — BU"):** Something about Boston University was already a known problem before his email. Confirm what this flag means before responding.
-- **Cole's product-photos question:** Unconfirmed whether kit customization flow already shows photos.
-- **Flight cost estimates:** Current $135/$200 caps are Claude-research estimates, not live quotes. Verify before Ramp card amounts are set.
-- **Ramp $5K credit limit:** Verify against real fares. Estimated $2–3K exposure looks fine on its face, but both inputs are still unverified.
-- **Lizbeth Pérez Solano RSVP status:** No RSVP on file — Row 44 anomaly may be hers. Verify.
+### Open Items
+- **Alice & Xadani docs:** When approved, re-run `sendNonAttendeeNoTravelEmails()` — script auto-sends and tracks.
+- **Arianna stale RSVP row:** Delete her June 26 `not_attending` row from RSVP_Responses (approved July 11).
+- **Amara Boerner & Melanie Avila — driving, not flying:** Travel Detail and Ramp show both as Flying. Must be corrected. Set up under gas/hotel Spend Program (same as Anastasia), not flight-restricted program.
+- **Daniel Sanchez & Sofia Alvarez (minors, no on-site guardian):** No outreach until release/signature mechanism resolved.
+- **Ramp invitations:** 14 draft guest users created, no invites sent. Minor authorization mechanism unresolved before invites can go out.
+- **Flight cost estimates:** $135/$200 caps are unverified estimates. Confirm before setting Ramp card limits.
+- **Lizbeth Pérez Solano RSVP:** No RSVP on file — follow up directly.
 
 ### Comms Framework (Reference)
 Six-audience segmentation and travel-confirmation template are documented in DECISION_LOG.md (DEC-028, DEC-029). Re-verify RSVP data against Travel Detail before every send — the Yadira catch proved the RSVP sheet alone is not reliable.
