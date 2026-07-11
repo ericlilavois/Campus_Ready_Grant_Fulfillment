@@ -699,4 +699,36 @@ AND acceptance_status = "Approved"
 
 ---
 
+---
+
+## Student Communications — July 11, 2026
+
+### DEC-034: Non-Attendee Lyft-Only Email Segment
+**Date:** July 11, 2026
+**Status:** ✅ Built — `Email_NonAttendee_Lyft.gs` pushed to Campus_Ready_GitHub main
+
+**Context:** Five students are not attending the July 15 event and have no flight or drive travel support. Their only travel benefit is a Lyft credit to reach campus or the airport. A separate email file was needed — distinct from `Email_NonAttendee_Travel.gs` — because there is no travel card section and no Ramp virtual card for this group.
+
+**Students:** Alice Baxter (UC Santa Cruz), Cristian Fonseca Nunez (UC Davis), Diego Perez Herrera (San Jose State), Fernanda Contreras Alcaraz (UC Davis), Xadani Ramirez Herrera (USF).
+
+**Decision:** Build a standalone `Email_NonAttendee_Lyft.gs` matching the design of `Email_NonAttendee_Travel.gs`. Two cards only: teal (Lyft $150 + DoorDash $100, text to claim), yellow (Target $100 gift card, conditional on docs). No travel card. `docsApproved` flag per student controls gift card copy.
+
+**Docs-pending students:** Alice Baxter and Xadani Ramirez Herrera have `docsApproved: false` as of July 11. Cristian, Diego, and Fernanda are assumed approved (not in docs-pending list) — verify before send.
+
+**Rationale:** Docs-pending status does not block sending — the email already handles it gracefully ("once your documents are approved"). Waiting is worse than sending for non-attendees who are getting nothing in person.
+
+---
+
+### DEC-035: RSVP Data Hierarchy and Arianna Deibert Conflict
+**Date:** July 11, 2026
+**Status:** ⏳ Open — Arianna's status needs confirmation before Email_NonAttendee_Travel.gs is sent
+
+**Context:** The RSVP CSV contains two entries for Arianna Deibert with the same Application ID (CR_1774546309268_wqskn8): one from June 26 (`not_attending`) and one from July 10 (`attending`). The July 10 entry's columns appear shifted, suggesting a late entry or data anomaly. The non-attendee travel email has her hardcoded as a recipient.
+
+**Decision:** Do not send Email_NonAttendee_Travel.gs to Arianna until her RSVP status is confirmed directly. If she is now attending, remove her from the non-attendee email roster and handle at the event. If she is still not attending, her current email entry (flight SFO → San Diego, `docsApproved: false`) is correct.
+
+**Rule going forward (reinforces DEC-032):** When an RSVP CSV contains duplicate entries for the same student, the most recent timestamp wins — but verify with the student before acting on it when the change affects what they receive.
+
+---
+
 End of Decision Log
