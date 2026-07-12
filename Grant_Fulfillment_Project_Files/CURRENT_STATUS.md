@@ -99,6 +99,8 @@ The 2026 cohort is in active fulfillment. Kit form is live. Orientation & Celebr
 
 **Travel Detail (reconciled July 12, 2026):** 36 students, $8,757 CRF cash outlay, $10,071 with 15% contingency. Daysee Jossabeth Queme Mazariegos removed (ineligible). Valeria Alexa Hernandez Correa added. Cole, Amara, Henry Ray, Melanie, and Anastasia travel modes reconciled. Anastasia row stays on Legacy Override permanently (see DEC-044). Henry Ray (Oregon State Univ-Cascades, Bend, OR) present in Travel Detail as a driving-mode student — Eric to cross-check against Grant_Recipients to confirm.
 
+**Lyft credit — CLOSED. Do not revisit.** $150/student, $7,500 total across 50 codes. General-purpose (rides to campus, airport, or around town after arrival) — not scoped to the move-in trip. Fully reconciled July 12. No further action needed. See DEC-042.
+
 **2026 Pro Forma:** Frozen at board-approved figures. Internal inconsistencies flagged by reconciliation agent — Eric to decide which are real errors vs. accepted-as-approved. Isabella Jones (Houston → San Antonio) referenced in old Pro Forma but absent from current Travel Detail — status unknown, needs confirmation.
 
 **Ramp virtual card status (as of July 12, 2026):**
