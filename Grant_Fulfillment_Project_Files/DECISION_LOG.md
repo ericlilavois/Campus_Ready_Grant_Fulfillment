@@ -1,6 +1,6 @@
 # Campus Ready Grant Fulfillment - Decision Log
 
-**Last Updated:** November 17, 2025  
+**Last Updated:** July 12, 2026  
 **Purpose:** Record of all key decisions with rationale and implementation notes
 
 ---
@@ -798,6 +798,84 @@ A secondary issue: Menu.gs had the reminder menu items pointing to the wrong fun
 **Context:** Arianna's July 10 RSVP (attending) superseded her June 26 entry (not_attending), per DEC-035 rule. She was removed from the non-attendee travel email roster. She had not received a travel confirmation text with the other flight students on July 10.
 
 **Decision:** Sent Arianna a travel confirmation text on July 11 covering her SFO → SAN flight to San Diego State. She will receive Lyft/DoorDash info in person at the July 15 event. Her stale June 26 RSVP row to be deleted from RSVP_Responses.
+
+---
+
+## Travel Reconciliation — July 12, 2026
+
+### DEC-041: Arianna Deibert — Ramp Spend Program Corrected from Flight to Gas/Hotel
+**Date:** July 12, 2026
+**Status:** ⏳ Decision recorded — execution in Ramp pending
+
+**Context:** `Email_Ramp.gs` (pushed to GitHub main by a prior agent session) references "DEC-041 — Arianna corrected from flight to gas_hotel" but no such decision existed in the log. This entry formally records it.
+
+**Decision:** Arianna Deibert is confirmed driving to San Diego State, not flying. Her Ramp guest user (currently created under the flight-restricted Spend Program) must be moved to the gas/hotel Spend Program — the same program as Anastasia Guerrier. This correction must be executed in Ramp directly by Eric.
+
+**Status note:** The decision is recorded here as of July 12. The Ramp-side execution (changing the Spend Program for Arianna's guest user) has not been confirmed complete.
+
+---
+
+### DEC-042: Travel Cost Policy — Gas Coverage Scope, Lyft Scope, Companion Ground Fee
+**Date:** July 12, 2026
+**Status:** ✅ Active — apply uniformly
+
+**Context:** Travel reconciliation session on July 12 surfaced three policy questions that needed explicit answers before Travel Detail could be finalized.
+
+**Decisions:**
+
+1. **Gas/mileage coverage** applies only to students driving in lieu of flying (long-distance relocation). It is not general reimbursement for any student who chooses to drive instead of an offered Lyft. Students who are offered a Lyft credit and opt to drive locally instead are not entitled to gas coverage.
+
+2. **Lyft credit ($150/student)** is general-purpose — usable for rides to campus, the airport, or around town after arrival. It is not scoped to the specific move-in trip. The $7,500 total across 50 codes is fully explained by this; no further reconciliation needed.
+
+3. **Companion Ground fee ($50)** applies only to companions of flight-mode students (covers ground transport at the destination). Companions of driving students cost $0 in this line item, unless the companion flies back separately — in which case a separate flight cost applies.
+
+---
+
+### DEC-043: Ramp Spend Program Corrections — Amara Boerner and Melanie Avila
+**Date:** July 12, 2026
+**Status:** ⏳ Decision recorded — execution in Ramp pending
+
+**Context:** Both Amara Boerner and Melanie Avila were created as draft Ramp guest users under the flight-restricted Spend Program. Both are confirmed driving students (not flying). Their Ramp setup must match Anastasia Guerrier and Arianna Deibert — gas/hotel program, not flight-restricted.
+
+**Decision:** Move Amara Boerner and Melanie Avila to the gas/hotel Ramp Spend Program. The consistent rule: any student confirmed driving comes off the flight-restricted program. This applies to Arianna (DEC-041), Anastasia (existing), Amara, and Melanie.
+
+**Note:** DEC-027's roster table lists Amara as "Flight" and Arianna as "Flight" — those entries are superseded by DEC-041 and this decision. The Ramp table in DEC-027 should be treated as the original draft state, not current state.
+
+---
+
+### DEC-044: Anastasia Guerrier — Legacy Override Status (Permanent)
+**Date:** July 12, 2026
+**Status:** ✅ Active — do not move to formula
+
+**Context:** Anastasia is driving to campus with her mother. Her mother is flying home one-way after drop-off (MSP → MIA). This arrangement — student drives, companion flies back — is not representable by the standard Travel Detail formula logic.
+
+**Decision:** Anastasia's row stays permanently on Legacy Override in Travel Detail. It will never be formula-driven. Her companion flight cost (mother's one-way return) is manually entered and manually maintained. This is not an error or a gap — it is the intended state.
+
+---
+
+### DEC-045: Roster Changes — Daysee Removed, Valeria Added
+**Date:** July 12, 2026
+**Status:** ✅ Confirmed
+
+**Daysee Jossabeth Queme Mazariegos:** Confirmed ineligible — no longer on-campus. Removed from Travel Detail roster.
+
+**Valeria Alexa Hernandez Correa:** Confirmed eligible and added to roster. Was previously missing from Travel Detail despite being in Grant_Recipients. Offered Lyft credit.
+
+---
+
+### DEC-046: 2026 Pro Forma Frozen; 2027 Pro Forma Architecture Decided
+**Date:** July 12, 2026
+**Status:** ✅ Frozen (2026) / ⏳ Deferred until after July 15 (2027 architecture)
+
+**2026 Pro Forma:** Stays frozen at board-approved figures. No formula link to Travel Detail. An approved budget does not move after approval.
+
+**2027 Pro Forma — architecture decided:**
+
+1. **Budget vs. Actual tab (build post–July 15):** One side is the frozen 2026 board-approved total (static value). The other is a live SUMIF pulling the current total from Travel Detail. The variance between them is the point of the tab — neither side writes back into the other.
+
+2. **2027 Pro Forma seed (build after 2026 travel is finalized):** An AVERAGEIF by transport mode pulls 2026's realized average cost per student, by mode, into a 2027 Assumptions tab. That average × 2027's projected headcount by mode generates the 2027 Pro Forma. Computed once at cycle handoff — not continuously live — because 2027's student mix won't be 2026's.
+
+3. **Partner/rate assumptions** (Lyft rate, credit cap, hotel table) live in a per-year Assumptions tab, referenced by formula from Travel Detail. A future partner swap (e.g., Uber instead of Lyft) touches a few cells in Assumptions, not a rebuild.
 
 ---
 

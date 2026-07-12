@@ -1,6 +1,6 @@
 # Campus Ready Grant Fulfillment — Current Status
 
-**Last Updated:** July 11, 2026  
+**Last Updated:** July 12, 2026  
 **Script Version:** v2.4 (last updated Jun 7, 2026)  
 **Maintained by:** Eric Lilavois  
 
@@ -93,18 +93,23 @@ Products are matched by three criteria in `Product_Logic`:
 
 ## Current Phase
 
-**Status as of July 11, 2026:** Ramp guest user setup in progress. 14 draft users created. No invitations sent, no cards issued.
+**Status as of July 12, 2026:** Travel Detail fully reconciled. Ramp spend program corrections pending execution. Event is July 15 — three days out.
 
 The 2026 cohort is in active fulfillment. Kit form is live. Orientation & Celebration event is July 15 at Napa Valley Community Foundation.
 
-**Ramp virtual card status (as of July 10, 2026):**
+**Travel Detail (reconciled July 12, 2026):** 36 students, $8,757 CRF cash outlay, $10,071 with 15% contingency. Daysee Jossabeth Queme Mazariegos removed (ineligible). Valeria Alexa Hernandez Correa added. Cole, Amara, Henry Ray, Melanie, and Anastasia travel modes reconciled. Anastasia row stays on Legacy Override permanently (see DEC-044). Henry Ray (Oregon State Univ-Cascades, Bend, OR) present in Travel Detail as a driving-mode student — Eric to cross-check against Grant_Recipients to confirm.
+
+**2026 Pro Forma:** Frozen at board-approved figures. Internal inconsistencies flagged by reconciliation agent — Eric to decide which are real errors vs. accepted-as-approved. Isabella Jones (Houston → San Antonio) referenced in old Pro Forma but absent from current Travel Detail — status unknown, needs confirmation.
+
+**Ramp virtual card status (as of July 12, 2026):**
 - 14 students created as draft guest users in Ramp (Stage 1 complete)
 - Invitations not yet published (Stage 2 not started)
 - No student has accepted or set up a Ramp account (Stage 3 not started)
 - No cards have been issued (Stage 4 not started)
 - Marisol Navarro confirmed eligible but not yet added to Ramp — travel mode TBD
 - 4 students are minors (Gabrielle Pina, Amara Boerner, Arianna Deibert, Osvaldo Ramirez Hernandez) — authorization mechanism for minors unresolved before invitations can be sent
-- Anastasia Guerrier (gas card) needs a separate Ramp Spend Program with fuel/gas MCC restrictions — do not issue under the flight-restricted program
+- **Spend Program corrections needed (DEC-041, DEC-043):** Arianna Deibert, Amara Boerner, and Melanie Avila were created under the flight-restricted Spend Program but are confirmed driving. All three must be moved to the gas/hotel Spend Program in Ramp before cards are issued. This execution has not yet been confirmed.
+- Anastasia Guerrier is already on the gas/hotel Spend Program — correct, no change needed
 
 See DEC-027 in DECISION_LOG.md for full detail on the Guest User model and open items.
 
@@ -159,13 +164,35 @@ See DEC-027 in DECISION_LOG.md for full detail on the Guest User model and open 
 | Xadani Irais Ramirez Herrera | Not attending | Non-attendee email held — re-run script when docs approved |
 
 ### Open Items
+
+**Time-sensitive (before July 15):**
+- **Event materials — board/advisor printable:** Alpha-order error identified, was never in the repo, hasn't been reviewed since initial flag. Fix before July 15.
+- **Lizbeth Pérez Solano RSVP:** No RSVP, docs pending, last contact July 9 with no reply. Follow up directly — her July 15 attendance is unknown.
 - **Alice & Xadani docs:** When approved, re-run `sendNonAttendeeNoTravelEmails()` — script auto-sends and tracks.
-- **Arianna stale RSVP row:** Delete her June 26 `not_attending` row from RSVP_Responses (approved July 11).
-- **Amara Boerner & Melanie Avila — driving, not flying:** Travel Detail and Ramp show both as Flying. Must be corrected. Set up under gas/hotel Spend Program (same as Anastasia), not flight-restricted program.
+
+**Ramp (before July 15 or immediately after):**
+- **Spend Program corrections:** Move Arianna Deibert, Amara Boerner, and Melanie Avila from flight-restricted to gas/hotel Spend Program in Ramp (DEC-041, DEC-043). Execution pending.
+- **Ramp invitations:** 14 draft guest users created, no invites sent. Minor authorization mechanism unresolved before invites can go out for the 4 minors.
+- **Ramp email (`Email_Ramp.gs`):** Sitting on GitHub main, unapproved. Gates sends on docs approval, excludes minors, tracks "Ramp Email Sent" column. Confirm whether the "held until travel confirmations land" gate has now cleared — travel is reconciled as of July 12.
+
+**Travel / Pro Forma:**
+- **Flight fare revisions:** Real fares researched for 9 flight-mode students. Higher-coverage (not lowest-fare) figures to be delivered — awaiting Eric's go-ahead.
+- **Anastasia's Reconciliation Notes cell:** Confirm it reflects the finalized Legacy Override arrangement (DEC-044).
+- **2026 Pro Forma flagged items:** Reconciliation agent identified internal inconsistencies. Eric to decide which are real errors vs. accepted-as-approved.
+- **Isabella Jones (Houston → San Antonio):** Referenced in old Pro Forma, absent from current Travel Detail. Status unknown.
+- **Henry Ray cross-check:** Present in Travel Detail as driving-mode student (Oregon State Univ-Cascades). Confirm against Grant_Recipients.
+
+**Post–July 15:**
+- **Budget vs. Actual tab:** Build per DEC-046 architecture.
+- **Travel Detail headcount/Overview formulas:** Make formula-driven and consistent; fix Overview tab arithmetic.
+- **2027 Pro Forma seed:** Build AVERAGEIF-driven formula from 2026 realized actuals once travel wraps (DEC-046).
+- **Dashboard tab:** Reviewed, not yet approved or deployed. Eric's review needed before deploy.
+
+**Standing:**
+- **Arianna stale RSVP row:** Delete her June 26 `not_attending` row from RSVP_Responses.
 - **Daniel Sanchez & Sofia Alvarez (minors, no on-site guardian):** No outreach until release/signature mechanism resolved.
-- **Ramp invitations:** 14 draft guest users created, no invites sent. Minor authorization mechanism unresolved before invites can go out.
 - **Flight cost estimates:** $135/$200 caps are unverified estimates. Confirm before setting Ramp card limits.
-- **Lizbeth Pérez Solano RSVP:** No RSVP on file — follow up directly.
+- **Marisol Navarro:** Confirmed eligible, not yet in Ramp. Travel mode TBD.
 
 ### Comms Framework (Reference)
 Six-audience segmentation and travel-confirmation template are documented in DECISION_LOG.md (DEC-028, DEC-029). Re-verify RSVP data against Travel Detail before every send — the Yadira catch proved the RSVP sheet alone is not reliable.
