@@ -1,14 +1,17 @@
-# Campus Ready Grant Fulfillment — Current Status
+# Grant Fulfillment System — Technical Reference
 
-**Last Updated:** July 12, 2026  
-**Script Version:** v2.4 (last updated Jun 7, 2026)  
-**Maintained by:** Eric Lilavois  
+**Last Updated:** July 13, 2026
+**Script Version:** v2.4 (last updated Jun 7, 2026)
+
+> **For current operational status, open items, and what's happening right now:**
+> Read `CURRENT_STATUS.md` in `Campus_Ready_Project_Files/` in the `ericlilavois/Campus_Ready_GitHub` repo.
+> This file contains technical reference only — Sheets structure, Apps Script functions, product matching logic, and version history.
 
 ---
 
 ## What This System Does
 
-Campus Ready Foundation provides move-in support grants to first-generation, low-income college students. The Grant Fulfillment System manages the end-to-end process of collecting student preferences, verifying eligibility documents, and generating shopping lists for fulfillment.
+Campus Ready Foundation provides move-in support grants to first-generation, low-income college students. The Grant Fulfillment System manages collecting student preferences, verifying eligibility documents, and generating shopping lists for fulfillment.
 
 **Student flow:**
 1. Student receives a personalized email with a kit customization link (`?id=CR_XXXX`)
@@ -32,10 +35,10 @@ Campus Ready Foundation provides move-in support grants to first-generation, low
 | Database | Google Sheets (tabs listed below) |
 | Document storage | Google Drive folder ID: `1ccJ8lg40PTgMFIXdNoXyHU12ySgSnurf` |
 | GitHub repo | `ericlilavois/Campus_Ready_Grant_Fulfillment` |
-| Project files | `Grant_Fulfillment_Project_Files/` folder in this repo — auto-updated by Claude Code Stop hook |
+| Project files (operational) | `Campus_Ready_Project_Files/` in `ericlilavois/Campus_Ready_GitHub` repo |
 
 **Google Sheets tabs:**
-- `Grant_Recipients` — master list of approved students (columns: Application ID, Name, Email, Cohort Year, Housing Status, Acceptance Status, Items Selected, etc.; col Z = Kit Email Sent, col AA = Kit Email Sent At — added July 10, 2026)
+- `Grant_Recipients` — master list of approved students (Application ID, Name, Email, Cohort Year, Housing Status, Acceptance Status, Items Selected, etc.; col Z = Kit Email Sent, col AA = Kit Email Sent At; Non-Attendee Email Sent column auto-created on first non-attendee send)
 - `Student_Selections` — raw kit customization submissions
 - `Product_Logic` — product catalog with matching criteria (built from PL_* source tabs)
 - `Resolver` — matched products per student (auto-populated on form submit)
@@ -91,152 +94,9 @@ Products are matched by three criteria in `Product_Logic`:
 
 ---
 
-## Current Phase
+## Known Issues / Notes
 
-**Status as of July 12, 2026:** Travel Detail fully reconciled. Ramp spend program corrections pending execution. Event is July 15 — three days out.
-
-The 2026 cohort is in active fulfillment. Kit form is live. Orientation & Celebration event is July 15 at Napa Valley Community Foundation.
-
-**Travel Detail (reconciled July 12, 2026):** 36 students, $8,757 CRF cash outlay, $10,071 with 15% contingency. Daysee Jossabeth Queme Mazariegos removed (ineligible). Valeria Alexa Hernandez Correa added. Cole, Amara, Henry Ray, Melanie, and Anastasia travel modes reconciled. Anastasia row stays on Legacy Override permanently (see DEC-044). Henry Ray (Oregon State Univ-Cascades, Bend, OR) present in Travel Detail as a driving-mode student — Eric to cross-check against Grant_Recipients to confirm.
-
-**Lyft credit — CLOSED. Do not revisit.** $150/student, $7,500 total across 50 codes. General-purpose (rides to campus, airport, or around town after arrival) — not scoped to the move-in trip. Fully reconciled July 12. No further action needed. See DEC-042.
-
-**2026 Pro Forma:** Frozen at board-approved figures. Internal inconsistencies flagged by reconciliation agent — Eric to decide which are real errors vs. accepted-as-approved. Isabella Jones (Houston → San Antonio) referenced in old Pro Forma but absent from current Travel Detail — status unknown, needs confirmation.
-
-**Ramp virtual card status (as of July 12, 2026):**
-- 14 students created as draft guest users in Ramp (Stage 1 complete)
-- Invitations not yet published (Stage 2 not started)
-- No student has accepted or set up a Ramp account (Stage 3 not started)
-- No cards have been issued (Stage 4 not started)
-- Marisol Navarro confirmed eligible but not yet added to Ramp — travel mode TBD
-- 4 students are minors (Gabrielle Pina, Amara Boerner, Arianna Deibert, Osvaldo Ramirez Hernandez) — authorization mechanism for minors unresolved before invitations can be sent
-- **Spend Program corrections needed (DEC-041, DEC-043):** Arianna Deibert, Amara Boerner, and Melanie Avila were created under the flight-restricted Spend Program but are confirmed driving. All three must be moved to the gas/hotel Spend Program in Ramp before cards are issued. This execution has not yet been confirmed.
-- Anastasia Guerrier is already on the gas/hotel Spend Program — correct, no change needed
-
-See DEC-027 in DECISION_LOG.md for full detail on the Guest User model and open items.
-
-**Approved student-facing language for explaining virtual cards (from Ramp support):**
-> "A virtual card is a digital payment card that's connected to funds allocated to them by your organization's finance team. Rather than using a physical card, they'll receive a secure card number that can be used for approved purchases, such as their college travel expenses. The virtual card draws from the funds your organization has assigned to it and is subject to any spending limits or controls your team has configured."
-
-**July 11, 2026 changes:**
-- `Orientation_Reminder.gs` moved into clasp-managed folder; conflicting function names resolved (`testOrientationReminderEmail`, `sendOrientationReminderEmails`)
-- `Menu.gs` fixed: reminder items now point to correct functions; Test appears before Send for every email group; No-Travel email entries added
-- `Email_NonAttendee_Lyft.gs` renamed to `Email_NonAttendee_No_Travel.gs`; all internal functions renamed from `Lyft` to `NoTravel`
-- Both non-attendee scripts refactored to read docs status from Grant_Recipients and track sends via `Non-Attendee Email Sent` column (auto-created on first run)
-- Arianna Deibert removed from non-attendee travel roster — confirmed attending July 15
-
-**June 15, 2026 changes:**
-- `Email_Orientation.gs` updated to pull from both `Grant_Recipients` and `Orientation_Guests` tab
-- `Orientation_Guests` tab added to Grant Fulfillment Google Sheet (Name / Email columns; 7 guests added)
-- `previewOrientationRecipients()` dry-run function added — runs from Apps Script editor, outputs full recipient list to Execution Log with no emails sent
-- Resolved `push-scripts gf` auth failure: stale `~/.clasprc-crf.json` fixed by re-running `clasp login` then `cp ~/.clasprc.json ~/.clasprc-crf.json`
-- All changes committed and pushed to `ericlilavois/Campus_Ready_GitHub` main
-
----
-
-## Student Communications Status (as of July 11, 2026)
-
-### Sent / Complete
-- July 15 event reminder → 24 attending students (apps, colors, photographer notice)
-- Document upload nudge → Lizbeth Pérez Solano (sent 7/9, no reply yet)
-- Kit form email resend → Valeria Alexa Hernandez Correa (sent 7/10)
-- Travel-confirmation texts → sent 7/10 to attending flight students; Arianna Deibert text sent 7/11 (missed on 7/10 due to RSVP conflict)
-- Manual sheet backfill complete (July 11): Z1/AA1 headers added, Z2:Z37 set to Yes in Grant_Recipients
-- **Non-attendee No-Travel email** (`Email_NonAttendee_No_Travel.gs`) — sent July 11 to Cristian Fonseca Nunez, Diego Perez Herrera, Fernanda Contreras Alcaraz. Alice Baxter and Xadani Ramirez Herrera skipped — docs pending. Grant_Recipients `Non-Attendee Email Sent` column written.
-- **Non-attendee Travel email** (`Email_NonAttendee_Travel.gs`) — sent July 11 to Gabrielle Pina, Lilian Barrientos Aceituno, Anastasia Guerrier. Arianna Deibert removed — confirmed attending July 15. Grant_Recipients `Non-Attendee Email Sent` column written.
-
-### Not Yet Sent
-| Audience | What's Needed | Status |
-|----------|---------------|--------|
-| All students | "Here's what to expect from Ramp" email | Held until travel confirmations land |
-| Alice Baxter, Xadani Ramirez Herrera | Non-attendee No-Travel email | Blocked — docs pending. Re-run `sendNonAttendeeNoTravelEmails()` once docs approved — script will send automatically |
-
-### Docs-Pending Students — Status as of July 11, 2026
-
-| Student | RSVP | Impact |
-|---------|------|--------|
-| Alice Lilliane Baxter | Not attending | Non-attendee email held — re-run script when docs approved |
-| Andrea Elia Suarez | Attending w/guest | Handle at event |
-| Antonio Rivera | Attending w/guest | Handle at event |
-| Jimena Reynaga-Castro | Attending | Handle at event |
-| Lizbeth Pérez Solano | Unknown | Follow up — no RSVP on file |
-| Marisol Navarro | Attending w/guest | Handle at event; Lyft credit held until docs clear |
-| Osvaldo Jr. Ramirez Hernandez | Attending (minor) | Handle at event |
-| Wlises Ramirez Santos | Attending | Handle at event |
-| Xadani Irais Ramirez Herrera | Not attending | Non-attendee email held — re-run script when docs approved |
-
-### Open Items
-
-**Time-sensitive (before July 15):**
-- **Event materials — board/advisor printable:** Alpha-order error identified, was never in the repo, hasn't been reviewed since initial flag. Fix before July 15.
-- **Lizbeth Pérez Solano RSVP:** No RSVP, docs pending, last contact July 9 with no reply. Follow up directly — her July 15 attendance is unknown.
-- **Alice & Xadani docs:** When approved, re-run `sendNonAttendeeNoTravelEmails()` — script auto-sends and tracks.
-
-**Ramp (before July 15 or immediately after):**
-- **Spend Program corrections:** Move Arianna Deibert, Amara Boerner, and Melanie Avila from flight-restricted to gas/hotel Spend Program in Ramp (DEC-041, DEC-043). Execution pending.
-- **Ramp invitations:** 14 draft guest users created, no invites sent. Minor authorization mechanism unresolved before invites can go out for the 4 minors.
-- **Ramp email (`Email_Ramp.gs`):** Sitting on GitHub main, unapproved. Gates sends on docs approval, excludes minors, tracks "Ramp Email Sent" column. Confirm whether the "held until travel confirmations land" gate has now cleared — travel is reconciled as of July 12.
-
-**Travel / Pro Forma:**
-- **Flight fare revisions:** Real fares researched for 9 flight-mode students. Higher-coverage (not lowest-fare) figures to be delivered — awaiting Eric's go-ahead.
-- **Anastasia's Reconciliation Notes cell:** Confirm it reflects the finalized Legacy Override arrangement (DEC-044).
-- **2026 Pro Forma flagged items:** Reconciliation agent identified internal inconsistencies. Eric to decide which are real errors vs. accepted-as-approved.
-- **Isabella Jones (Houston → San Antonio):** Referenced in old Pro Forma, absent from current Travel Detail. Status unknown.
-- **Henry Ray cross-check:** Present in Travel Detail as driving-mode student (Oregon State Univ-Cascades). Confirm against Grant_Recipients.
-
-**Post–July 15:**
-- **Budget vs. Actual tab:** Build per DEC-046 architecture.
-- **Travel Detail headcount/Overview formulas:** Make formula-driven and consistent; fix Overview tab arithmetic.
-- **2027 Pro Forma seed:** Build AVERAGEIF-driven formula from 2026 realized actuals once travel wraps (DEC-046).
-- **Dashboard tab:** Reviewed, not yet approved or deployed. Eric's review needed before deploy.
-
-**Standing:**
-- **Arianna stale RSVP row:** Delete her June 26 `not_attending` row from RSVP_Responses.
-- **Daniel Sanchez & Sofia Alvarez (minors, no on-site guardian):** No outreach until release/signature mechanism resolved.
-- **Flight cost estimates:** $135/$200 caps are unverified estimates. Confirm before setting Ramp card limits.
-- **Marisol Navarro:** Confirmed eligible, not yet in Ramp. Travel mode TBD.
-
-### Comms Framework (Reference)
-Six-audience segmentation and travel-confirmation template are documented in DECISION_LOG.md (DEC-028, DEC-029). Re-verify RSVP data against Travel Detail before every send — the Yadira catch proved the RSVP sheet alone is not reliable.
-
----
-
-## Known Issues / Pending Items
-
-- `START_HERE_New_Agent.md` and `SYSTEM_STATE.md` were lost when Claude project files were not yet version-controlled. This file (`CURRENT_STATUS.md`) replaces those as the agent entry point.
-- `TROUBLESHOOTING.md` also lost — should be recreated as issues are encountered and resolved.
-- Apps Script files are managed manually (copy-paste to Google Apps Script editor). Step 4 of the automation plan will replace this with direct API push.
-
----
-
-## Notes for Next Year (2027 Cohort Planning)
-
-These are lessons from the 2026 cycle that should shape how the program is set up before outreach begins — not discovered mid-session.
-
-- **Lock audience segmentation before any outreach starts.** The six-audience breakdown (see DEC-028) was discovered during a drafting session. Next year, map who needs what before writing a single message.
-- **Lock companion policy before outreach starts.** The one-guardian / one-night / distance-tier-rate rule (DEC-031) was established reactively in response to Cole. Set it in advance and include it in planning documentation.
-- **Data audit before comms planning.** Three data errors surfaced during the July 10 session (Osvaldo's Travel Helper, Yadira's RSVP, Cole's stale travel plan). Run a reconciliation pass — Travel Detail vs. RSVP sheet vs. Ramp roster — before drafting begins. Any comms plan built on dirty data propagates errors to real students.
-- **Verify flight cost estimates with live fares before setting card amounts.** The $135/$200 caps were still unverified estimates as of July 10. This should be done before Ramp card limits are configured, not after.
-- **Resolve the minors mechanism before invite season.** The Daniel/Sofia situation (minors attending without an on-site guardian) was unresolved going into the event. This needs a decision — release form, designated point of contact, or similar — before any minor is invited or issued a card.
-- **Ramp limit increase conversation.** $5K credit limit looks adequate for 2026's estimated $2–3K exposure, but this assumption uses unverified fare inputs. Raise the limit discussion with Ramp before 2027 cohort numbers are set, not under deadline pressure.
-- **The travel-confirmation message template (DEC-029) is proven.** Use it as the starting point next year, not something to arrive at after several rounds of editing.
-
----
-
-## How to Orient a New Agent
-
-Tell any new agent: "Read `Grant_Fulfillment_Project_Files/CURRENT_STATUS.md` first, then `Grant_Fulfillment_Project_Files/DECISION_LOG.md` for key decisions, and `Grant_Fulfillment_Project_Files/Brand_Guidelines.md` for tone and design standards. The `Grant_Fulfillment_Project_Files/Application_Rubric.docx` is the rubric used to evaluate grant applications."
-
-**GitHub integration:** This claude.ai project is synced from `ericlilavois/Campus_Ready_Grant_Fulfillment`. All files in `Grant_Fulfillment_Project_Files/` are available via `project_knowledge_search`. To prompt an agent to use them: "Check the GitHub repo for [filename]" or "Use project_knowledge_search to find [topic]."
-
-**Apps Script:** Grant Fulfillment scripts live in `apps-script/grant-fulfillment/modules/` in the `ericlilavois/Campus_Ready_GitHub` repo (not this repo). Deploy with `push-scripts gf` in Terminal — requires Campus Ready Foundation Google account.
-
----
-
-## Working Principles (Eric's Requirements for All Agents)
-
-- **Read first, act second.** Never assume. Read all relevant files before doing anything.
-- **No assumptions.** If something is unclear, ask. Don't guess.
-- **Challenge my thinking.** Push back if something doesn't make sense.
-- **Show your work.** Explain what you're doing and why.
-- **Be direct and candid.** Don't soften bad news or bury concerns.
+- Apps Script files are managed via clasp (`push-scripts gf`). Never copy-paste directly into the Apps Script editor outside of clasp — files pasted directly are invisible to clasp and will be overwritten or orphaned on the next push (see DEC-036).
+- `rebuildProductLogic()` must not run between student submissions and Shopping List generation — would reassign Product IDs and break the Resolver → Shopping List join.
+- Kit Confirmation Email: Razor Refills and Toothpaste have no entries in `KIT_EMAIL_IMGS_` — render with blank placeholder. Cosmetic, non-blocking.
+- `school_color` and `school_nickname` are not persisted to Student_Selections — a manual re-send would default to CRF teal.
